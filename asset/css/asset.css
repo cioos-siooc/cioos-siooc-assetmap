@@ -1,0 +1,91 @@
+.panel_details {
+    overflow-y: auto;
+    background-color: ghostwhite;
+    z-index: 2;
+    position: absolute;
+         left: 880px;
+         top: 0px;
+         width: 400px;
+         height: 640px;
+}
+
+.panel_search_info {
+    background-color: darkslateblue;
+    z-index: 2;
+    position: absolute;
+         left: 880px;
+         top: 640px;
+         width: 400px;
+         height: 80px;
+}
+
+.asset_details {
+    margin-top: 5px;
+    margin-bottom: 3px;
+    margin-right: 3px;
+    margin-left: 5px;
+    background-color: whitesmoke;
+  }
+
+  .details_label{
+    color: darkgray;
+    font-size: 0.875em;
+  }
+
+.details_text{
+    color: black;
+    font-size: 1em;
+  }
+
+.stat_count{
+    color: whitesmoke;
+    font-size: 1.5em;
+    width: 100%;
+    text-align: center;
+  }
+
+  .more_info_in {
+    color: whitesmoke;
+    font-size: 0.875em;
+    width: 100%;
+    text-align: center;
+  }
+
+
+  .variable_cell_bg {
+    background-color: darkslategrey;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    margin-right: 3px;
+    margin-left: 3px;
+    width: 115;
+    height: 115;
+    color: whitesmoke;
+  }
+
+  .category_cell_bg {
+    display: inline-block;
+    background-color: darkslategrey;
+    width: 90;
+    height: 110;
+    color: whitesmoke;
+  }
+
+#category_panel {
+  background-color: ghostwhite;
+  z-index: 2;
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 310px;
+  height: 110px;
+}
+
+#variable_panel {
+  z-index: 2;
+  position: absolute;
+  left: 5px;
+  top: 120px;
+  width: 320px;
+  height: 640px;
+}

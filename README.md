@@ -19,9 +19,24 @@ Tested with python 3.7 on windows 10
 * Execute Flask server
     * python main.py
     
+# Configuration files
+
+## ckan.json
+ 
+Link to the CKAN 
+
+## filters.json
+
+All cetegories, viriables and CKAN search criteria
+
+## ui_str.json
+
+Translation data
+
 # Quick Todo:
 
 * json for translation ( fr, en, other?)
+* encapsulate translation in a class that know the current langage ( getUISTR, default if not found )
 * create ids with dataset id for detail panel
 * on details click, show correct values
 * on detail click, scroll to correct panel
@@ -29,8 +44,7 @@ Tested with python 3.7 on windows 10
 * position variable with 3 per row
 * generate tab panel per category
 * sort rectangle by area size
-* multiple call to retrieive all data ( paginated, not just first 10)
-* show total at the bottom of details panel
+* multiple call to retrieve all data ( paginated, not just first 10)
 * load config for proxy in ckan.json in python
 * look for tag to add variable icon in detail of dataset
 * iterate through dataset resources for other view tool links
@@ -42,9 +56,7 @@ Tested with python 3.7 on windows 10
 * generate icon with multiple size ( thumnail, mobile, full)
 * add responsive css
 * better error checking
-* encapsulate translation in a class that know the current langage ( getUISTR, default if not found )
 * CSS, again and again and again...
-
 
 
 [Mockup](https://xd.adobe.com/view/f27999f2-a6d1-4498-51b1-37dc757286ff-8448/screen/6b487dff-190c-45b1-b1ca-478295611337/Web-1920-15/)
