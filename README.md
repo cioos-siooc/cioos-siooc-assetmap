@@ -43,7 +43,7 @@ Tested with python 3.7 on windows 10
 * add responsive css
 * better error checking
 * encapsulate translation in a class that know the current langage ( getUISTR, default if not found )
-* CSS, again and again
+* CSS, again and again and again...
 
 
 
