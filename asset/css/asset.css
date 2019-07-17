@@ -53,6 +53,7 @@
 
 
   .variable_cell_bg {
+    display: inline-block;
     background-color: darkslategrey;
     margin-top: 3px;
     margin-bottom: 3px;

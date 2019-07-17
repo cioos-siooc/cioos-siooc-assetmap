@@ -1,0 +1,8 @@
+{
+    "base_url":"http://open.canada.ca/",
+    "api_url":"http://open.canada.ca/data/api/",
+    "dataset_url": "http://open.canada.ca/data/",
+    "organization_url": "http://open.canada.ca/data/",
+    "access_url":"/ckan/",
+    "add_language_url": true
+}

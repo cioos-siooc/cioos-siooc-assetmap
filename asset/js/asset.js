@@ -82,7 +82,7 @@ $(document).ready(function () {
     });
 
     $.ajax({
-        url: "/asset/resources/ckan_0_0_1.json",
+        url: "/asset/resources/ckan.json",
         dataType: 'json',
         async: false,
         success: function (data) {
