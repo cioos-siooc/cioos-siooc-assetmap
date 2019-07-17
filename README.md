@@ -44,19 +44,22 @@ Translation data
 * position variable with 3 per row
 * generate tab panel per category
 * sort rectangle by area size
-* multiple call to retrieve all data ( paginated, not just first 10)
 * load config for proxy in ckan.json in python
 * look for tag to add variable icon in detail of dataset
 * iterate through dataset resources for other view tool links
 * translate CKAN description in html ( markdown style)
 * hide/show variable panel
 * hide/show dataset details
-* Clean all if no variable selected 
 * show the map control and attribution even with panel
 * generate icon with multiple size ( thumnail, mobile, full)
 * add responsive css
 * better error checking
 * CSS, again and again and again...
 
+#References
 
 [Mockup](https://xd.adobe.com/view/f27999f2-a6d1-4498-51b1-37dc757286ff-8448/screen/6b487dff-190c-45b1-b1ca-478295611337/Web-1920-15/)
+
+#Done
+* Clean all if no variable selected 
+* multiple call to retrieve all data ( paginated, not just first 10)
