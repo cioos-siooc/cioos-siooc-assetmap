@@ -26,6 +26,10 @@ var selectClick = new ol.interaction.Select({
     condition: ol.events.condition.click
 });
 
+var selectPointerMove = new ol.interaction.Select({
+    condition: ol.events.condition.pointerMove
+  });
+
 var map = new ol.Map({
     layers: [
         new  ol.layer.Tile({
@@ -41,6 +45,7 @@ var map = new ol.Map({
 });
 
 map.addInteraction(selectClick);
+map.addInteraction(selectPointerMove);
 selectClick.on('select', function(e) {
     // aficher popupt avec title selon la langue ainsi que le titre clikable vers la page CKAN du dataset
     //var f = e.selected[0];
@@ -49,4 +54,9 @@ selectClick.on('select', function(e) {
     // document.getElementById('dataset_link').setAttribute('href', f['values_']['page_link']);
     //linkhtml = '<a href="' +  f['values_']['page_link'] +'">'  + f['values_']['title'] + '</a>'
     // document.getElementById('dataset_desc').innerHTML = linkhtml + '<br />&nbsp;' + f['values_']['description'];
+});
+
+selectPointerMove.on('select', function(e) {
+    f = e.selected[0];
+    console.log(f['values_']['id']);
 });
