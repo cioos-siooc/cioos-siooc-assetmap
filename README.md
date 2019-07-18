@@ -35,8 +35,6 @@ Translation data
 
 # Quick Todo:
 
-* json for translation ( fr, en, other?)
-* encapsulate translation in a class that know the current langage ( getUISTR, default if not found )
 * create ids with dataset id for detail panel
 * on details click, show correct values
 * on detail click, scroll to correct panel
@@ -44,7 +42,6 @@ Translation data
 * position variable with 3 per row
 * generate tab panel per category
 * sort rectangle by area size
-* load config for proxy in ckan.json in python
 * look for tag to add variable icon in detail of dataset
 * iterate through dataset resources for other view tool links
 * translate CKAN description in html ( markdown style)
@@ -63,3 +60,6 @@ Translation data
 #Done
 * Clean all if no variable selected 
 * multiple call to retrieve all data ( paginated, not just first 10)
+* json for translation ( fr, en, other?)
+* encapsulate translation in a class that know the current langage ( getUISTR, default if not found )
+* load config for proxy in ckan.json in python

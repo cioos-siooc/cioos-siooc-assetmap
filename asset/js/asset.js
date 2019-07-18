@@ -1,6 +1,7 @@
 var lg = null;
 var ui_str = null;
 var ckan_server = null;
+var i18nStrings = null;
 var filters = null;
 
 function displayDatasetSummary( )
@@ -20,7 +21,7 @@ function getSelectedVariable()
 
 }
 
-function generateVariableBox( vardata, language )
+function generateVariableBox( vardata )
 {
     ret_html = "<div class='variable_cell_bg'>";
     ret_html += "<img src='/asset/images/" + vardata["icon"] + "'><br />";
@@ -30,16 +31,16 @@ function generateVariableBox( vardata, language )
         ret_html += "disabled";
     }
     ret_html += " onclick='checkCKANData();'>";
-    ret_html += "<label for='" + vardata["id"] + "'>" + vardata["label"][language] + "</label>";
+    ret_html += "<label for='" + vardata["id"] + "'>" + i18nStrings.getTranslation(vardata["label"]) + "</label>";
     ret_html += "</div>";
     return ret_html;
 }
 
-function generateCategoryButton( catData, language)
+function generateCategoryButton( catData)
 {
     ret_html = "<div class='category_cell_bg'>";
     ret_html += "<img src='/asset/images/" + catData["icon"] + "'><br />";
-    ret_html += "<span>" + catData["label"][language] + "</span>";
+    ret_html += "<span>" + i18nStrings.getTranslation(catData["label"]) + "</span>";
     ret_html += "</div>";
     return ret_html;
 }
@@ -58,7 +59,7 @@ function generateFilterCategories( language )
         v = 0;
         while( v < category["variables"].length)
         {
-            VarInnerHtml += generateVariableBox(category["variables"][v], language);
+            VarInnerHtml += generateVariableBox(category["variables"][v]);
             ckan_server.addVariable(category["variables"][v]);
             ++v;
         }
@@ -70,12 +71,16 @@ function generateFilterCategories( language )
 
 $(document).ready(function () {
     ckan_server = new CKANServer();
+    i18nStrings = new StringTranslator();
     $.ajax({
         url: "/asset/resources/ui_str_0_0_2.json",
         dataType: 'json',
         async: false,
         success: function (data) {
             ui_str = data;
+            i18nStrings.setUIStrings(ui_str);
+            i18nStrings.setBaseLanguage("fr");
+            i18nStrings.setCurrentLanguage("fr");
         },
         error: function (e) {
         }

@@ -9,6 +9,7 @@ function CKANServer()
     this.dataset_url = '';
     this.organization_url= '';
     this.varriables = [];
+    this.currentLanguage = "fr";
 
     this.loadConfig= function (config) {
         this.url = config["access_url"];
@@ -25,8 +26,16 @@ function CKANServer()
         return this.dataset_url + 'dataset/' + datasetId;
     };
 
+    this.getURLForResources = function( datasetId ) {
+        return this.dataset_url + 'dataset/' + datasetId;
+    };
+
     this.getURLForOrganization = function( organisationId ) {
         return this.organization_url + 'organization/' + organisationId;
+    };
+
+    this.setCurrentLanguage = function(language) {
+        this.currentLanguage = language;
     };
 
     // add bbounding box filter
@@ -225,22 +234,72 @@ function displayCKANExtent( data )
     // update map
 }
 
-function generateDetailsPanel( language, dataset_id, title, description, provider, link_url, prov_url)
+
+function getVariableForDatataset(dataset)
 {
-    ret_html = "<div id='" + dataset_id + "' class='asset_details'>";
-    ret_html += "<span class='details_label'>" + ui_str["dataset_title"][language] + "</span><br />";
-    ret_html += "<span class=''details_text>" + title + "</span><br />";
+    ret_html = ""
+    // Use tag to identify variable available. Temporary solution
+    if ( r['keywords'] !== undefined )
+    {
+        // open canada keywords
+        // go through all keyword abs check if variable fit
+    }
+    else if ( r['tags'] !== undefined )
+    {
+        // slgo tags
+        // go through all keyword tags check if variable fit
+    }
+    return ret_html;
+}
+
+
+function getToolForDataset(dataset)
+{
+    // Use resources to identify tool available. Temporary solution
+    // should be possible to detect ERDAPP, OCTO or other link to tools
+    ret_html = ""
+    dataset['resources'].forEach( function(entry)
+    {
+        if ( entry['format'] == 'PDF')
+        {
+           // add PDF with link
+           ret_html += "<a href='" + entry['url'] + " target='_blank'>PDF</a> "
+        }
+        else if ( entry['format'] == 'WMS')
+        {
+           // add PDF with link
+           ret_html += "<a href='" + entry['url'] + " target='_blank'>WMS</a> "
+        }
+        else if ( entry['format'] == 'CSV')
+        {
+           // add PDF with link
+           ret_html += "<a href='" + entry['url'] + " target='_blank'>CSV</a> "
+        }
+    });
+    return ret_html;
+}
+
+
+
+function generateDetailsPanel( dataset ) //, language, dataset_id, title, description, provider, link_url, prov_url)
+{
+    ret_html = "<div id='" + dataset["id"] + "' class='asset_details'>";
+    ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_title") + "</span><br />";
+    ret_html += "<span class=''details_text>" + i18nStrings.getTranslation(dataset['title_translated']) + "</span><br />";
     ret_html += "<div style='display: none;'>";
-    ret_html += "<span class='details_label'>" + ui_str["dataset_description"][language] + "</span><br />";
-    ret_html += "<span class=''details_text>" + description + "</span><br />";
-    ret_html += "<span class='details_label'>" + ui_str["dataset_provider"][language] + "</span><a href='" + ckan_server.getURLForOrganization(prov_url) + "'>up</a>";
-    ret_html += "<span class=''details_text>" + provider + "</span><br />";
-    ret_html += "<span class='details_label'>" + ui_str["dataset_tools"][language] + "</span><br />";
+    ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_description") + "</span><br />";
+    ret_html += "<span class=''details_text>" + i18nStrings.getTranslation(dataset['notes_translated']) + "</span><br />";
+    ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_provider") + "</span><a href='" + ckan_server.getURLForOrganization(dataset['organization']['name']) + "'>up</a>";
+    ret_html += "<span class=''details_text>" + dataset['organization']['title'] + "</span><br />";
+    ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_tools") + "</span><br />";
     ret_html += "</div>";
-    ret_html += '<a target="_blank" href="' +  ckan_server.getURLForDataset( dataset_id ) + '">CKAN</a>';
+    ret_html += '<a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '">CKAN</a> ';
+    ret_html += getToolForDataset(dataset);
     ret_html += "</div>";
     return ret_html;
 }
+
+
 
 function DisplayCkanDatasetDetails(data)
 {
@@ -249,11 +308,8 @@ function DisplayCkanDatasetDetails(data)
     var results = data['result']['results'];
     while ( i < results.length ) {
         var r = results[i];
-        if (language.selectedIndex === 0) {
-            html_dataset += generateDetailsPanel( "fr", r['id'], r['title_translated']['fr'], r['notes_translated']['fr'], r['organization']['title'], 'https://test-catalogue.ogsl.ca/dataset/', r['organization']['name']);
-        } else {
-            html_dataset += generateDetailsPanel("en", r['id'], r['title_translated']['en'], r['notes_translated']['en'], r['organization']['title'], 'https://test-catalogue.ogsl.ca/dataset/', r['organization']['name']);
-        }
+        html_dataset += generateDetailsPanel( r );
+        //"fr", r['id'], i18nStrings.getTranslation(r['title_translated']), i18nStrings.getTranslation(r['notes_translated']), r['organization']['title'], 'https://test-catalogue.ogsl.ca/dataset/', r['organization']['name']);
         ++i;
     }
     document.getElementById('dataset_desc').innerHTML = html_dataset;
@@ -266,11 +322,8 @@ function AddToDisplayCkanDatasetDetails(data)
     var results = data['result']['results'];
     while ( i < results.length ) {
         var r = results[i];
-        if (language.selectedIndex === 0) {
-            html_dataset += generateDetailsPanel( "fr", r['id'], r['title_translated']['fr'], r['notes_translated']['fr'], r['organization']['title'], 'https://test-catalogue.ogsl.ca/dataset/', r['organization']['name']);
-        } else {
-            html_dataset += generateDetailsPanel("en", r['id'], r['title_translated']['en'], r['notes_translated']['en'], r['organization']['title'], 'https://test-catalogue.ogsl.ca/dataset/', r['organization']['name']);
-        }
+        html_dataset += generateDetailsPanel(  r );
+        //['id'], i18nStrings.getTranslation(r['title_translated']), i18nStrings.getTranslation(r['notes_translated']), r['organization']['title'], 'https://test-catalogue.ogsl.ca/dataset/', r['organization']['name']);
         ++i;
     }
     document.getElementById('dataset_desc').innerHTML += html_dataset;
@@ -280,8 +333,8 @@ function AddToDisplayCkanDatasetDetails(data)
 function displayTotalSearchDetails(language, total )
 {
     stat_html = "<span class='stat_count'>" + total.toString() + "</span><br />";
-    stat_html += "<span class='more_info_in'>" + ui_str["more_data_catalog"][language] + "</span><br />";
-    stat_html += "<a target='_blank' href='" + ckan_server.getHomeCatalogURL() +"'>" + ui_str["catalog"][language] + "</a>";
+    stat_html += "<span class='more_info_in'>" + i18nStrings.getUIString["more_data_catalog"] + "</span><br />";
+    stat_html += "<a target='_blank' href='" + ckan_server.getHomeCatalogURL() +"'>" + i18nStrings.getUIString["catalog"] + "</a>";
     document.getElementById('dataset_search_stats').innerHTML = stat_html;
 }
 
