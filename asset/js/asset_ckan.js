@@ -10,6 +10,7 @@ function CKANServer()
     this.organization_url= '';
     this.varriables = [];
     this.currentLanguage = "fr";
+    this.bbox = undefined;
 
     this.loadConfig= function (config) {
         this.url = config["access_url"];
@@ -300,17 +301,17 @@ function getToolForDataset(dataset)
         if ( entry['format'] == 'PDF')
         {
            // add PDF with link
-           ret_html += "<a href='" + entry['url'] + " target='_blank'>PDF</a> "
+           ret_html += "<a href='" + entry['url'] + "' class='btn btn-info' target='_blank' role='button'>PDF</a> "
         }
         else if ( entry['format'] == 'WMS')
         {
            // add PDF with link
-           ret_html += "<a href='" + entry['url'] + " target='_blank'>WMS</a> "
+           ret_html += "<a href='" + entry['url'] + "' class='btn btn-success' target='_blank' role='button'>WMS</a> "
         }
         else if ( entry['format'] == 'CSV')
         {
            // add PDF with link
-           ret_html += "<a href='" + entry['url'] + " target='_blank'>CSV</a> "
+           ret_html += "<a href='" + entry['url'] + "' class='btn btn-secondary' target='_blank' role='button'>CSV</a> "
         }
     });
     return ret_html;
@@ -323,14 +324,14 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     ret_html = "<div id='" + dataset["id"] + "' class='asset_details'>";
     ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_title") + "</span><br />";
     ret_html += "<span class=''details_text>" + i18nStrings.getTranslation(dataset['title_translated']) + "</span><br />";
-    ret_html += "<div style='display: none;'>";
+    ret_html += "<div style=''>";
     ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_description") + "</span><br />";
     ret_html += "<span class=''details_text>" + i18nStrings.getTranslation(dataset['notes_translated']) + "</span><br />";
     ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_provider") + "</span><a href='" + ckan_server.getURLForOrganization(dataset['organization']['name']) + "'>up</a>";
     ret_html += "<span class=''details_text>" + dataset['organization']['title'] + "</span><br />";
     ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_tools") + "</span><br />";
     ret_html += "</div>";
-    ret_html += '<a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '">CKAN</a> ';
+    ret_html += '<a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '" class="btn btn-primary" target="_blank" role="button">CKAN</a> ';
     ret_html += getToolForDataset(dataset);
     ret_html += "</div>";
     ret_html += "<div>"
@@ -370,17 +371,17 @@ function AddToDisplayCkanDatasetDetails(data)
 }
 
 
-function displayTotalSearchDetails(language, total )
+function displayTotalSearchDetails( total )
 {
     stat_html = "<span class='stat_count'>" + total.toString() + "</span><br />";
-    stat_html += "<span class='more_info_in'>" + i18nStrings.getUIString["more_data_catalog"] + "</span><br />";
-    stat_html += "<a target='_blank' href='" + ckan_server.getHomeCatalogURL() +"'>" + i18nStrings.getUIString["catalog"] + "</a>";
+    stat_html += "<span class='more_info_in'>" + i18nStrings.getUIString("more_data_catalog") + "</span><br />";
+    stat_html += "<a target='_blank' href='" + ckan_server.getHomeCatalogURL() +"'>" + i18nStrings.getUIString("catalog") + "</a>";
     document.getElementById('dataset_search_stats').innerHTML = stat_html;
 }
 
-function displayCKANSearchDetails(language, data)
+function displayCKANSearchDetails( data)
 {
-    displayTotalSearchDetails(language,  data["result"]["count"])
+    displayTotalSearchDetails( data["result"]["count"])
 }
 
 function addAndDisplaydataset(data)
@@ -392,7 +393,7 @@ function addAndDisplaydataset(data)
 function searchAndDisplayDataset(data)
 {
     // call create map layer, description panel and stats
-    displayCKANSearchDetails("fr", data);
+    displayCKANSearchDetails(data);
     DisplayCkanDatasetDetails(data);
     displayCKANExtent(data);
     // if result count is bigger than the rows return, call add dataset 
@@ -411,7 +412,7 @@ function searchAndDisplayDataset(data)
 function clearAllDatasets()
 {
     // clear search statistics
-    displayTotalSearchDetails("fr", 0);
+    displayTotalSearchDetails( 0);
     // clear dataset description
     document.getElementById('dataset_desc').innerHTML = "";
 

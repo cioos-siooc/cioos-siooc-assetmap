@@ -3,6 +3,7 @@ var ui_str = null;
 var ckan_server = null;
 var i18nStrings = null;
 var filters = null;
+var mapconfig = null;
 
 function displayDatasetSummary( )
 {
@@ -45,7 +46,7 @@ function generateCategoryButton( catData)
     return ret_html;
 }
 
-function generateFilterCategories( language )
+function generateFilterCategories()
 {
     // for each variable, create box with label and icon
     // add has a possible filter in the CKANServer
@@ -55,7 +56,7 @@ function generateFilterCategories( language )
     while( c < filters["Categories"].length )
     {
         category = filters["Categories"][c];
-        CatInnerHtml += generateCategoryButton(category, language);
+        CatInnerHtml += generateCategoryButton(category);
         v = 0;
         while( v < category["variables"].length)
         {
@@ -104,7 +105,7 @@ $(document).ready(function () {
         async: false,
         success: function (data) {
             filters = data;
-            generateFilterCategories("fr");
+            generateFilterCategories();
         },
         error: function (e) {
         }
