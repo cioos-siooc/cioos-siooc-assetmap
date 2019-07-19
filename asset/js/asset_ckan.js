@@ -116,6 +116,27 @@ function CKANServer()
         this.varriables = [];
     };
 
+
+    this.getVaraibleIcon = function (name) 
+    {
+        //look for viable of name
+        ret_thumb = undefined;
+        return ret_thumb;
+    };
+
+    this.getVariableThumbnail = function(name)
+    {
+        ret = undefined;
+        this.varriables.forEach( function(v)
+        {
+            if (v["ckantext"] == name)
+            {
+                ret = v["icon"]
+            }
+        }); 
+        return ret;
+    };
+
     this.getCKANData = function ()
     {
         // call proxy with url and variable
@@ -239,15 +260,31 @@ function getVariableForDatataset(dataset)
 {
     ret_html = ""
     // Use tag to identify variable available. Temporary solution
-    if ( r['keywords'] !== undefined )
+    if (dataset['keywords'] !== undefined )
     {
         // open canada keywords
         // go through all keyword abs check if variable fit
+        dataset['keywords']["en"].forEach( function(entry){
+            // need to optimse with dictionary
+            thumb =  ckan_server.getVariableThumbnail(entry);
+            if ( thumb !== undefined )
+            {
+                ret_html += "<img src='" + "/asset/images/thumbnails/" + thumb + "'></img>";
+            }
+        });
     }
-    else if ( r['tags'] !== undefined )
+    else if ( dataset['tags'] !== undefined )
     {
         // slgo tags
         // go through all keyword tags check if variable fit
+        dataset['tags'].forEach( function(entry){
+            // need to optimse with dictionary
+            thumb =  ckan_server.getVariableThumbnail(entry["name"]);
+            if ( thumb !== undefined )
+            {
+                ret_html += "<img src='" + "/asset/images/thumbnails/" + thumb + "'></img>";
+            }
+        });
     }
     return ret_html;
 }
@@ -296,6 +333,9 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     ret_html += '<a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '">CKAN</a> ';
     ret_html += getToolForDataset(dataset);
     ret_html += "</div>";
+    ret_html += "<div>"
+    ret_html += getVariableForDatataset(dataset);
+    ret_html += "</div>"
     return ret_html;
 }
 

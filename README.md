@@ -38,7 +38,11 @@ Translation data
 * create ids with dataset id for detail panel
 * on details click, show correct values
 * on detail click, scroll to correct panel
+* add config for initial map display
+    * zoom level
+    * extent
 * add CSS for variable label et category label + layout
+* add bbox region to search function
 * position variable with 3 per row
 * generate tab panel per category
 * sort rectangle by area size
@@ -51,6 +55,7 @@ Translation data
 * generate icon with multiple size ( thumnail, mobile, full)
 * add responsive css
 * better error checking
+    * Look if dataset has a minimum ( id, titile, etc ) before adding it
 * CSS, again and again and again...
 
 #References
