@@ -26,4 +26,4 @@ if __name__ == '__main__':
         print(data)
         base_ckan_url = data['api_url']
         print(base_ckan_url)
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
