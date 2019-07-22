@@ -1,7 +1,7 @@
 {
     "start_view": {
-        "zoom": 2,
-        "center": [0, 0]
+        "zoom": 4,
+        "center": [-68, 48]
     },
     "start_layer": "osm",
     "bin_api_key": "",

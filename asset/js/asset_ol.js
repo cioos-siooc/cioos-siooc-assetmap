@@ -33,7 +33,12 @@ function initMapFromConfig(config)
         condition: ol.events.condition.pointerMove
       });
 
-      map = new ol.Map({
+    startview = new ol.View(
+        config["start_view"]);
+    // transform center from WGS84 lat/long
+    startview.setCenter( ol.proj.transform(config["start_view"]["center"], 'EPSG:4326', 'EPSG:3857'));
+
+    map = new ol.Map({
         layers: [
             // backlayer come from config
             new  ol.layer.Tile({
@@ -43,8 +48,7 @@ function initMapFromConfig(config)
         ],
         target: 'map',
         // needs to come form config
-        view: new ol.View(
-            config["start_view"])
+        view: startview
     });
 
     map.addInteraction(selectClick);

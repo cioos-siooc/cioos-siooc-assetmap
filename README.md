@@ -4,7 +4,7 @@ Containt basic html and javascript to be embedded in a HTML page.
 
 This isn't the final project nor the Wordpress plugin.
 
-Use Flask to enable a simple proxy to test CKAN API access and serve file.
+Use Flask to enable a simple proxy to test CKAN API access and serve static file.
 
 # Installation
 
@@ -31,15 +31,106 @@ Tested with python 3.7 on windows 10
 
 ## ckan.json
  
-Link to the CKAN 
+Link to the CKAN instance:
+
+* base_url : Homepage of the CKAN instance to redirect user to
+* api_url : API URL to access the desired CKAN instance. This is use by the proxy server
+* dataset_url : url to follow to direct a user to the dataset page of the ckan instance
+* organization_url : url to follow to direct a user to the organization page of the ckan instance
+* access_url : url to use to access the API. /ckan/ is the default proxy
+* add_language_url : Boolean to enable the desired language to be displayed by CKAN. The language code is added after url be before the id
+
+Example of the configuration to use open.canada.ca catalog
+```
+{
+    "base_url":"http://open.canada.ca/",
+    "api_url":"http://open.canada.ca/data/api/",
+    "dataset_url": "http://open.canada.ca/data/",
+    "organization_url": "http://open.canada.ca/data/",
+    "access_url":"/ckan/",
+    "add_language_url": true
+}
+```
 
 ## filters.json
 
-All cetegories, viriables and CKAN search criteria
+All categories, variables and CKAN search criteria.
+
+Categories contains a list of variable. Either element has the transalted lable, icon and if the item is enabled or not. Each category is reprensented by a clickable icon at the top left corner. All the variables of a category are grouped inside a panel. This panel is shown when the category icon is click. 
+
+```
+{
+    categories: [{
+        "id": "physic",
+        "label":
+        {
+            "fr": "PHYSIQUE",
+            "en": "PHYSICS"
+        },
+        "icon": "physics.png",
+        "enabled": true,
+        "variables":[{}]
+    }]
+}
+
+```
+
+Each variable defines the text used in the ckan package seach. This is a temporary solution until the search criteria and schema definition is established. The same "ckantext" is used to map the variable to a dataset via the tag/keyword. This is still a temporary solution. The translation of the search term might be necessary if no tranlsation in the ckan dataset is available. The icon file are in /images and the thumbnail in /images/thumbnails. As of now, the is no translation for the icon is planned.
+
+```
+    "variables":[{
+        "id": "var_salinity",
+        "icon":"seaWaterSalinity.png",
+        "label":
+        {
+            "fr":"Salinité",
+            "en":"Salinity"
+        },
+        "ckantext":"salinity",
+        "enabled": true
+    }]
+```
+
+## map.json
+
+Display style and initial map attributes.
+
+start-view is mapped to the ol.view use by the openlayer map. the center element is in WGS84( ESPG:4326 ) and transform to the correct map projection system during creation.
+```
+"start_view": {
+        "zoom": 4,
+        "center": [-68, 48]
+    }
+```
+
+The Polystyle is used for the display of rectangular extent. Stroke is used for the outer rectangle region and Fill is for the rectangle interior. Those element are use as is in the vector layor style creation. Other item can be added is supported by openlayer. 
+```
+"Polystyle":{
+        "Stroke":{
+            "color": "blue",
+            "lineDash": [4],
+            "width": 3
+        },
+        "Fill":{
+            "color": "rgba(0, 0, 255, 0.1)"
+        }
+    }
+```
+Back layer configuration still to implement.
 
 ## ui_str.json
 
-Translation data
+Translation strings.
+
+List of strings defined by an name and the different version per language supported. 
+```
+"dataset_title": {
+    "fr": "Titre du jeu de données",
+    "en": "Dataset title"
+  }
+```
+
+The class StringTranslator use thisconfiguration and can has method to retrieve the correct string for a specified language or the one set as current. 
 
 # References
 
@@ -69,6 +160,7 @@ Translation data
 
 # Done
 
+* transfrom center view to use WGS84 lat/long in config
 * on details click, open dataset details 
 * generate icon with multiple size ( thumbnail )
 * look for tag to add variable icon in detail of dataset  ( used keyword/tags with variable ckantext )
