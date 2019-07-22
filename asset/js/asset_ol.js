@@ -1,62 +1,67 @@
 
-var vectorSource= new ol.source.Vector({
-    features: []
-});
-
-var polyStyle =  new ol.style.Style({
-    stroke: new ol.style.Stroke({
-        color: 'blue',
-        lineDash: [4],
-        width: 3
-    }),
-    fill: new ol.style.Fill({
-        color: 'rgba(0, 0, 255, 0.1)'
-    })
-});
-var vectorLayer = new ol.layer.Vector({
-    source: vectorSource,
-    style: polyStyle
-});
+var vectorsource = null;
+var polystyle = null;
+var polyLayer = null;
+var selectClick = null;
+var selectPointerMove = null;
+var map = null;
 
 
-var language = document.getElementById('language');
-var list_dataset = document.getElementById('list_dataset');
+function initMapFromConfig(config)
+{
+    vectorSource= new ol.source.Vector({
+        features: []
+    });
+    
+    polyStyle =  new ol.style.Style({
+        stroke: new ol.style.Stroke(
+            config["Polystyle"]["Stroke"]),
+        fill: new ol.style.Fill(
+            config["Polystyle"]["Fill"])
+    });
 
-var selectClick = new ol.interaction.Select({
-    condition: ol.events.condition.click
-});
+    vectorLayer = new ol.layer.Vector({
+        source: vectorSource,
+        style: polyStyle
+    });
 
-var selectPointerMove = new ol.interaction.Select({
-    condition: ol.events.condition.pointerMove
-  });
+    selectClick = new ol.interaction.Select({
+        condition: ol.events.condition.click
+    });
 
-var map = new ol.Map({
-    layers: [
-        new  ol.layer.Tile({
-            source: new ol.source.OSM()
-        }),
-        vectorLayer
-    ],
-    target: 'map',
-    view: new ol.View({
-        center: [0, 0],
-        zoom: 2
-    })
-});
+    selectPointerMove = new ol.interaction.Select({
+        condition: ol.events.condition.pointerMove
+      });
 
-map.addInteraction(selectClick);
-map.addInteraction(selectPointerMove);
-selectClick.on('select', function(e) {
-    // aficher popupt avec title selon la langue ainsi que le titre clikable vers la page CKAN du dataset
-    //var f = e.selected[0];
-    //console.log(f);
-    // document.getElementById('dataset_link').innerHTML = '&nbsp;' + f['values_']['title'];
-    // document.getElementById('dataset_link').setAttribute('href', f['values_']['page_link']);
-    //linkhtml = '<a href="' +  f['values_']['page_link'] +'">'  + f['values_']['title'] + '</a>'
-    // document.getElementById('dataset_desc').innerHTML = linkhtml + '<br />&nbsp;' + f['values_']['description'];
-});
+      map = new ol.Map({
+        layers: [
+            // backlayer come from config
+            new  ol.layer.Tile({
+                source: new ol.source.OSM()
+            }),
+            vectorLayer
+        ],
+        target: 'map',
+        // needs to come form config
+        view: new ol.View(
+            config["start_view"])
+    });
 
-selectPointerMove.on('select', function(e) {
-    f = e.selected[0];
-    console.log(f['values_']['id']);
-});
+    map.addInteraction(selectClick);
+    map.addInteraction(selectPointerMove);
+    selectClick.on('select', function(e) {
+        // if details panel close, open drawer
+        // open details of selected feature dataset
+        var f = e.selected[0];
+        $('#' + f['values_']['id'] + '_collapse').collapse("show");
+        document.getElementById(f['values_']['id']).scrollIntoView();
+        // $('#' + f['values_']['id']).scrollIntoView();
+        // hide last selected
+    });
+
+    selectPointerMove.on('select', function(e) {
+        f = e.selected[0];
+        // highlight details panel of hoovered feature dataset
+        console.log(f['values_']['id']);
+    });
+}

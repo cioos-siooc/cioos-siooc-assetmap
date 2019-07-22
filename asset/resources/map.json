@@ -1,0 +1,21 @@
+{
+    "start_view": {
+        "zoom": 2,
+        "center": [0, 0]
+    },
+    "start_layer": "osm",
+    "bin_api_key": "",
+    "Polystyle":{
+        "Stroke":{
+            "color": "blue",
+            "lineDash": [4],
+            "width": 3
+        },
+        "Fill":{
+            "color": "rgba(0, 0, 255, 0.1)"
+        }
+    },
+    "icon_cluster": {
+        
+    }
+}

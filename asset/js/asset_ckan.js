@@ -324,12 +324,17 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     ret_html = "<div id='" + dataset["id"] + "' class='asset_details'>";
     ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_title") + "</span><br />";
     ret_html += "<span class=''details_text>" + i18nStrings.getTranslation(dataset['title_translated']) + "</span><br />";
-    ret_html += "<div style=''>";
+
+    ret_html += '<a class="btn btn-primary" data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button">details</a><br />';
+
+    ret_html += '<div class="collapse" id="' + dataset["id"] + '_collapse' + '">';
+    ret_html += '<div class="card card-body">'
     ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_description") + "</span><br />";
     ret_html += "<span class=''details_text>" + i18nStrings.getTranslation(dataset['notes_translated']) + "</span><br />";
     ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_provider") + "</span><a href='" + ckan_server.getURLForOrganization(dataset['organization']['name']) + "'>up</a>";
     ret_html += "<span class=''details_text>" + dataset['organization']['title'] + "</span><br />";
     ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_tools") + "</span><br />";
+    ret_html += "</div>";
     ret_html += "</div>";
     ret_html += '<a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '" class="btn btn-primary" target="_blank" role="button">CKAN</a> ';
     ret_html += getToolForDataset(dataset);

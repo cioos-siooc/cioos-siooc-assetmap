@@ -41,37 +41,35 @@ All cetegories, viriables and CKAN search criteria
 
 Translation data
 
+# References
+
+[Mockup](https://xd.adobe.com/view/f27999f2-a6d1-4498-51b1-37dc757286ff-8448/screen/6b487dff-190c-45b1-b1ca-478295611337/Web-1920-15/)
+
 # Quick Todo:
 
+* config file documentation
+* better code documentation
 * Change current icon for new one ( currently canibalised from Condition Maritime )
 * generate ckan dataset/organisation url with language ( if supported )
-* create ids with dataset id for detail panel
-* on details click, show correct values
+* bettter ids for dataset panel ( limit conflict with crm )
 * on detail click, scroll to correct panel
-* add config for initial map display
-    * zoom level
-    * extent
-    * rectangle color/fill/outset 
-    * multiple section vector type ( only rectangle for now ) 
 * add CSS for variable label et category label + layout
 * add bbox region to search function
 * position variable with 3 per row
 * generate tab panel per category
 * sort rectangle by area size
 * translate CKAN description in html ( markdown style)
-* hide/show variable panel
-* hide/show dataset details
+* hide/show variable panel drawer
+* hide/show dataset details drawer
 * show the map control and attribution even with panel
 * add responsive css
 * better error checking
     * Look if dataset has a minimum ( id, titile, etc ) before adding it
 * CSS, again and again and again...
 
-#References
+# Done
 
-[Mockup](https://xd.adobe.com/view/f27999f2-a6d1-4498-51b1-37dc757286ff-8448/screen/6b487dff-190c-45b1-b1ca-478295611337/Web-1920-15/)
-
-#Done
+* on details click, open dataset details 
 * generate icon with multiple size ( thumbnail )
 * look for tag to add variable icon in detail of dataset  ( used keyword/tags with variable ckantext )
 * iterate through dataset resources for other view tool links ( simulate tool with PDF, WMS, CSV )
@@ -82,3 +80,8 @@ Translation data
 * json for translation ( fr, en, other?)
 * encapsulate translation in a class that know the current langage ( getUISTR, default if not found )
 * load config for proxy in ckan.json in python
+* add config for initial map display
+    * zoom level
+    * extent
+    * rectangle color/fill/outset 
+    * multiple section vector type ( only rectangle for now ) 

@@ -24,7 +24,7 @@ function getSelectedVariable()
 
 function generateVariableBox( vardata )
 {
-    ret_html = "<div class='variable_cell_bg'>";
+    ret_html = "<div class='btn variable_cell_bg'>";
     ret_html += "<img src='/asset/images/" + vardata["icon"] + "'><br />";
     ret_html += "<input style='' type='checkbox' id='" + vardata["id"] + "' ";
     if ( !vardata["enabled"])
@@ -39,7 +39,7 @@ function generateVariableBox( vardata )
 
 function generateCategoryButton( catData)
 {
-    ret_html = "<div class='category_cell_bg'>";
+    ret_html = "<div class='btn category_cell_bg'>";
     ret_html += "<img src='/asset/images/" + catData["icon"] + "'><br />";
     ret_html += "<span>" + i18nStrings.getTranslation(catData["label"]) + "</span>";
     ret_html += "</div>";
@@ -82,6 +82,19 @@ $(document).ready(function () {
             i18nStrings.setUIStrings(ui_str);
             i18nStrings.setBaseLanguage("fr");
             i18nStrings.setCurrentLanguage("fr");
+        },
+        error: function (e) {
+        }
+    });
+
+    initMapFromConfig
+    $.ajax({
+        url: "/asset/resources/map.json",
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            initMapFromConfig(data);
+            // init ckan server from data
         },
         error: function (e) {
         }
