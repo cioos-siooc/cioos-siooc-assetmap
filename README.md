@@ -138,7 +138,6 @@ The class StringTranslator use thisconfiguration and can has method to retrieve 
 
 # Quick Todo:
 
-* config file documentation
 * better code documentation
 * Change current icon for new one ( currently canibalised from Condition Maritime )
 * generate ckan dataset/organisation url with language ( if supported )
@@ -155,11 +154,12 @@ The class StringTranslator use thisconfiguration and can has method to retrieve 
 * show the map control and attribution even with panel
 * add responsive css
 * better error checking
-    * Look if dataset has a minimum ( id, titile, etc ) before adding it
+    * Look if dataset has a minimum ( id, title, etc ) before adding it
 * CSS, again and again and again...
 
 # Done
 
+* config file documentation
 * transfrom center view to use WGS84 lat/long in config
 * on details click, open dataset details 
 * generate icon with multiple size ( thumbnail )

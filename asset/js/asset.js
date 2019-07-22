@@ -37,11 +37,14 @@ function generateVariableBox( vardata )
     return ret_html;
 }
 
+
+
+
 function generateCategoryButton( catData)
 {
     ret_html = "<div class='btn category_cell_bg'>";
-    ret_html += "<img src='/asset/images/" + catData["icon"] + "'><br />";
-    ret_html += "<span>" + i18nStrings.getTranslation(catData["label"]) + "</span>";
+    ret_html += "<img src='/asset/images/" + catData["icon"] + "' onclick=''><br />";
+    ret_html += '<a href="#' + category["id"] + '_tab' + '" data-toggle="tab" role="tab">' + i18nStrings.getTranslation(catData["label"]) + '</a>';
     ret_html += "</div>";
     return ret_html;
 }
@@ -57,13 +60,17 @@ function generateFilterCategories()
     {
         category = filters["Categories"][c];
         CatInnerHtml += generateCategoryButton(category);
+        VarInnerPanelHTML = '<div id=' + category["id"] + '_tab' + ' class="tab-pane" role="tabpanel">';
         v = 0;
         while( v < category["variables"].length)
         {
-            VarInnerHtml += generateVariableBox(category["variables"][v]);
+            VarInnerPanelHTML += generateVariableBox(category["variables"][v]);
             ckan_server.addVariable(category["variables"][v]);
             ++v;
         }
+
+        VarInnerPanelHTML += "</div>";
+        VarInnerHtml += VarInnerPanelHTML;
         ++c;
     }
     document.getElementById('category_panel').innerHTML = CatInnerHtml;
