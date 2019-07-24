@@ -4,4 +4,4 @@ services:
   assetmap:
     build: ./
     ports:
-      - "5000:5000"
+      - "8008:5000"
