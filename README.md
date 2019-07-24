@@ -142,7 +142,6 @@ The class StringTranslator use thisconfiguration and can has method to retrieve 
 
 
 * better code documentation
-* ON detail panel click, select dataset on the map
 * Multiple varaible selection should restrict not open up search ( and vs or )
 * Change current icon for new one ( currently canibalised from Condition Maritime )
 * generate ckan dataset/organisation url with language ( if supported )
@@ -150,7 +149,6 @@ The class StringTranslator use thisconfiguration and can has method to retrieve 
 * on detail click, scroll to correct panel
 * add CSS for variable label et category label + layout
 * position variable with 3 per row
-* generate tab panel per category
 * sort rectangle by area size
 * transform CKAN description in html ( markdown style)
 * hide/show variable panel drawer
@@ -163,6 +161,8 @@ The class StringTranslator use thisconfiguration and can has method to retrieve 
 
 # Done
 
+* generate tab panel per category
+* ON detail panel click "Map", select dataset on the map
 * add bbox region to search function
     * only in ckan config for now
     * write search url wih bbox as filter
