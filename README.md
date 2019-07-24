@@ -39,6 +39,7 @@ Link to the CKAN instance:
 * organization_url : url to follow to direct a user to the organization page of the ckan instance
 * access_url : url to use to access the API. /ckan/ is the default proxy
 * add_language_url : Boolean to enable the desired language to be displayed by CKAN. The language code is added after url be before the id
+* start_bbox: Initial bounding box to restrict search to
 
 Example of the configuration to use open.canada.ca catalog
 ```
@@ -48,7 +49,8 @@ Example of the configuration to use open.canada.ca catalog
     "dataset_url": "http://open.canada.ca/data/",
     "organization_url": "http://open.canada.ca/data/",
     "access_url":"/ckan/",
-    "add_language_url": true
+    "add_language_url": true,
+    "start_bbox": [-118, 36, -40, 63]
 }
 ```
 
@@ -141,6 +143,7 @@ The class StringTranslator use thisconfiguration and can has method to retrieve 
 
 * better code documentation
 * ON detail panel click, select dataset on the map
+* Multiple varaible selection should restrict not open up search ( and vs or )
 * Change current icon for new one ( currently canibalised from Condition Maritime )
 * generate ckan dataset/organisation url with language ( if supported )
 * bettter ids for dataset panel ( limit conflict with crm )
@@ -149,10 +152,10 @@ The class StringTranslator use thisconfiguration and can has method to retrieve 
 * position variable with 3 per row
 * generate tab panel per category
 * sort rectangle by area size
-* translate CKAN description in html ( markdown style)
+* transform CKAN description in html ( markdown style)
 * hide/show variable panel drawer
 * hide/show dataset details drawer
-* show the map control and attribution even with panel
+* show the map control and attribution even with open panel
 * add responsive css
 * better error checking
     * Look if dataset has a minimum ( id, title, etc ) before adding it

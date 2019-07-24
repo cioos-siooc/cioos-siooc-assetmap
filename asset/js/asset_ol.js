@@ -2,6 +2,8 @@
 var vectorsource = null;
 var polystyle = null;
 var polyLayer = null;
+var clusterLayer = null;
+var clusterSource = null;
 var selectClick = null;
 var selectPointerMove = null;
 var map = null;
@@ -24,6 +26,10 @@ function initMapFromConfig(config)
         source: vectorSource,
         style: polyStyle
     });
+
+
+    clusterLayer = undefined;
+    clusterSource = undefined;
 
     selectClick = new ol.interaction.Select({
         condition: ol.events.condition.click
@@ -66,7 +72,10 @@ function initMapFromConfig(config)
     selectPointerMove.on('select', function(e) {
         f = e.selected[0];
         // highlight details panel of hoovered feature dataset
-        console.log(f['values_']['id']);
+        if ( f !== undefined )
+        {
+            console.log(f['values_']['id']);
+        }
     });
 }
 
@@ -74,5 +83,11 @@ function selectFeatureOnMap( id )
 {
     // get feature from vector layer
     f = vectorLayer.getSource().getFeatureById(id);
-    selectClick.getFeatures().push(f);
+    if ( f !== undefined )
+    {
+        selectClick.getFeatures().push(f);
+        // center view on feature
+        startview.animate(  {center: ol.proj.transform(f['values_']['center'], 'EPSG:4326', 'EPSG:3857')})
+        //startview.setCenter( ol.proj.transform(f['values_']['center'], 'EPSG:4326', 'EPSG:3857'));
+    }
 }

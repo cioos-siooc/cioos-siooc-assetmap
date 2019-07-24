@@ -175,6 +175,19 @@ function addCKANExtent(data)
 }
 
 
+function getCenterOfCoordinates( coords )
+{
+    x = 0;
+    y = 0;
+    if ( coords.length == 5 )
+    {
+        // rectangle!
+        x = (coords[0][0] + coords[1][0] + coords[2][0] + coords[3][0] ) / 4;
+        y = (coords[0][1] + coords[1][1] + coords[2][1] + coords[3][1] ) / 4;
+    }
+    return [x, y];
+}
+
 function AddDisplayCKANExtent( data )
 {
      // for each, look for the spatial extra
@@ -213,6 +226,8 @@ function AddDisplayCKANExtent( data )
             feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
             // set id to link to description panel
             feature.set('id', r['id']);
+             // if multi polygone, will only see first. base on rectangle for now
+            feature.set('center', getCenterOfCoordinates(objspatial['coordinates'][0]));
             features.push(feature);
         }
         ++i;
@@ -262,6 +277,8 @@ function displayCKANExtent( data )
             feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
             // set id to link to description panel
             feature.set('id', r['id']);
+            // if multi polygone, will only see first. base on rectangle for now
+            feature.set('center', getCenterOfCoordinates(objspatial['coordinates'][0]));
             features.push(feature);
         }
         ++i;
@@ -324,17 +341,17 @@ function getToolForDataset(dataset)
         if ( entry['format'] == 'PDF')
         {
            // add PDF with link
-           ret_html += "<a href='" + entry['url'] + "' class='btn btn-info' target='_blank' role='button'>PDF</a> "
+           ret_html += "<a href='" + entry['url'] + "' class='btn btn-info btn_sm' target='_blank' role='button'>PDF</a> "
         }
         else if ( entry['format'] == 'WMS')
         {
            // add PDF with link
-           ret_html += "<a href='" + entry['url'] + "' class='btn btn-success' target='_blank' role='button'>WMS</a> "
+           ret_html += "<a href='" + entry['url'] + "' class='btn btn-success btn_sm' target='_blank' role='button'>WMS</a> "
         }
         else if ( entry['format'] == 'CSV')
         {
            // add PDF with link
-           ret_html += "<a href='" + entry['url'] + "' class='btn btn-secondary' target='_blank' role='button'>CSV</a> "
+           ret_html += "<a href='" + entry['url'] + "' class='btn btn-secondary btn_sm' target='_blank' role='button'>CSV</a> "
         }
     });
     return ret_html;
@@ -359,7 +376,8 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_tools") + "</span><br />";
     ret_html += "</div>";
     ret_html += "</div>";
-    ret_html += '<a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '" class="btn btn-primary" target="_blank" role="button">CKAN</a> ';
+    ret_html += '<button type="button" class="btn btn-primary btn_sm" onclick="selectFeatureOnMap(\'' + dataset["id"] + '\');");">Map</button> ';
+    ret_html += '<a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '" class="btn btn-primary btn_sm" target="_blank" role="button">CKAN</a> ';
     ret_html += getToolForDataset(dataset);
     ret_html += "</div>";
     ret_html += "<div>"
