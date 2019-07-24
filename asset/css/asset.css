@@ -20,10 +20,7 @@
 }
 
 .asset_details {
-    margin-top: 5px;
-    margin-bottom: 3px;
-    margin-right: 3px;
-    margin-left: 5px;
+    width: 100%;
     background-color: whitesmoke;
   }
 
@@ -78,7 +75,7 @@
   position: absolute;
   left: 5px;
   top: 5px;
-  width: 310px;
+  width: 320px;
   height: 110px;
 }
 

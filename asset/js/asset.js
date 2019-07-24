@@ -24,7 +24,7 @@ function getSelectedVariable()
 
 function generateVariableBox( vardata )
 {
-    ret_html = "<div class='btn variable_cell_bg'>";
+    ret_html = "<div class='btn variable_cell_bg btn-sm'>";
     ret_html += "<img src='/asset/images/" + vardata["icon"] + "'><br />";
     ret_html += "<input style='' type='checkbox' id='" + vardata["id"] + "' ";
     if ( !vardata["enabled"])
@@ -42,7 +42,7 @@ function generateVariableBox( vardata )
 
 function generateCategoryButton( catData)
 {
-    ret_html = "<div class='btn category_cell_bg'>";
+    ret_html = "<div class='btn category_cell_bg btn-sm'>";
     ret_html += "<img src='/asset/images/" + catData["icon"] + "' onclick=''><br />";
     ret_html += '<a href="#' + category["id"] + '_tab' + '" data-toggle="tab" role="tab">' + i18nStrings.getTranslation(catData["label"]) + '</a>';
     ret_html += "</div>";
@@ -120,7 +120,7 @@ $(document).ready(function () {
     });
 
     $.ajax({
-        url: "/asset/resources/filters_0_0_2.json",
+        url: "/asset/resources/filters.json",
         dataType: 'json',
         async: false,
         success: function (data) {

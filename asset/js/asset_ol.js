@@ -69,3 +69,10 @@ function initMapFromConfig(config)
         console.log(f['values_']['id']);
     });
 }
+
+function selectFeatureOnMap( id )
+{
+    // get feature from vector layer
+    f = vectorLayer.getSource().getFeatureById(id);
+    selectClick.getFeatures().push(f);
+}

@@ -16,7 +16,14 @@ function CKANServer()
         this.url = config["access_url"];
         this.homeUrl = config["base_url"];
         this.dataset_url = config["dataset_url"];
-        this.organization_url= config["organization_url"];
+        this.organization_url = config["organization_url"];
+        if ( config["start_bbox"] !== undefined )
+        {
+            if ( config["start_bbox"].length == 4 )
+            {
+                this.bbox = config["start_bbox"]
+            }
+        }
     };
 
     this.getHomeCatalogURL = function() {
@@ -44,7 +51,14 @@ function CKANServer()
 
     this.getURLPaginated = function( startrow, numrow )
     {
-        ret_url =  this.url + 'q=';
+        ret_url =  this.url;
+        if ( this.bbox !== undefined )
+        {
+            ret_url += "ext_bbox=" //-104,17,-18,63
+            ret_url += this.bbox[0].toString() + "," + this.bbox[1].toString() + "," + this.bbox[2].toString() + "," + this.bbox[3].toString();
+            ret_url += "&"
+        }
+        ret_url +=  'q=';
         v=0;
         while( v < this.varriables.length)
         {
@@ -85,7 +99,14 @@ function CKANServer()
         // list of variables
         // rewtite URL to CKAN with search criteria
         // write bbox filter if present
-        ret_url =  this.url + 'rows=20&q=';
+        ret_url =  this.url;
+        if ( this.bbox !== undefined )
+        {
+            ret_url += "ext_bbox=" //-104,17,-18,63
+            ret_url += this.bbox[0].toString() + "," + this.bbox[1].toString() + "," + this.bbox[2].toString() + "," + this.bbox[3].toString();
+            ret_url += "&"
+        }
+        ret_url +=  'rows=20&q=';
 
         v=0;
         while( v < this.varriables.length)
@@ -188,6 +209,7 @@ function AddDisplayCKANExtent( data )
             var feature = new ol.Feature({
                 geometry: new ol.geom.Polygon(objspatial['coordinates'])
             });
+            feature.setId(r['id']);
             feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
             // set id to link to description panel
             feature.set('id', r['id']);
@@ -236,6 +258,7 @@ function displayCKANExtent( data )
             var feature = new ol.Feature({
                 geometry: new ol.geom.Polygon(objspatial['coordinates'])
             });
+            feature.setId(r['id']);
             feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
             // set id to link to description panel
             feature.set('id', r['id']);
@@ -321,7 +344,7 @@ function getToolForDataset(dataset)
 
 function generateDetailsPanel( dataset ) //, language, dataset_id, title, description, provider, link_url, prov_url)
 {
-    ret_html = "<div id='" + dataset["id"] + "' class='asset_details'>";
+    ret_html = "<div id='" + dataset["id"] + "' style='text-align: left;white-space:normal;' class='asset_details btn btn-light btn_sm');'>";
     ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_title") + "</span><br />";
     ret_html += "<span class=''details_text>" + i18nStrings.getTranslation(dataset['title_translated']) + "</span><br />";
 
@@ -380,7 +403,7 @@ function displayTotalSearchDetails( total )
 {
     stat_html = "<span class='stat_count'>" + total.toString() + "</span><br />";
     stat_html += "<span class='more_info_in'>" + i18nStrings.getUIString("more_data_catalog") + "</span><br />";
-    stat_html += "<a target='_blank' href='" + ckan_server.getHomeCatalogURL() +"'>" + i18nStrings.getUIString("catalog") + "</a>";
+    stat_html += "<a class='btn btn-info btn-sm' target='_blank' href='" + ckan_server.getHomeCatalogURL() +"'>" + i18nStrings.getUIString("catalog") + "</a>";
     document.getElementById('dataset_search_stats').innerHTML = stat_html;
 }
 

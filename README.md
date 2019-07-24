@@ -138,13 +138,14 @@ The class StringTranslator use thisconfiguration and can has method to retrieve 
 
 # Quick Todo:
 
+
 * better code documentation
+* ON detail panel click, select dataset on the map
 * Change current icon for new one ( currently canibalised from Condition Maritime )
 * generate ckan dataset/organisation url with language ( if supported )
 * bettter ids for dataset panel ( limit conflict with crm )
 * on detail click, scroll to correct panel
 * add CSS for variable label et category label + layout
-* add bbox region to search function
 * position variable with 3 per row
 * generate tab panel per category
 * sort rectangle by area size
@@ -159,6 +160,9 @@ The class StringTranslator use thisconfiguration and can has method to retrieve 
 
 # Done
 
+* add bbox region to search function
+    * only in ckan config for now
+    * write search url wih bbox as filter
 * config file documentation
 * transfrom center view to use WGS84 lat/long in config
 * on details click, open dataset details 

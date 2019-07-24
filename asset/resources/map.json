@@ -12,10 +12,13 @@
             "width": 3
         },
         "Fill":{
-            "color": "rgba(0, 0, 255, 0.1)"
+            "color": "rgba(0, 0, 255, 0.05)"
         }
     },
     "icon_cluster": {
-        
+        "distance": 10,
+        "text_color": "rgba(0, 0, 255, 0.1)",
+        "fill_color": "rgba(0, 0, 255, 0.1)",
+        "stroke_color": "rgba(0, 0, 255, 0.1)"
     }
 }
