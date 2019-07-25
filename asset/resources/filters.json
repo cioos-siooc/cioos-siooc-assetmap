@@ -1,0 +1,164 @@
+{
+    "Categories":
+    [{
+        "id": "physic",
+        "label":
+        {
+            "fr": "PHYSIQUE",
+            "en": "PHYSICS"
+        },
+        "icon": "physics.png",
+        "enabled": true,
+        "variables":
+        [
+            {
+                "id": "var_temperature",
+                "icon":"seaWaterTemperature.png",
+                "label":
+                {
+                    "fr":"Température",
+                    "en":"Temperature"
+                },
+                "ckantext":"Temperature",
+                "enabled": true
+            },
+            {
+                "id": "var_wind",
+                "icon":"windSpeed.png",
+                "label":
+                {
+                    "fr":"Vent",
+                    "en":"Wind"
+                },
+                "ckantext":"wind",
+                "enabled": true
+            },
+            {
+                "id": "var_ice",
+                "icon":"windSpeed.png",
+                "label":
+                {
+                    "fr":"Glace",
+                    "en":"Ice"
+                },
+                "ckantext":"glace",
+                "enabled": false
+            },
+            {
+                "id": "var_wave",
+                "icon":"seaSurfaceWaveMeanHeight.png",
+                "label":
+                {
+                    "fr":"Vague",
+                    "en":"Wave"
+                },
+                "ckantext":"vague",
+                "enabled": true
+            },
+            {
+                "id": "var_density",
+                "icon":"seaWaterDensity.png",
+                "label":
+                {
+                    "fr":"Densité",
+                    "en":"Density"
+                },
+                "ckantext":"density",
+                "enabled": false
+            },
+            {
+                "id": "var_salinity",
+                "icon":"seaWaterSalinity.png",
+                "label":
+                {
+                    "fr":"Salinité",
+                    "en":"Salinity"
+                },
+                "ckantext":"salinity",
+                "enabled": true
+            },
+            {
+                "id": "var_surface_current",
+                "icon":"seaWaterSalinity.png",
+                "label":
+                {
+                    "fr":"Courant",
+                    "en":"Current"
+                },
+                "ckantext":"Current",
+                "enabled": true
+            }
+           
+        ]
+    },
+    {
+        "id": "biochemistry",
+        "label":
+        {
+            "fr": "BIOCHIMIQUE",
+            "en": "BIOCHEMISTRY"
+        },
+        "icon": "biochem.png",
+        "enabled": true,
+        "variables":
+        [
+            {
+                "id": "var_oxygen",
+                "icon":"seaWaterSalinity.png",
+                "label":
+                {
+                    "fr":"Oxygène",
+                    "en":"Oxygen"
+                },
+                "ckantext":"Oxygen",
+                "enabled": true
+            },
+            {
+                "id": "var_pH",
+                "icon":"seaWaterSalinity.png",
+                "label":
+                {
+                    "fr":"pH",
+                    "en":"pH"
+                },
+                "ckantext":"pH",
+                "enabled": true
+            }
+        ]
+    },
+    {
+        "id": "biology",
+        "label":
+        {
+            "fr": "BIOLOGIE",
+            "en": "BIOLOGY"
+        },
+        "icon": "biology.png",
+        "enabled": true,
+        "variables":
+        [
+            {
+                "id": "var_whale",
+                "icon":"seaWaterSalinity.png",
+                "label":
+                {
+                    "fr":"Baleines",
+                    "en":"Whales"
+                },
+                "ckantext":"Whales",
+                "enabled": true
+            },
+            {
+                "id": "var_capelin",
+                "icon":"seaWaterSalinity.png",
+                "label":
+                {
+                    "fr":"Capelan",
+                    "en":"Capelin"
+                },
+                "ckantext":"Capelin",
+                "enabled": true
+            }
+        ]
+    }]
+}
