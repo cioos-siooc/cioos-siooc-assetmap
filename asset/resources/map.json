@@ -1,6 +1,7 @@
 {
     "start_view": {
         "zoom": 4,
+        "minZoom": 2,
         "center": [-68, 48]
     },
     "start_layer": "osm",
