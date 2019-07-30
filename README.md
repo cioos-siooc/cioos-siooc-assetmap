@@ -101,6 +101,7 @@ start-view is mapped to the ol.view use by the openlayer map. the center element
 ```
 "start_view": {
         "zoom": 4,
+        "minZoom": 2,
         "center": [-68, 48]
     }
 ```
