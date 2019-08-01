@@ -58,7 +58,7 @@ Example of the configuration to use open.canada.ca catalog
 
 All categories, variables and CKAN search criteria.
 
-Categories contains a list of variable. Either element has the transalted lable, icon and if the item is enabled or not. Each category is reprensented by a clickable icon at the top left corner. All the variables of a category are grouped inside a panel. This panel is shown when the category icon is click. 
+Categories contains a list of variable. Either element has the transalted lable, icon and if the item is enabled or not. Each category is reprensented by a clickable icon at the top left corner. All the variables of a category are grouped inside a panel. This panel is shown when the category icon is clicked. 
 
 ```
 {
@@ -77,7 +77,7 @@ Categories contains a list of variable. Either element has the transalted lable,
 
 ```
 
-Each variable defines the text used in the ckan package seach. This is a temporary solution until the search criteria and schema definition is established. The same "ckantext" is used to map the variable to a dataset via the tag/keyword. This is still a temporary solution. The translation of the search term might be necessary if no tranlsation in the ckan dataset is available. The icon file are in /images and the thumbnail in /images/thumbnails. As of now, the is no translation for the icon is planned.
+Each variable defines the text used in the ckan package seach. This is a temporary solution until the search criteria and schema definition is established. The same "ckantext" is used to map the variable to a dataset via the tag/keyword. This is still a temporary solution. The translation of the search term might be necessary if no tranlsation in the ckan dataset is available. The icon files are in /images directory and the thumbnail in /images/thumbnails directory. As of now, no translation for the icon is planned.
 
 ```
     "variables":[{
@@ -133,7 +133,22 @@ List of strings defined by an name and the different version per language suppor
   }
 ```
 
-The class StringTranslator use thisconfiguration and can has method to retrieve the correct string for a specified language or the one set as current. 
+The class StringTranslator use this configuration and has method to retrieve the correct string for a specified language, the one set as current or the default language. 
+
+# CKAN Schema and API dependencies
+
+
+## search API
+
+THE CKAN API action "package_search" is used to list all dataset, in a paginated manner. The bounding box, text and some other filters can be used as search criterias.
+
+## variables 
+
+Variables needs to be clearly identified in the CKAN schema. The asset map could agregate more than one specific variable under the same name and use to configuration to regroup them. For example, there is "temperature" as a selectable variable but there can be "surface water temperature", "air temperature", "underwater temperature" as variable type constant coming from the metadata file and listed as a tag in the CKAN schema. The "temperature" variabe selection would encompass all of them. 
+
+## tools
+
+The interface need to show the user a link to the available tools to display, manipulate or download the specific dataset. Ther need to be a way to identified or compute the link based on the information in the CKAN schema. This could be as resources to the dataset or specific item. Fo example, if the dataset in accessible via ERDAPP, the url need to be available or the base ERDDAP url availbale in a configuration and using the id or other info, retwrite the URL. 
 
 # References
 
