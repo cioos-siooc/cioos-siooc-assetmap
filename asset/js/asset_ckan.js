@@ -10,6 +10,7 @@ function CKANServer()
     this.organization_url= '';
     this.varriables = [];
     this.currentLanguage = "fr";
+    this.add_language_url = false;
     this.bbox = undefined;
 
     this.loadConfig= function (config) {
@@ -17,6 +18,7 @@ function CKANServer()
         this.homeUrl = config["base_url"];
         this.dataset_url = config["dataset_url"];
         this.organization_url = config["organization_url"];
+        this.add_language_url = config["add_language_url"];
         if ( config["start_bbox"] !== undefined )
         {
             if ( config["start_bbox"].length == 4 )
@@ -27,19 +29,42 @@ function CKANServer()
     };
 
     this.getHomeCatalogURL = function() {
-        return this.homeUrl;
+        ret = this.homeUrl;
+        if (this.add_language_url)
+        {
+            ret += this.currentLanguage;
+        }
+        return ret;
     };
 
     this.getURLForDataset = function( datasetId ) {
-        return this.dataset_url + 'dataset/' + datasetId;
+        ret = this.dataset_url 
+        if (this.add_language_url)
+        {
+            ret += this.currentLanguage + '/';
+        }
+        ret += 'dataset/' + datasetId;
+        return ret;
     };
 
     this.getURLForResources = function( datasetId ) {
-        return this.dataset_url + 'dataset/' + datasetId;
+        ret = this.dataset_url 
+        if (this.add_language_url)
+        {
+            ret += this.currentLanguage + '/';
+        }
+        ret +='dataset/' + datasetId;
+        return ret;
     };
 
     this.getURLForOrganization = function( organisationId ) {
-        return this.organization_url + 'organization/' + organisationId;
+        ret = this.organization_url 
+        if (this.add_language_url)
+        {
+            ret += this.currentLanguage + '/';
+        }
+        ret += 'organization/' + organisationId;
+        return ret;
     };
 
     this.setCurrentLanguage = function(language) {

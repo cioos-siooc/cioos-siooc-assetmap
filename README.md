@@ -158,9 +158,8 @@ The interface need to show the user a link to the available tools to display, ma
 
 
 * better code documentation
-* Multiple varaible selection should restrict not open up search ( and vs or )
+* Multiple variable selection should restrict not open up search ( and vs or )
 * Change current icon for new one ( currently canibalised from Condition Maritime )
-* generate ckan dataset/organisation url with language ( if supported )
 * bettter ids for dataset panel ( limit conflict with crm )
 * on detail click, scroll to correct panel
 * add CSS for variable label et category label + layout
@@ -177,6 +176,7 @@ The interface need to show the user a link to the available tools to display, ma
 
 # Done
 
+* generate ckan dataset/organisation url with language ( flag in config, false as default )
 * generate tab panel per category
 * ON detail panel click "Map", select dataset on the map
 * add bbox region to search function
