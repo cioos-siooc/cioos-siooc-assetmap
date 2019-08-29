@@ -1,13 +1,103 @@
-.panel_details {
-    overflow-y: auto;
-    background-color: ghostwhite;
-    z-index: 2;
-    position: absolute;
-         left: 880px;
-         top: 0px;
-         width: 400px;
-         height: 640px;
+/* Main map */
+.map-container {
+  position: relative;
+  margin: 0 auto;
+  width: 1280px;
+  height: 720px;
+  font-family: 'Montserrat', sans-serif;
 }
+.map {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+/* Details in the information panel */
+.panel_details {
+  overflow-y: auto;
+  background-color: #e8eef1;
+  z-index: 2;
+  position: absolute;
+  left: 880px;
+  top: 0px;
+  width: 400px;
+  height: 640px;
+}
+.asset_details {
+  background: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  margin: 16px;
+  text-align: left;
+  white-space:normal;
+}
+.asset_details h3.details_label {
+  color: #404041;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: 'Quicksand', sans-serif;
+  margin: 0 0 12px 0;
+}
+.asset_details p.details_text,
+.asset_details p.details_label {
+  color: #808081;
+}
+.asset_details a.asset-link {
+  color: #007bc2;
+  border-bottom: 1px solid #007bc2;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  margin-right: 12px;
+}
+.asset_details a.asset-link:hover {
+  color: #52a79b;
+  border-bottom-color: #fa7268;
+}
+.asset-actions {
+  display: block;
+  margin: 16px 0 0 0;
+}
+.asset-actions a {
+  text-decoration: none;
+  color: #fff;
+}
+h4.details_label {
+  margin-top: 16px;
+  font-weight: 700;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 16px;
+}
+
+/* Buttons */
+.button,
+a.button,
+a.button:focus {
+  border: none;
+  outline: inherit;
+  padding: 0 18px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 3px;
+  background: #52a79b;
+  display: inline-block;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: capitalize;
+  filter: drop-shadow(0 3px 3px #d4e1ef);
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+.button:hover,
+.button:active,
+a.button:hover,
+a.button:active  {
+  color: #fff;
+  text-decoration: none;
+  filter: drop-shadow(0 3px 3px #c8ccd0);
+  background: #fa7268;
+}
+
 
 .panel_search_info {
     background-color: darkslateblue;
@@ -18,16 +108,6 @@
          width: 400px;
          height: 80px;
 }
-
-.asset_details {
-    width: 100%;
-    background-color: whitesmoke;
-  }
-
-  .details_label{
-    color: darkgray;
-    font-size: 0.875em;
-  }
 
 .details_text{
     color: black;
