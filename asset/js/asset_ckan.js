@@ -386,17 +386,17 @@ function getToolForDataset(dataset)
         if ( entry['format'] == 'PDF')
         {
            // add PDF with link
-           ret_html += "<a href='" + entry['url'] + "' class='btn btn-info btn_sm' target='_blank' role='button'>PDF</a> "
+           ret_html += "<a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>PDF</a> "
         }
         else if ( entry['format'] == 'WMS')
         {
            // add PDF with link
-           ret_html += "<a href='" + entry['url'] + "' class='btn btn-success btn_sm' target='_blank' role='button'>WMS</a> "
+           ret_html += "<a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>WMS</a> "
         }
         else if ( entry['format'] == 'CSV')
         {
            // add PDF with link
-           ret_html += "<a href='" + entry['url'] + "' class='btn btn-secondary btn_sm' target='_blank' role='button'>CSV</a> "
+           ret_html += "<a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>CSV</a> "
         }
     });
     return ret_html;
@@ -406,24 +406,23 @@ function getToolForDataset(dataset)
 
 function generateDetailsPanel( dataset ) //, language, dataset_id, title, description, provider, link_url, prov_url)
 {
-    ret_html = "<div id='" + dataset["id"] + "' style='text-align: left;white-space:normal;' class='asset_details btn btn-light btn_sm');'>";
-    ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_title") + "</span><br />";
-    ret_html += "<span class=''details_text>" + i18nStrings.getTranslation(dataset['title_translated']) + "</span><br />";
-
-    ret_html += '<a class="btn btn-primary" data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button">details</a><br />';
+    ret_html = "<div id='" + dataset["id"] + "'class='asset_details');'>";
+    ret_html += "<h3 class='details_label'>" + i18nStrings.getUIString("dataset_title") + "</h3>";
+    ret_html += "<p class='details_text'>" + i18nStrings.getTranslation(dataset['title_translated']) + "</p>";
+    ret_html += '<a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '" class="asset-link" target="_blank" role="button">CKAN</a> ';
+    ret_html += getToolForDataset(dataset);
+    ret_html += '<div class="asset-actions"><button type="button" class="button" onclick="selectFeatureOnMap(\'' + dataset["id"] + '\');");">Map</button> ';
+    ret_html += '<a class="button" data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button">details</a></div>';
 
     ret_html += '<div class="collapse" id="' + dataset["id"] + '_collapse' + '">';
     ret_html += '<div class="card card-body">'
-    ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_description") + "</span><br />";
-    ret_html += "<span class=''details_text>" + i18nStrings.getTranslation(dataset['notes_translated']) + "</span><br />";
-    ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_provider") + "</span><a href='" + ckan_server.getURLForOrganization(dataset['organization']['name']) + "'>up</a>";
+    ret_html += "<h4 class='details_label'>" + i18nStrings.getUIString("dataset_description") + "</h4>";
+    ret_html += "<p class='details_text'>" + i18nStrings.getTranslation(dataset['notes_translated']) + "</p>";
+    ret_html += "<p class='details_label'>" + i18nStrings.getUIString("dataset_provider") + "</p><a href='" + ckan_server.getURLForOrganization(dataset['organization']['name']) + "'>up</a>";
     ret_html += "<span class=''details_text>" + dataset['organization']['title'] + "</span><br />";
     ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_tools") + "</span><br />";
     ret_html += "</div>";
     ret_html += "</div>";
-    ret_html += '<button type="button" class="btn btn-primary btn_sm" onclick="selectFeatureOnMap(\'' + dataset["id"] + '\');");">Map</button> ';
-    ret_html += '<a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '" class="btn btn-primary btn_sm" target="_blank" role="button">CKAN</a> ';
-    ret_html += getToolForDataset(dataset);
     ret_html += "</div>";
     ret_html += "<div>"
     ret_html += getVariableForDatataset(dataset);

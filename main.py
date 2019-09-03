@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return 'Go to /index.html to see assetmap'
+    return 'Go to asset/index.html to see assetmap'
 
 
 @app.route('/ckan/<path:path>')
