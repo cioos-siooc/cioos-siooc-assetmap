@@ -100,7 +100,7 @@ function CKANServer()
             // if checked, add text to the filter
             if ( varItem.checked )
             {
-                ret_url += varData["ckantext"] + ',';
+                ret_url += varData["ckantext"] + ' + ';
             }
             ++v;
         }
@@ -158,7 +158,7 @@ function CKANServer()
             // if checked, add text to the filter
             if ( varItem.checked )
             {
-                ret_url += varData["ckantext"] + ',';
+                ret_url += varData["ckantext"] + ' + ';
             }
             ++v;
         }
