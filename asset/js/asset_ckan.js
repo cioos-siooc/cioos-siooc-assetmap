@@ -12,6 +12,7 @@ function CKANServer()
     this.currentLanguage = "fr";
     this.add_language_url = false;
     this.bbox = undefined;
+    this.usejsonp = true;
 
     this.loadConfig= function (config) {
         this.url = config["access_url"];
@@ -19,6 +20,7 @@ function CKANServer()
         this.dataset_url = config["dataset_url"];
         this.organization_url = config["organization_url"];
         this.add_language_url = config["add_language_url"];
+        this.usejsonp = config["usejsonp"];
         if ( config["start_bbox"] !== undefined )
         {
             if ( config["start_bbox"].length == 4 )
@@ -77,6 +79,11 @@ function CKANServer()
     this.getURLPaginated = function( startrow, numrow )
     {
         ret_url =  this.url;
+        if (this.usejsonp)
+        {
+            // add the package search
+            ret_url += '3/action/package_search?'
+        }
         if ( this.bbox !== undefined )
         {
             ret_url += "ext_bbox=" //-104,17,-18,63
@@ -98,6 +105,10 @@ function CKANServer()
             ++v;
         }
         ret_url += '&rows=' + numrow.toString() + '&start=' + startrow.toString();
+        if (this.usejsonp)
+        {
+            ret_url += '&callback=jsonpcallback'
+        }
         // bbox
         return ret_url;
     };
@@ -125,6 +136,11 @@ function CKANServer()
         // rewtite URL to CKAN with search criteria
         // write bbox filter if present
         ret_url =  this.url;
+        if (this.usejsonp)
+        {
+            // add the package search
+            ret_url += '3/action/package_search?'
+        }
         if ( this.bbox !== undefined )
         {
             ret_url += "ext_bbox=" //-104,17,-18,63
@@ -145,6 +161,10 @@ function CKANServer()
                 ret_url += varData["ckantext"] + ',';
             }
             ++v;
+        }
+        if (this.usejsonp)
+        {
+            ret_url += '&callback=jsonpcallback'
         }
         return ret_url;
     };
@@ -473,9 +493,29 @@ function searchAndDisplayDataset(data)
     {
         for( i = 0; i < totaldataset / 20; ++i )
         {
-            url = ckan_server.getURLPaginated( (i + 1) * 20, 20);
+            // until the weird jquery jsonp bug is corrected, do it by hand!
+            url_ckan = ckan_server.getURLPaginated( (i + 1) * 20, 20);
             // request first page of dataset
-            $.getJSON( url, addAndDisplaydataset );
+            if ( ckan_server.usejsonp)
+            {
+                $.ajax({
+                    url: url_ckan,
+                    dataType: "text",
+                    success: function( data )
+                    {
+                        endofstr = data.length - 16;
+                        var resjson = data.substr(14, endofstr );
+                        //console.log(resjson);
+                        addAndDisplaydataset( JSON.parse(resjson));
+                        //console.log(data);
+                    }
+                });
+            }
+            else
+            {
+                $.getJSON( url_ckan, addAndDisplaydataset );
+            }
+            //$.getJSON( url, addAndDisplaydataset );
         }
     }
 }
@@ -507,9 +547,37 @@ function checkCKANData()
     if ( ckan_server.hasActiveFilter() )
     {
         // use CKAN config to write call to package_search
-        url = ckan_server.writeURL();
+        // url_ckan = ckan_server.writeURL();
+
+        // support jsonp by hand since jquery bug with adding other parameters at then end for nothing ( other than the callback )
+
+        //var datavalue = {"q": "patate", "callback": "jsonpcallback"}
+        var url_ckan = ckan_server.writeURL();
+        // until the weird jquery jsonp bug is corrected, do it by hand!
+        if ( ckan_server.usejsonp)
+        {
+            $.ajax({
+                url: url_ckan,
+                dataType: "text",
+                success: function( data )
+                {
+                    endofstr = data.length - 16;
+                    var resjson = data.substr(14, endofstr );
+                    //console.log(resjson);
+                    searchAndDisplayDataset( JSON.parse(resjson));
+                    //console.log(data);
+                }
+            });
+        }
+        else
+        {
+            $.getJSON( url_ckan, searchAndDisplayDataset );
+        }
         // request first page of dataset
-        $.getJSON( url, searchAndDisplayDataset );
+        // $.getJSON( url_ckan, searchAndDisplayDataset ).fail(function(jqXHR, textStatus, errorThrown) {
+        //   console.log("error " + textStatus);
+        //   console.log("incoming Text " + jqXHR.responseText);
+        //});
     }
     else
     {
