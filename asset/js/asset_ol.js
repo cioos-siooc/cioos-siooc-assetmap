@@ -3,10 +3,13 @@ var vectorsource = null;
 var polystyle = null;
 var polyLayer = null;
 var clusterLayer = null;
+var clusterVectorSource = null;
 var clusterSource = null;
+var clusterStyle = null;
 var selectClick = null;
 var selectPointerMove = null;
 var map = null;
+var useClustering = false;
 
 
 function initMapFromConfig(config)
@@ -26,6 +29,9 @@ function initMapFromConfig(config)
         source: vectorSource,
         style: polyStyle
     });
+
+    // current view is cluster if true
+    useClustering = config["start_cluster"];
 
 
     clusterLayer = undefined;
@@ -89,5 +95,17 @@ function selectFeatureOnMap( id )
         // center view on feature
         startview.animate(  {center: ol.proj.transform(f['values_']['center'], 'EPSG:4326', 'EPSG:3857')})
         //startview.setCenter( ol.proj.transform(f['values_']['center'], 'EPSG:4326', 'EPSG:3857'));
+    }
+    else
+    {
+        f = clusterLayer.getSource().getFeatureById(id);
+        if ( f !== undefined )
+        {
+            alert(id);
+            //selectClick.getFeatures().push(f);
+            // center view on feature
+            //startview.animate(  {center: ol.proj.transform(f['values_']['center'], 'EPSG:4326', 'EPSG:3857')})
+            //startview.setCenter( ol.proj.transform(f['values_']['center'], 'EPSG:4326', 'EPSG:3857'));
+        }
     }
 }

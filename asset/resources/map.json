@@ -21,5 +21,6 @@
         "text_color": "rgba(0, 0, 255, 0.1)",
         "fill_color": "rgba(0, 0, 255, 0.1)",
         "stroke_color": "rgba(0, 0, 255, 0.1)"
-    }
+    },
+    "start_cluster": true 
 }

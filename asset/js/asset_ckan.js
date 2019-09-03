@@ -285,6 +285,57 @@ function AddDisplayCKANExtent( data )
     // update map
 }
 
+function AddDisplayCKANClusterIcon( data )
+{
+    // for each, look for the spatial extra
+    var i = 0;
+    var results = data['result']['results'];
+    // list of feature
+    var features = [];
+    while ( i < results.length )
+   {
+       var r = results[i];
+       var objspatial = undefined;
+       // open data canada spatial schema
+       if (r["spatial"] != undefined && r["spatial"] !== "")
+       {
+           //console.log(r["spatial"]);
+           objspatial = JSON.parse(r["spatial"]);
+       }
+       else if ( r['extras'] != undefined)
+       {
+           // slgo + extension spatial schema
+           r['extras'].forEach( function(entry)
+           {
+               if ( entry['key'] == 'spatial')
+               {
+                   objspatial = JSON.parse(entry['value']);
+               }
+           });
+       }
+       if ( objspatial != undefined )
+       {
+           // Create geometry feature as polygone (rect extent)
+           var feature = new ol.Feature({
+            geometry: new ol.geom.Point(getCenterOfCoordinates(objspatial['coordinates'][0]))
+            });
+            feature.setId(r['id']);
+            feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
+            // set id to link to description panel
+            feature.set('id', r['id']);
+            // if multi polygone, will only see first. base on rectangle for now
+            features.push(feature);
+       }
+       ++i;
+   }
+   // recreate layer 
+   
+   //console.log(vectorLayer);
+   //cursource = clusterLayer.getSource();
+   clusterVectorSource.addFeatures(features);
+   // update map
+}
+
 function displayCKANExtent( data )
 {
     // for each, look for the spatial extra
@@ -292,6 +343,7 @@ function displayCKANExtent( data )
     var results = data['result']['results'];
     // list of feature
     var features = [];
+    var iconfeatures = [];
     while ( i < results.length )
     {
         var r = results[i];
@@ -341,6 +393,99 @@ function displayCKANExtent( data )
     // update map
 }
 
+
+function displayCKANClusterIcon( data )
+{
+    // for each, look for the spatial extra
+    var i = 0;
+    var results = data['result']['results'];
+    // list of feature
+    var features = [];
+    while ( i < results.length )
+    {
+        var r = results[i];
+        var objspatial = undefined;
+        // open data canada spatial schema
+        if (r["spatial"] != undefined && r["spatial"] !== "")
+        {
+            objspatial = JSON.parse(r["spatial"]);
+        }
+        else if ( r['extras'] != undefined)
+        {
+            // slgo + extension spatial schema
+            r['extras'].forEach( function(entry)
+            {
+                if ( entry['key'] == 'spatial')
+                {
+                    objspatial = JSON.parse(entry['value']);
+                }
+            });
+        }
+        if ( objspatial != undefined )
+        {
+            // Create geometry feature as polygone (rect extent)
+            //new Feature(new Point(coordinates));
+            var pointfeature = new ol.Feature({
+                geometry: new ol.geom.Point(getCenterOfCoordinates(objspatial['coordinates'][0]))
+            });
+            pointfeature.setId(r['id']);
+            pointfeature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
+            // set id to link to description panel
+            pointfeature.set('id', r['id']);
+            // if multi polygone, will only see first. base on rectangle for now
+            features.push(pointfeature);
+        }
+        ++i;
+    }
+    // recreate layer 
+    map.removeLayer(clusterLayer);
+
+    clusterVectorSource = new ol.source.Vector({
+        features: features
+    });
+
+    var clusterSource = new ol.source.Cluster({
+        distance: 10,
+        source: clusterVectorSource
+      });
+
+    var styleCache = {};
+    clusterLayer = new ol.layer.Vector({
+        source: clusterSource,
+        style: function(feature) {
+          var featuresSize = feature.get('features')
+          if ( featuresSize != undefined)
+          {
+            var size = feature.get('features').length;
+            var style = styleCache[size];
+            if (!style) {
+                style = new ol.style.Style({
+                image: new ol.style.Circle({
+                    radius: 10,
+                    stroke: new ol.style.Stroke({
+                    color: '#fff'
+                    }),
+                    fill: new ol.style.Fill({
+                    color: '#3399CC'
+                    })
+                }),
+                text: new ol.style.Text({
+                    text: size.toString(),
+                    fill: new ol.style.Fill({
+                    color: '#fff'
+                    })
+                })
+                });
+                styleCache[size] = style;
+            }
+            }
+          return style;
+        }
+      });
+    map.addLayer(clusterLayer);
+    // update map
+
+}
 
 function getVariableForDatataset(dataset)
 {
@@ -477,7 +622,14 @@ function displayCKANSearchDetails( data)
 function addAndDisplaydataset(data)
 {
     AddToDisplayCkanDatasetDetails(data);
-    AddDisplayCKANExtent(data);
+    if ( useClustering )
+    {
+        AddDisplayCKANClusterIcon(data);
+    }
+    else
+    {
+        AddDisplayCKANExtent(data);
+    }
 }
 
 function searchAndDisplayDataset(data)
@@ -485,7 +637,15 @@ function searchAndDisplayDataset(data)
     // call create map layer, description panel and stats
     displayCKANSearchDetails(data);
     DisplayCkanDatasetDetails(data);
-    displayCKANExtent(data);
+    if ( useClustering )
+    {
+        displayCKANClusterIcon(data);
+    }
+    else
+    {
+        displayCKANExtent(data);
+    }
+    
     // if result count is bigger than the rows return, call add dataset 
     totaldataset =  parseInt(data["result"]["count"]);
     if ( totaldataset > 20 )
@@ -527,15 +687,16 @@ function clearAllDatasets()
     document.getElementById('dataset_desc').innerHTML = "";
 
     // clear map display
-     map.removeLayer(vectorLayer);
-     vectorSource= new ol.source.Vector({
+    map.removeLayer(clusterLayer);
+    map.removeLayer(vectorLayer);
+    vectorSource= new ol.source.Vector({
          features: []
      });
-     vectorLayer = new ol.layer.Vector({
+    vectorLayer = new ol.layer.Vector({
          source: vectorSource,
          style: polyStyle
      });
-     map.addLayer(vectorLayer);
+    map.addLayer(vectorLayer);
      // update map
 
 }
