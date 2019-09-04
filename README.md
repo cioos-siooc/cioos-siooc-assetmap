@@ -119,7 +119,19 @@ The Polystyle is used for the display of rectangular extent. Stroke is used for 
         }
     }
 ```
-Back layer configuration still to implement.
+Back layer configuration still to implement. Use OpenStreetMap for now.
+
+Some information for the basic icon clustering style are define in the "icon_cluster" object. The distance between point, radius and colors of the circle are available.
+
+```
+"icon_cluster": {
+        "distance": 20,
+        "circleradius": 10,
+        "text_color": "#fff",
+        "fill_color": "#3399CC",
+        "stroke_color": "#fff"
+    }
+```
 
 ## ui_str.json
 
@@ -156,9 +168,7 @@ The interface need to show the user a link to the available tools to display, ma
 
 # Quick Todo:
 
-
 * better code documentation
-* Multiple variable selection should restrict not open up search ( and vs or )
 * Change current icon for new one ( currently canibalised from Condition Maritime )
 * bettter ids for dataset panel ( limit conflict with crm )
 * on detail click, scroll to correct panel
@@ -176,6 +186,8 @@ The interface need to show the user a link to the available tools to display, ma
 
 # Done
 
+* Better handling of pagination with possibility to stop during loading.
+* Multiple variable selection should restrict not open up search ( and vs or with + for now )
 * generate ckan dataset/organisation url with language ( flag in config, false as default )
 * generate tab panel per category
 * ON detail panel click "Map", select dataset on the map

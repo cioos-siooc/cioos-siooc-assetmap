@@ -17,10 +17,11 @@
         }
     },
     "icon_cluster": {
-        "distance": 10,
-        "text_color": "rgba(0, 0, 255, 0.1)",
-        "fill_color": "rgba(0, 0, 255, 0.1)",
-        "stroke_color": "rgba(0, 0, 255, 0.1)"
+        "distance": 20,
+        "circleradius": 10,
+        "text_color": "#fff",
+        "fill_color": "#3399CC",
+        "stroke_color": "#fff"
     },
     "start_cluster": true 
 }

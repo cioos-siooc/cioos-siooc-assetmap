@@ -9,10 +9,33 @@ function CKANServer()
     this.dataset_url = '';
     this.organization_url= '';
     this.varriables = [];
+
+    // current language to display dataset and UI
     this.currentLanguage = "fr";
+
+    // add current language code in the linked URL to dataset/resource/organization
+    // so CKAN display the data ine the desired language
     this.add_language_url = false;
+
+    // bounding box where datatset need to intersect with
     this.bbox = undefined;
+
+    // call api via JSONP ( other site and not using proxy )
     this.usejsonp = true;
+
+    // index of the last item receive by paging ( next page start here)
+    this.lastPagedDataIndex = 0;
+    // sequential increment each time filters are modified
+    this.lastFilterChange = 0;
+    // paging done for filters modified, if differ than lastFilterChange, then not 
+    // in sych with current filters
+    this.currentFilterQuery = 0;
+    
+    // result per paging  
+    this.resultPageSize = 20;
+    
+    // rapid paging of data until x dataset receive then change for update before paging 
+    this.slowDownPagingTreshold = 300;
 
     this.loadConfig= function (config) {
         this.url = config["access_url"];
@@ -445,7 +468,7 @@ function displayCKANClusterIcon( data )
     });
 
     var clusterSource = new ol.source.Cluster({
-        distance: 10,
+        distance: clusterStyleConfig["distance"],
         source: clusterVectorSource
       });
 
@@ -461,24 +484,24 @@ function displayCKANClusterIcon( data )
             if (!style) {
                 style = new ol.style.Style({
                 image: new ol.style.Circle({
-                    radius: 10,
+                    radius: clusterStyleConfig["circleradius"],
                     stroke: new ol.style.Stroke({
-                    color: '#fff'
+                    color: clusterStyleConfig["stroke_color"]
                     }),
                     fill: new ol.style.Fill({
-                    color: '#3399CC'
+                    color: clusterStyleConfig["fill_color"]
                     })
                 }),
                 text: new ol.style.Text({
                     text: size.toString(),
                     fill: new ol.style.Fill({
-                    color: '#fff'
+                    color: clusterStyleConfig["text_color"]
                     })
                 })
                 });
                 styleCache[size] = style;
             }
-            }
+          }
           return style;
         }
       });
@@ -621,19 +644,74 @@ function displayCKANSearchDetails( data)
 
 function addAndDisplaydataset(data)
 {
-    AddToDisplayCkanDatasetDetails(data);
-    if ( useClustering )
+    // continue paging data until no more is required
+    var notdisplayed = true;
+    if ( ckan_server.lastPagedDataIndex > ckan_server.slowDownPagingTreshold)
     {
-        AddDisplayCKANClusterIcon(data);
+        AddToDisplayCkanDatasetDetails(data);
+        if ( useClustering )
+        {
+            AddDisplayCKANClusterIcon(data);
+        }
+        else
+        {
+            AddDisplayCKANExtent(data);
+        }
+        notdisplayed = false;
     }
-    else
+    // make the call before adding the data so server side can compute
+    // while client render or after for older machine / large result?
+    if ( ckan_server.currentFilterQuery == ckan_server.lastFilterChange )
     {
-        AddDisplayCKANExtent(data);
+        // verify if paging is stil required
+        totaldataset =  parseInt(data["result"]["count"]);
+        if ( ckan_server.lastPagedDataIndex < totaldataset)
+        {
+            // continue paging
+            // until the weird jquery jsonp bug is corrected, do it by hand!
+            url_ckan = ckan_server.getURLPaginated( ckan_server.lastPagedDataIndex, ckan_server.resultPageSize);
+            ckan_server.lastPagedDataIndex += ckan_server.resultPageSize;
+            // request first page of dataset
+            if ( ckan_server.usejsonp)
+            {
+                $.ajax({
+                    url: url_ckan,
+                    dataType: "text",
+                    success: function( data )
+                    {
+                        // still ugly JSONP hack!!
+                        endofstr = data.length - 16;
+                        var resjson = data.substr(14, endofstr );
+                        addAndDisplaydataset( JSON.parse(resjson));
+                    }
+                });
+            }
+            else
+            {
+                $.getJSON( url_ckan, addAndDisplaydataset );
+            }
+        }
+    }
+    // was under the treshold for paging slowdown, need to display now
+    if ( notdisplayed )
+    {
+        AddToDisplayCkanDatasetDetails(data);
+        if ( useClustering )
+        {
+            AddDisplayCKANClusterIcon(data);
+        }
+        else
+        {
+            AddDisplayCKANExtent(data);
+        }
     }
 }
 
 function searchAndDisplayDataset(data)
 {
+    // start of a new possible pagination, set current to last, even is too fast, it will be updated afterward?
+    // No way to identify the request made since no param or user define info can be returned
+    ckan_server.currentFilterQuery = ckan_server.lastFilterChange;
     // call create map layer, description panel and stats
     displayCKANSearchDetails(data);
     DisplayCkanDatasetDetails(data);
@@ -648,33 +726,30 @@ function searchAndDisplayDataset(data)
     
     // if result count is bigger than the rows return, call add dataset 
     totaldataset =  parseInt(data["result"]["count"]);
-    if ( totaldataset > 20 )
+    if ( totaldataset > ckan_server.resultPageSize )
     {
-        for( i = 0; i < totaldataset / 20; ++i )
+        ckan_server.lastPagedDataIndex = ckan_server.resultPageSize;
+        // until the weird jquery jsonp bug is corrected, do it by hand!
+        url_ckan = ckan_server.getURLPaginated( ckan_server.resultPageSize, ckan_server.resultPageSize);
+        ckan_server.lastPagedDataIndex += ckan_server.resultPageSize;
+        // request first page of dataset
+        if ( ckan_server.usejsonp)
         {
-            // until the weird jquery jsonp bug is corrected, do it by hand!
-            url_ckan = ckan_server.getURLPaginated( (i + 1) * 20, 20);
-            // request first page of dataset
-            if ( ckan_server.usejsonp)
-            {
-                $.ajax({
-                    url: url_ckan,
-                    dataType: "text",
-                    success: function( data )
-                    {
-                        endofstr = data.length - 16;
-                        var resjson = data.substr(14, endofstr );
-                        //console.log(resjson);
-                        addAndDisplaydataset( JSON.parse(resjson));
-                        //console.log(data);
-                    }
-                });
-            }
-            else
-            {
-                $.getJSON( url_ckan, addAndDisplaydataset );
-            }
-            //$.getJSON( url, addAndDisplaydataset );
+            $.ajax({
+                url: url_ckan,
+                dataType: "text",
+                success: function( data )
+                {
+                    // ugly JSONP hack!
+                    endofstr = data.length - 16;
+                    var resjson = data.substr(14, endofstr );
+                    addAndDisplaydataset( JSON.parse(resjson));
+                }
+            });
+        }
+        else
+        {
+            $.getJSON( url_ckan, addAndDisplaydataset );
         }
     }
 }
@@ -703,6 +778,8 @@ function clearAllDatasets()
 
 function checkCKANData()
 {
+    // update the current state of filters ( use to check for parelle paging of data)
+    ckan_server.lastFilterChange += 1;
     // verify if filters are active, if not, remove all data and don't access the entire catalogue
     if ( ckan_server.hasActiveFilter() )
     {

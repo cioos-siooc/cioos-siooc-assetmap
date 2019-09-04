@@ -5,7 +5,7 @@ var polyLayer = null;
 var clusterLayer = null;
 var clusterVectorSource = null;
 var clusterSource = null;
-var clusterStyle = null;
+var clusterStyleConfig = {};
 var selectClick = null;
 var selectPointerMove = null;
 var map = null;
@@ -29,6 +29,9 @@ function initMapFromConfig(config)
         source: vectorSource,
         style: polyStyle
     });
+
+    clusterStyleConfig = config["icon_cluster"];
+
 
     // current view is cluster if true
     useClustering = config["start_cluster"];
