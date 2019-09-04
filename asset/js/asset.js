@@ -24,16 +24,15 @@ function getSelectedVariable()
 
 function generateVariableBox( vardata )
 {
-    ret_html = "<div class='btn variable_cell_bg btn-sm'>";
-    ret_html += "<img src='/asset/images/" + vardata["icon"] + "'><br />";
-    ret_html += "<input style='' type='checkbox' id='" + vardata["id"] + "' ";
+    ret_html = "<li>";
+    ret_html += "<input class='variable-checkbox' style='' type='checkbox' id='" + vardata["id"] + "' ";
     if ( !vardata["enabled"])
     {
         ret_html += "disabled";
     }
     ret_html += " onclick='checkCKANData();'>";
-    ret_html += "<label for='" + vardata["id"] + "'>" + i18nStrings.getTranslation(vardata["label"]) + "</label>";
-    ret_html += "</div>";
+    ret_html += "<label for='" + vardata["id"] + "'>" + "<img src='/asset/images/" + vardata["icon"] + "' />" + i18nStrings.getTranslation(vardata["label"]) + "</label>";
+    ret_html += "</li>";
     return ret_html;
 }
 
@@ -42,10 +41,12 @@ function generateVariableBox( vardata )
 
 function generateCategoryButton( catData)
 {
-    ret_html = "<div class='btn category_cell_bg btn-sm'>";
-    ret_html += "<img src='/asset/images/" + catData["icon"] + "' onclick=''><br />";
-    ret_html += '<a href="#' + category["id"] + '_tab' + '" data-toggle="tab" role="tab">' + i18nStrings.getTranslation(catData["label"]) + '</a>';
+    ret_html = '<a href="#' + category["id"] + '_tab' + '" data-toggle="tab" role="tab">';
+    ret_html += "<div class='category_cell_bg'>";
+    ret_html += "<div class='category-icon'><img src='/asset/images/" + catData["icon"] + "' onclick=''></div>";
+    ret_html += i18nStrings.getTranslation(catData["label"]);
     ret_html += "</div>";
+    ret_html += "</a>";
     return ret_html;
 }
 
@@ -60,7 +61,7 @@ function generateFilterCategories()
     {
         category = filters["Categories"][c];
         CatInnerHtml += generateCategoryButton(category);
-        VarInnerPanelHTML = '<div id=' + category["id"] + '_tab' + ' class="tab-pane" role="tabpanel">';
+        VarInnerPanelHTML = '<div id=' + category["id"] + '_tab' + ' class="tab-pane" role="tabpanel"><ul class="variable-options">';
         v = 0;
         while( v < category["variables"].length)
         {
@@ -69,7 +70,7 @@ function generateFilterCategories()
             ++v;
         }
 
-        VarInnerPanelHTML += "</div>";
+        VarInnerPanelHTML += "</ul></div>";
         VarInnerHtml += VarInnerPanelHTML;
         ++c;
     }

@@ -631,9 +631,8 @@ function AddToDisplayCkanDatasetDetails(data)
 
 function displayTotalSearchDetails( total )
 {
-    stat_html = "<span class='stat_count'>" + total.toString() + "</span><br />";
-    stat_html += "<span class='more_info_in'>" + i18nStrings.getUIString("more_data_catalog") + "</span><br />";
-    stat_html += "<a class='btn btn-info btn-sm' target='_blank' href='" + ckan_server.getHomeCatalogURL() +"'>" + i18nStrings.getUIString("catalog") + "</a>";
+    stat_html = "<span class='stat_count'>" + total.toString() + "</span>";
+    stat_html += "<a class='btn btn-info btn-sm' target='_blank' href='" + ckan_server.getHomeCatalogURL() +"'>" + i18nStrings.getUIString("more_data_catalog") + " " + i18nStrings.getUIString("catalog") + "</a>";
     document.getElementById('dataset_search_stats').innerHTML = stat_html;
 }
 

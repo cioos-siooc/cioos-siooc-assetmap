@@ -1,3 +1,15 @@
+/*
+Colours
+
+#52a79b - CIOOS Teal (82, 167, 155)
+#fa7268 - CIOOS Accent
+#404041 - Dark Text
+#808081 - Light Text
+#007bc2 - Blue
+#e8eef1 - Light Background
+
+*/
+
 /* Main map */
 .map-container {
   position: relative;
@@ -12,6 +24,113 @@
   width: 100%;
   height: 100%;
 }
+
+/* Main category selections */
+.category-selection {
+  z-index: 2;
+  position: absolute;
+  left: 42px;
+  top: 10px;
+  width: auto;
+  height: auto;
+}
+.category-selection .category_cell_bg {
+  background: rgba(82, 167, 155, 0.7);
+  color: #ffffff;
+  display: inline-block;
+  width: 130px;
+  height: auto;
+  margin-right: 5px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+  font-size: 12px;
+  font-weight: 700;
+}
+.category-selection a {
+  color: #ffffff;
+}
+.category-selection a:hover {
+  color: #ffffff;
+  text-decoration: none;
+}
+.category-selection a:hover .category_cell_bg {
+  background: #fa7268;
+}
+.category-selection .category-icon {
+  width: 50px;
+  height: 50px;
+  background: #ffffff;
+  border-radius: 50px;
+  line-height: 50px;
+  margin: 0 auto 5px;
+}
+.category-selection .category-icon img {
+  width: 40px;
+  height: auto;
+}
+
+/* Main variables selection checkboxes */
+.variable-selection {
+  z-index: 2;
+  position: absolute;
+  left: 42px;
+  top: 120px;
+  width: 600px;
+  height: auto;
+}
+ul.variable-options {
+  list-style: none;
+  padding: 0;
+}
+ul.variable-options li {
+  display: inline;
+  margin-right: 5px;
+}
+ul.variable-options li label {
+  display: inline-block;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 3px;
+  white-space: nowrap;
+  cursor: pointer;
+  padding: 10px 20px;
+}
+ul.variable-options li label img {
+  width: auto;
+  height: 24px;
+  margin-right: 5px;
+}
+ul.variable-options li label:hover {
+  background-color: rgba(82, 167, 155, 0.7);
+  color: #ffffff;
+}
+ul.variable-options li label::before {
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 900;
+  font-size: 12px;
+  padding: 2px 6px 2px 2px;
+  transition: transform 0.3s ease-in-out;
+}
+ul.variable-options li input[type="checkbox"] {
+  display: absolute;
+  position: absolute;
+  opacity: 0;
+}
+ul.variable-options li input[type="checkbox"]:checked + label {
+  color: #ffffff;
+  background-color: #fa7268;
+  transition: all 0.3s ease;
+}
+ul.variable-options li input[type="checkbox"]:focus + label {
+  border-color: rgba(82, 167, 155, 0.5);
+}
+
 /* Details in the information panel */
 .panel_details {
   overflow-y: auto;
@@ -26,7 +145,7 @@
 .asset_details {
   background: #fff;
   padding: 16px;
-  border-radius: 12px;
+  border-radius: 3px;
   margin: 16px;
   text-align: left;
   white-space:normal;
@@ -68,6 +187,30 @@ h4.details_label {
   font-size: 16px;
 }
 
+/* Panel search information summary */
+.panel_search_info {
+  background-color: rgba(64, 64, 65, 0.9);
+  z-index: 2;
+  position: absolute;
+  left: 880px;
+  top: 620px;
+  width: 400px;
+  height: 100px;
+  text-align: center;
+}
+.panel_search_info .stat_count {
+  font-size: 24px;
+  color: #ffffff;
+  display: block;
+  font-weight: 700;
+  margin: 10px 0 5px;
+}
+.panel_search_info .btn {
+  font-weight: 700;
+  font-size: 13px;
+  transition: all 0.3s ease;
+}
+
 /* Buttons */
 .button,
 a.button,
@@ -96,74 +239,4 @@ a.button:active  {
   text-decoration: none;
   filter: drop-shadow(0 3px 3px #c8ccd0);
   background: #fa7268;
-}
-
-
-.panel_search_info {
-    background-color: darkslateblue;
-    z-index: 2;
-    position: absolute;
-         left: 880px;
-         top: 640px;
-         width: 400px;
-         height: 80px;
-}
-
-.details_text{
-    color: black;
-    font-size: 1em;
-  }
-
-.stat_count{
-    color: whitesmoke;
-    font-size: 1.5em;
-    width: 100%;
-    text-align: center;
-  }
-
-  .more_info_in {
-    color: whitesmoke;
-    font-size: 0.875em;
-    width: 100%;
-    text-align: center;
-  }
-
-
-  .variable_cell_bg {
-    display: inline-block;
-    background-color: darkslategrey;
-    margin-top: 3px;
-    margin-bottom: 3px;
-    margin-right: 3px;
-    margin-left: 3px;
-    width: 115;
-    height: 115;
-    color: whitesmoke;
-  }
-
-  .category_cell_bg {
-    display: inline-block;
-    background-color: darkslategrey;
-    width: 90;
-    height: 110;
-    color: whitesmoke;
-  }
-
-#category_panel {
-  background-color: ghostwhite;
-  z-index: 2;
-  position: absolute;
-  left: 5px;
-  top: 5px;
-  width: 320px;
-  height: 110px;
-}
-
-#variable_panel {
-  z-index: 2;
-  position: absolute;
-  left: 5px;
-  top: 120px;
-  width: 320px;
-  height: 640px;
 }
