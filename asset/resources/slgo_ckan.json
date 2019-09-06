@@ -6,5 +6,7 @@
     "access_url":"/ckan/",
     "add_language_url": true,
     "start_bbox": [-118, 36, -40, 63],
-    "usejsonp": true
+    "usejsonp": true,
+    "page_size": 40,
+    "restrict_json_return": false
 }

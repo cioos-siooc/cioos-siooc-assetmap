@@ -37,6 +37,9 @@ function CKANServer()
     // rapid paging of data until x dataset receive then change for update before paging 
     this.slowDownPagingTreshold = 300;
 
+    // use fl in the query to limit the number of element return un the JSON
+    this.restrict_json_return = false;
+
     this.loadConfig= function (config) {
         this.url = config["access_url"];
         this.homeUrl = config["base_url"];
@@ -44,6 +47,8 @@ function CKANServer()
         this.organization_url = config["organization_url"];
         this.add_language_url = config["add_language_url"];
         this.usejsonp = config["usejsonp"];
+        this.resultPageSize = config["page_size"];
+        this.restrict_json_return = config["restrict_json_return"];
         if ( config["start_bbox"] !== undefined )
         {
             if ( config["start_bbox"].length == 4 )
@@ -99,9 +104,15 @@ function CKANServer()
     // add bbounding box filter
     // add pagination
 
+    this.addVariableToURLFilter = function( variable )
+    {
+        ret = variable["ckantext"].join()
+        return ret;
+    }
+
     this.getURLPaginated = function( startrow, numrow )
     {
-        ret_url =  this.url;
+        var ret_url =  this.url;
         if (this.usejsonp)
         {
             // add the package search
@@ -113,8 +124,14 @@ function CKANServer()
             ret_url += this.bbox[0].toString() + "," + this.bbox[1].toString() + "," + this.bbox[2].toString() + "," + this.bbox[3].toString();
             ret_url += "&"
         }
+        if ( this.restrict_json_return ) 
+        {
+            // add fl with desired element to be returned in the JSON
+            // this feature required the latest version of CKAN and that the items desired are 
+        }
         ret_url +=  'q=';
-        v=0;
+        var v=0;
+        var nofilter = true;
         while( v < this.varriables.length)
         {
             // get element for variable
@@ -123,7 +140,12 @@ function CKANServer()
             // if checked, add text to the filter
             if ( varItem.checked )
             {
-                ret_url += varData["ckantext"] + ' + ';
+                ret_url += this.addVariableToURLFilter( varData );
+                if ( !nofilter )
+                {
+                    ret_url += ' + ';
+                }
+                nofilter = false;
             }
             ++v;
         }
@@ -158,7 +180,7 @@ function CKANServer()
         // list of variables
         // rewtite URL to CKAN with search criteria
         // write bbox filter if present
-        ret_url =  this.url;
+        var ret_url =  this.url;
         if (this.usejsonp)
         {
             // add the package search
@@ -170,9 +192,14 @@ function CKANServer()
             ret_url += this.bbox[0].toString() + "," + this.bbox[1].toString() + "," + this.bbox[2].toString() + "," + this.bbox[3].toString();
             ret_url += "&"
         }
-        ret_url +=  'rows=20&q=';
-
-        v=0;
+        if ( this.restrict_json_return ) 
+        {
+            // add fl with desired element to be returned in the JSON
+            // this feature required the latest version of CKAN and that the items desired are 
+        }
+        ret_url +=  'rows=' + this.resultPageSize + '&q=';
+        var nofilter = true;
+        var v=0;
         while( v < this.varriables.length)
         {
             // get element for variable
@@ -181,7 +208,12 @@ function CKANServer()
             // if checked, add text to the filter
             if ( varItem.checked )
             {
-                ret_url += varData["ckantext"] + ' + ';
+                ret_url += this.addVariableToURLFilter( varData );
+                if ( !nofilter )
+                {
+                    ret_url += ' + ';
+                }
+                nofilter = false;
             }
             ++v;
         }
@@ -629,9 +661,17 @@ function AddToDisplayCkanDatasetDetails(data)
 }
 
 
-function displayTotalSearchDetails( total )
+function displayTotalSearchDetails( total, paging )
 {
-    stat_html = "<span class='stat_count'>" + total.toString() + "</span>";
+    stat_html = "";
+    if ( paging != undefined)
+    {
+        stat_html += "<span class='stat_count'>" + paging.toString() + " / " + + total.toString() + "</span>"
+    }
+    else
+    {
+        stat_html += "<span class='stat_count'>" + total.toString() + "</span>";
+    }
     stat_html += "<a class='btn btn-info btn-sm' target='_blank' href='" + ckan_server.getHomeCatalogURL() +"'>" + i18nStrings.getUIString("more_data_catalog") + " " + i18nStrings.getUIString("catalog") + "</a>";
     document.getElementById('dataset_search_stats').innerHTML = stat_html;
 }
@@ -667,6 +707,7 @@ function addAndDisplaydataset(data)
         if ( ckan_server.lastPagedDataIndex < totaldataset)
         {
             // continue paging
+            displayTotalSearchDetails( data["result"]["count"], ckan_server.lastPagedDataIndex );
             // until the weird jquery jsonp bug is corrected, do it by hand!
             url_ckan = ckan_server.getURLPaginated( ckan_server.lastPagedDataIndex, ckan_server.resultPageSize);
             ckan_server.lastPagedDataIndex += ckan_server.resultPageSize;
@@ -689,6 +730,10 @@ function addAndDisplaydataset(data)
             {
                 $.getJSON( url_ckan, addAndDisplaydataset );
             }
+        }
+        else
+        {
+            displayTotalSearchDetails( totaldataset, totaldataset );
         }
     }
     // was under the treshold for paging slowdown, need to display now
@@ -724,10 +769,11 @@ function searchAndDisplayDataset(data)
     }
     
     // if result count is bigger than the rows return, call add dataset 
-    totaldataset =  parseInt(data["result"]["count"]);
+    var totaldataset =  parseInt(data["result"]["count"]);
     if ( totaldataset > ckan_server.resultPageSize )
     {
         ckan_server.lastPagedDataIndex = ckan_server.resultPageSize;
+        displayTotalSearchDetails( totaldataset, ckan_server.lastPagedDataIndex );
         // until the weird jquery jsonp bug is corrected, do it by hand!
         url_ckan = ckan_server.getURLPaginated( ckan_server.resultPageSize, ckan_server.resultPageSize);
         ckan_server.lastPagedDataIndex += ckan_server.resultPageSize;
@@ -750,6 +796,10 @@ function searchAndDisplayDataset(data)
         {
             $.getJSON( url_ckan, addAndDisplaydataset );
         }
+    }
+    else
+    {
+        displayTotalSearchDetails( totaldataset, totaldataset );
     }
 }
 
