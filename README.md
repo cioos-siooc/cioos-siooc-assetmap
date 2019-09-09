@@ -33,13 +33,17 @@ Tested with python 3.7 on windows 10
  
 Link to the CKAN instance:
 
-* base_url : Homepage of the CKAN instance to redirect user to
-* api_url : API URL to access the desired CKAN instance. This is use by the proxy server
-* dataset_url : url to follow to direct a user to the dataset page of the ckan instance
-* organization_url : url to follow to direct a user to the organization page of the ckan instance
-* access_url : url to use to access the API. /ckan/ is the default proxy
-* add_language_url : Boolean to enable the desired language to be displayed by CKAN. The language code is added after url be before the id
-* start_bbox: Initial bounding box to restrict search to
+* base_url : Homepage of the CKAN instance to redirect user to.
+* api_url : API URL to access the desired CKAN instance. This is use by the proxy server.
+* dataset_url : url to follow to direct a user to the dataset page of the ckan instance.
+* organization_url : url to follow to direct a user to the organization page of the ckan instance.
+* access_url : url to use to access the API. /ckan/ is the default proxy.
+* add_language_url : Boolean to enable the desired language to be displayed by CKAN. The language code is added after url be before the id.
+* start_bbox: Initial bounding box to restrict search to.
+* usejsonp: Contact the CKAN API directly via JSONP ( remove the requirement of a proxy )
+* page_size: Maximum number of dataset returned per call the to API.
+* restrict_json_return: Use "fl" in the package search call to limit the item serialized per dataset. Only supported in the latest version of CKAN and require special consideration with Solr configurations.
+
 
 Example of the configuration to use open.canada.ca catalog
 ```
@@ -50,7 +54,10 @@ Example of the configuration to use open.canada.ca catalog
     "organization_url": "http://open.canada.ca/data/",
     "access_url":"/ckan/",
     "add_language_url": true,
-    "start_bbox": [-118, 36, -40, 63]
+    "start_bbox": [-118, 36, -40, 63],
+    "usejsonp": true,
+    "page_size": 40,
+    "restrict_json_return": false
 }
 ```
 
@@ -168,6 +175,12 @@ The interface need to show the user a link to the available tools to display, ma
 
 # Quick Todo:
 
+* Test runtime language switch
+* Test runtime ckan switch
+    * add route to proxy to reload other config
+* Add option for EOV support in CKAN config
+* Verify support_multilanguage to disable multilingual support parsing
+* Define tool support configuration
 * better code documentation
 * Change current icon for new one ( currently canibalised from Condition Maritime )
 * bettter ids for dataset panel ( limit conflict with crm )

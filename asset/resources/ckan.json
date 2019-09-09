@@ -5,6 +5,7 @@
     "organization_url": "http://open.canada.ca/data/",
     "access_url":"https://open.canada.ca/data/api/",
     "add_language_url": true,
+    "support_multilanguage": true,
     "start_bbox": [-118, 36, -40, 63],
     "usejsonp": true,
     "page_size": 40,
