@@ -163,22 +163,41 @@ ul.variable-options li input[type="checkbox"]:focus + label {
 }
 .asset_details a.asset-link {
   color: #007bc2;
-  border-bottom: 1px solid #007bc2;
+  border-bottom: 1px solid #fff;
   transition: all 0.3s ease;
   text-decoration: none;
-  margin-right: 12px;
+  margin-right: 8px;
 }
 .asset_details a.asset-link:hover {
   color: #52a79b;
-  border-bottom-color: #fa7268;
+  border-bottom-color: #52a79b;
 }
 .asset-actions {
   display: block;
-  margin: 16px 0 0 0;
+  margin: 5px 0 0 0;
+}
+.asset-actions span {
+  margin-right: 5px;
+  margin-bottom: 5px;
+  font-weight: 700;
+  display: inline-block;
 }
 .asset-actions a {
   text-decoration: none;
-  color: #fff;
+  border-bottom: 1px solid #fff;
+  transition: all 0.3s ease;
+  color: #007bc2;
+  margin-right: 8px;
+}
+.asset-actions a:hover {
+  color: #52a79b;
+  border-bottom-color: #52a79b;
+  text-decoration: none;
+}
+.asset-data-links {}
+.asset-data-links span {
+  margin-right: 5px;
+  font-weight: 700;
 }
 h4.details_label {
   margin-top: 16px;

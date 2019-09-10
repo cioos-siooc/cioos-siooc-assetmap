@@ -615,11 +615,17 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     ret_html = "<div id='" + dataset["id"] + "'class='asset_details');'>";
     ret_html += "<h3 class='details_label'>" + i18nStrings.getUIString("dataset_title") + "</h3>";
     ret_html += "<p class='details_text'>" + i18nStrings.getTranslation(dataset['title_translated']) + "</p>";
+    ret_html += '<div class="asset-actions">';
+    ret_html += '<span>Information:</span>';
+    ret_html += '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button">Details</a>';
+    ret_html += '<a href="#" onclick="selectFeatureOnMap(\'' + dataset["id"] + '\');");">Map</a> ';
+    // ret_html += '<button type="button" class="button" onclick="selectFeatureOnMap(\'' + dataset["id"] + '\');");">Map</button> ';
+    // ret_html += '<a class="button" data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button">details</a>';
+    ret_html += '</div>';
+    ret_html += '<div class="asset-data-links"><span>Data:</span>';
     ret_html += '<a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '" class="asset-link" target="_blank" role="button">CKAN</a> ';
     ret_html += getToolForDataset(dataset);
-    ret_html += '<div class="asset-actions"><button type="button" class="button" onclick="selectFeatureOnMap(\'' + dataset["id"] + '\');");">Map</button> ';
-    ret_html += '<a class="button" data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button">details</a></div>';
-
+    ret_html += '</div>';
     ret_html += '<div class="collapse" id="' + dataset["id"] + '_collapse' + '">';
     ret_html += '<div class="card card-body">'
     ret_html += "<h4 class='details_label'>" + i18nStrings.getUIString("dataset_description") + "</h4>";
