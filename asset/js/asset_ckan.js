@@ -266,6 +266,12 @@ function CKANServer()
         $.getJSON( url, afficheCKANExtent );
         //$.getJSON( "https://test-catalogue.ogsl.ca/api/3/action/package_search?ext_bbox=-104,17,-18,63&q=" + document.getElementById('searchbox').value, afficheCKANExtent );
     };
+
+    this.changeLanguage = function ( newlanguage )
+    {
+        // clear 
+        this.currentLanguage = newlanguage;
+    }
 }
 
 function addCKANExtent(data)
