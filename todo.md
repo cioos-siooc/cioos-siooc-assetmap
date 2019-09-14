@@ -1,5 +1,8 @@
 # Quick Todo:
 
+* Add support for basic auth in CKAN API call
+    * in ckan.json config
+    * from user ?
 * Test runtime language switch
 * Test runtime ckan switch
     * add route to proxy to reload other config

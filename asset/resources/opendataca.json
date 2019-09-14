@@ -9,5 +9,8 @@
     "start_bbox": [-118, 36, -40, 63],
     "usejsonp": true,
     "page_size": 40,
-    "restrict_json_return": false
+    "restrict_json_return": false,
+    "basic_userd": "username",
+    "basic_passd": "password",
+    "use_basic_auth": false
 }
