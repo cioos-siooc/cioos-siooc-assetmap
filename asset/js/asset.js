@@ -118,6 +118,17 @@ function changeCurrentCKAN( ckan_instance )
         }
     });
 
+    $.ajax({
+        url: "/reload/" + ckan_instance,
+        dataType: 'text',
+        async: false,
+        success: function (data) {
+            console.log("Proxy reloaded");
+        },
+        error: function (e) {
+        }
+    });
+
 }
 
 function setBasicUserPassword()

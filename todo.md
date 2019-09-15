@@ -1,14 +1,15 @@
 # Quick Todo:
 
-* Add support for basic auth in CKAN API call
-    * in ckan.json config
-    * from user ?
-* Test runtime language switch
-* Test runtime ckan switch
-    * add route to proxy to reload other config
+* implement cluster mouse over / clic
+* separate details panel creation with basic / complete info
+    * update complete info with separate call to CKAN with resource
+* Add basic auth support in API call ( debug )
+    * define in config
+    * require user info 
 * Add option for EOV support in CKAN config
-* Verify support_multilanguage to disable multilingual support parsing
 * Define tool support configuration
+    * define resource identification
+    * define i18n label / icon
 * better code documentation
 * Change current icon for new one ( currently canibalised from Condition Maritime )
 * bettter ids for dataset panel ( limit conflict with crm )
@@ -27,6 +28,9 @@
 
 # Done
 
+* Verify support_multilanguage to disable multilingual support parsing
+* Test runtime ckan switch
+    * add route to proxy to reload other config
 * Runtime language switch
 * Added JSONP support to query directly CKAN API
 * Better handling of pagination with possibility to stop during loading.

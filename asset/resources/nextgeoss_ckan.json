@@ -1,0 +1,12 @@
+{
+    "base_url":"https://catalogue.nextgeoss.eu/",
+    "api_url":"https://catalogue.nextgeoss.eu/api/",
+    "dataset_url": "https://catalogue.nextgeoss.eu/",
+    "organization_url": "https://catalogue.nextgeoss.eu/",
+    "access_url":"/ckan/",
+    "add_language_url": false,
+    "support_multilanguage": false,
+    "usejsonp": false,
+    "page_size": 250,
+    "restrict_json_return": false
+}

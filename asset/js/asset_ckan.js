@@ -17,6 +17,9 @@ function CKANServer()
     // so CKAN display the data ine the desired language
     this.add_language_url = false;
 
+    // The server support translated elements
+    this.support_multilanguage = false;
+
     // bounding box where datatset need to intersect with
     this.bbox = undefined;
 
@@ -40,6 +43,11 @@ function CKANServer()
     // use fl in the query to limit the number of element return un the JSON
     this.restrict_json_return = false;
 
+    // basic auth support
+    this.use_basic_auth = false;
+    this.basic_auth_user = '';
+    this.basic_auth_password = '';
+
     this.reset = function()
     {
         this.url = '';
@@ -47,6 +55,7 @@ function CKANServer()
         this.dataset_url = '';
         this.organization_url = '';
         this.add_language_url = false;
+        this.support_multilanguage = false;
         this.usejsonp = false;
         this.resultPageSize = 40;
         this.slowDownPagingTreshold = 300;
@@ -61,6 +70,7 @@ function CKANServer()
         this.dataset_url = config["dataset_url"];
         this.organization_url = config["organization_url"];
         this.add_language_url = config["add_language_url"];
+        this.support_multilanguage = config["support_multilanguage"];
         this.usejsonp = config["usejsonp"];
         this.resultPageSize = config["page_size"];
         this.restrict_json_return = config["restrict_json_return"];
@@ -623,13 +633,23 @@ function getToolForDataset(dataset)
     return ret_html;
 }
 
+function generateCoppleteDetailsPanel( dataset )
+{
 
+}
 
 function generateDetailsPanel( dataset ) //, language, dataset_id, title, description, provider, link_url, prov_url)
 {
     ret_html = "<div id='" + dataset["id"] + "'class='asset_details');'>";
     ret_html += "<h3 class='details_label'>" + i18nStrings.getUIString("dataset_title") + "</h3>";
-    ret_html += "<p class='details_text'>" + i18nStrings.getTranslation(dataset['title_translated']) + "</p>";
+    if ( ckan_server.support_multilanguage)
+    {
+        ret_html += "<p class='details_text'>" + i18nStrings.getTranslation(dataset['title_translated']) + "</p>";
+    }
+    else
+    {
+        ret_html += "<p class='details_text'>" + dataset['title'] + "</p>";
+    }
     ret_html += '<div class="asset-actions">';
     ret_html += '<span>Information:</span>';
     ret_html += '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button">Details</a>';
@@ -644,7 +664,15 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     ret_html += '<div class="collapse" id="' + dataset["id"] + '_collapse' + '">';
     ret_html += '<div class="card card-body">'
     ret_html += "<h4 class='details_label'>" + i18nStrings.getUIString("dataset_description") + "</h4>";
-    ret_html += "<p class='details_text'>" + i18nStrings.getTranslation(dataset['notes_translated']) + "</p>";
+    if ( ckan_server.support_multilanguage)
+    {
+        ret_html += "<p class='details_text'>" + i18nStrings.getTranslation(dataset['notes_translated']) + "</p>";
+    }
+    else
+    {
+        ret_html += "<p class='details_text'>" + dataset['notes'] + "</p>";
+    }
+    
     ret_html += "<p class='details_label'>" + i18nStrings.getUIString("dataset_provider") + "</p><a href='" + ckan_server.getURLForOrganization(dataset['organization']['name']) + "'>up</a>";
     ret_html += "<span class=''details_text>" + dataset['organization']['title'] + "</span><br />";
     ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_tools") + "</span><br />";
@@ -867,11 +895,18 @@ function checkCKANData()
         //var datavalue = {"q": "patate", "callback": "jsonpcallback"}
         var url_ckan = ckan_server.writeURL();
         // until the weird jquery jsonp bug is corrected, do it by hand!
+        var auth_header = {};
+        if ( ckan_server.use_basic_auth)
+        {
+            auth_header = { 'Authorization': 'Basic ' + btoa(ckan_server.basic_auth_user + ':' + ckan_server.basic_auth_password) };
+        }
         if ( ckan_server.usejsonp)
         {
+            // add header with basic auth if required
             $.ajax({
                 url: url_ckan,
                 dataType: "text",
+                headers: auth_header,
                 success: function( data )
                 {
                     endofstr = data.length - 16;
@@ -884,7 +919,12 @@ function checkCKANData()
         }
         else
         {
-            $.getJSON( url_ckan, searchAndDisplayDataset );
+            $.ajax({
+                url: url_ckan,
+                dataType: "json",
+                headers: auth_header,
+                success: searchAndDisplayDataset
+            });
         }
         // request first page of dataset
         // $.getJSON( url_ckan, searchAndDisplayDataset ).fail(function(jqXHR, textStatus, errorThrown) {
