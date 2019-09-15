@@ -16,6 +16,43 @@
   <script src="js/asset_i18n.js"></script>
   <script src="js/asset_ckan.js"></script>
   <script src="js/asset.js"></script>
+
+  <script>
+    // debug scripts, not to be embedded
+
+    function callChangeLanguage()
+    {
+      var newl = $( "#language option:selected" ).val();
+      changeCurrentLanguage(newl);
+    }
+
+    function callChangeCKAN()
+    {
+      var newckan = $( "#ckan_instance option:selected" ).val();
+      if ( newckan === "opencanada" )
+      {
+        changeCurrentCKAN("opendataca.json");
+      }
+      else if ( newckan === "slgo" )
+      {
+        changeCurrentCKAN("slgo_ckan.json");
+      }
+      else if ( newckan === "ioos" )
+      {
+        changeCurrentCKAN("ioos_ckan.json");
+      }
+      else if ( newckan === "Nextgeoss" )
+      {
+        changeCurrentCKAN("nextgeoss_ckan.json");
+      }
+    }
+
+    function callUpdateUserasicAuth()
+    {
+
+    }
+
+  </script>
 </head>
 <body>
   <div>
@@ -29,10 +66,23 @@
     </div>
   </div>
   <div>
-    <select id="language">
+    <h2>Debug Options</h2><br />
+    language: 
+    <select id="language" oninput="callChangeLanguage();">
       <option value="fr">Francais</option>
       <option value="en">English</option>
-    </select>
+    </select><br />
+    Ckan backend:
+    <select id="ckan_instance" oninput="callChangeCKAN();">
+      <option value="opencanada">open.canada.ca</option>
+      <option value="slgo">SLGO</option>
+      <option value="ioos">IOOS</option>
+      <option value="Nextgeoss">Nextgeoss</option>
+    </select><br />
+    Username: 
+    <input type="text"><br />
+    Password:
+    <input type="password">
   </div>
   <script src="js/asset_ol.js"></script>
 </body>

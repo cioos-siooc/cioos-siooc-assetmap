@@ -78,6 +78,53 @@ function generateFilterCategories()
     document.getElementById('variable_panel').innerHTML = VarInnerHtml;
 }
 
+
+// Debug methode, shouldn't be in the final 
+
+function changeCurrentLanguage( newLanguage )
+{
+    // set CKAN current language
+    ckan_server.setCurrentLanguage(newLanguage);
+
+    // set i18n o language
+    i18nStrings.setBaseLanguage(newLanguage);
+    i18nStrings.setCurrentLanguage(newLanguage);
+
+    
+    // clear map and details
+    clearAllDatasets();
+
+    // reload filters
+    generateFilterCategories();
+
+    //
+    
+}
+
+function changeCurrentCKAN( ckan_instance )
+{
+
+    // reload ckan option
+    $.ajax({
+        url: "/asset/resources/" + ckan_instance,
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            ckan_server.loadConfig(data);
+            ckan_server.setCurrentLanguage(i18nStrings.baseLanguage);
+            clearAllDatasets();
+        },
+        error: function (e) {
+        }
+    });
+
+}
+
+function setBasicUserPassword()
+{
+    // set user and password to the current CKAN server
+}
+
 $(document).ready(function () {
     ckan_server = new CKANServer();
     i18nStrings = new StringTranslator();

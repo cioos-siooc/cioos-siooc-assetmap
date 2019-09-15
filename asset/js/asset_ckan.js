@@ -40,7 +40,22 @@ function CKANServer()
     // use fl in the query to limit the number of element return un the JSON
     this.restrict_json_return = false;
 
+    this.reset = function()
+    {
+        this.url = '';
+        this.homeUrl = '';
+        this.dataset_url = '';
+        this.organization_url = '';
+        this.add_language_url = false;
+        this.usejsonp = false;
+        this.resultPageSize = 40;
+        this.slowDownPagingTreshold = 300;
+        this.restrict_json_return = false;
+        this.bbox = undefined;
+    }
+
     this.loadConfig= function (config) {
+        this.reset();
         this.url = config["access_url"];
         this.homeUrl = config["base_url"];
         this.dataset_url = config["dataset_url"];

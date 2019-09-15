@@ -3,10 +3,9 @@
     "api_url":"https://test-catalogue.ogsl.ca/api/",
     "dataset_url": "https://test-catalogue.ogsl.ca/",
     "organization_url": "https://test-catalogue.ogsl.ca/",
-    "access_url":"/ckan/",
+    "access_url":"https://test-catalogue.ogsl.ca/api/",
     "add_language_url": true,
     "support_multilanguage": true,
-    "start_bbox": [-118, 36, -40, 63],
     "usejsonp": true,
     "page_size": 40,
     "restrict_json_return": false

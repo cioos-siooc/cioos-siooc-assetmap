@@ -1,6 +1,6 @@
 # Quick Todo:
 
-* Test runtime language switch
+
 * Test runtime ckan switch
     * add route to proxy to reload other config
 * Add option for EOV support in CKAN config
@@ -24,6 +24,7 @@
 
 # Done
 
+* Runtime language switch
 * Added JSONP support to query directly CKAN API
 * Better handling of pagination with possibility to stop during loading.
 * Multiple variable selection should restrict not open up search ( and vs or with + for now )
