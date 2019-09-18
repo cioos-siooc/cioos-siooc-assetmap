@@ -22,6 +22,7 @@ function getSelectedVariable()
 
 }
 
+
 function generateVariableBox( vardata )
 {
     ret_html = "<li>";
@@ -131,9 +132,10 @@ function changeCurrentCKAN( ckan_instance )
 
 }
 
-function setBasicUserPassword()
+function setBasicUserPassword( username, password)
 {
     // set user and password to the current CKAN server
+    ckan_server.setBasicAuthInfo(username, password);
 }
 
 $(document).ready(function () {

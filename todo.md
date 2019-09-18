@@ -1,8 +1,8 @@
 # Quick Todo:
 
+* Create details panel with cache or call when "detail" button click 
+* Add dataset details in cache when restrict_json_return set to false
 * implement cluster mouse over / clic
-* separate details panel creation with basic / complete info
-    * update complete info with separate call to CKAN with resource
 * Add basic auth support in API call ( debug )
     * define in config
     * require user info 
@@ -28,6 +28,8 @@
 
 # Done
 
+* separate details panel creation with basic / complete info
+    * update complete info with separate call to CKAN with resource
 * Verify support_multilanguage to disable multilingual support parsing
 * Test runtime ckan switch
     * add route to proxy to reload other config

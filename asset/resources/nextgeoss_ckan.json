@@ -8,5 +8,6 @@
     "support_multilanguage": false,
     "usejsonp": false,
     "page_size": 250,
-    "restrict_json_return": false
+    "restrict_json_return": false,
+    "use_basic_auth": false
 }

@@ -9,6 +9,7 @@ function CKANServer()
     this.dataset_url = '';
     this.organization_url= '';
     this.varriables = [];
+    this.datasetDetails = {};
 
     // current language to display dataset and UI
     this.currentLanguage = "fr";
@@ -61,6 +62,8 @@ function CKANServer()
         this.slowDownPagingTreshold = 300;
         this.restrict_json_return = false;
         this.bbox = undefined;
+        this.use_basic_auth = false;
+        this.datasetDetails = {};
     }
 
     this.loadConfig= function (config) {
@@ -74,6 +77,7 @@ function CKANServer()
         this.usejsonp = config["usejsonp"];
         this.resultPageSize = config["page_size"];
         this.restrict_json_return = config["restrict_json_return"];
+        this.use_basic_auth = config["use_basic_auth"];
         if ( config["start_bbox"] !== undefined )
         {
             if ( config["start_bbox"].length == 4 )
@@ -135,14 +139,32 @@ function CKANServer()
         return ret;
     }
 
+    this.getDatasetShowURL = function( id )
+    {
+        var ret_url =  this.url;
+        if (this.usejsonp)
+        {
+            // add the package search
+            ret_url += '3/action/';
+        }
+        ret_url += 'package_show?';
+        ret_url += 'id=' + id;
+        if (this.usejsonp)
+        {
+            ret_url += '&callback=jsonpcallback'
+        }
+        return ret_url
+    }
+
     this.getURLPaginated = function( startrow, numrow )
     {
         var ret_url =  this.url;
         if (this.usejsonp)
         {
             // add the package search
-            ret_url += '3/action/package_search?'
+            ret_url += '3/action/';
         }
+        ret_url += 'package_search?';
         if ( this.bbox !== undefined )
         {
             ret_url += "ext_bbox=" //-104,17,-18,63
@@ -201,7 +223,7 @@ function CKANServer()
         return ret;
     };
 
-    this.writeURL = function () {
+    this.getSearchURL = function () {
         // list of variables
         // rewtite URL to CKAN with search criteria
         // write bbox filter if present
@@ -209,8 +231,9 @@ function CKANServer()
         if (this.usejsonp)
         {
             // add the package search
-            ret_url += '3/action/package_search?'
+            ret_url += '3/action/';
         }
+        ret_url += 'package_search?';
         if ( this.bbox !== undefined )
         {
             ret_url += "ext_bbox=" //-104,17,-18,63
@@ -287,7 +310,7 @@ function CKANServer()
     this.getCKANData = function ()
     {
         // call proxy with url and variable
-        url = this.writeURL();
+        url = this.getSearchURL();
         $.getJSON( url, afficheCKANExtent );
         //$.getJSON( "https://test-catalogue.ogsl.ca/api/3/action/package_search?ext_bbox=-104,17,-18,63&q=" + document.getElementById('searchbox').value, afficheCKANExtent );
     };
@@ -296,6 +319,12 @@ function CKANServer()
     {
         // clear 
         this.currentLanguage = newlanguage;
+    }
+
+    this.setBasicAuthInfo = function( username, password)
+    {
+        this.basic_auth_user = username;
+        this.basic_auth_password = password;
     }
 }
 
@@ -575,7 +604,7 @@ function displayCKANClusterIcon( data )
 
 function getVariableForDatataset(dataset)
 {
-    ret_html = ""
+    let ret_html = ""
     // Use tag to identify variable available. Temporary solution
     if (dataset['keywords'] !== undefined )
     {
@@ -583,7 +612,7 @@ function getVariableForDatataset(dataset)
         // go through all keyword abs check if variable fit
         dataset['keywords']["en"].forEach( function(entry){
             // need to optimse with dictionary
-            thumb =  ckan_server.getVariableThumbnail(entry);
+            let thumb =  ckan_server.getVariableThumbnail(entry);
             if ( thumb !== undefined )
             {
                 ret_html += "<img src='" + "/asset/images/thumbnails/" + thumb + "'></img>";
@@ -596,7 +625,7 @@ function getVariableForDatataset(dataset)
         // go through all keyword tags check if variable fit
         dataset['tags'].forEach( function(entry){
             // need to optimse with dictionary
-            thumb =  ckan_server.getVariableThumbnail(entry["name"]);
+            let thumb =  ckan_server.getVariableThumbnail(entry["name"]);
             if ( thumb !== undefined )
             {
                 ret_html += "<img src='" + "/asset/images/thumbnails/" + thumb + "'></img>";
@@ -611,7 +640,7 @@ function getToolForDataset(dataset)
 {
     // Use resources to identify tool available. Temporary solution
     // should be possible to detect ERDAPP, OCTO or other link to tools
-    ret_html = ""
+    let ret_html = ""
     dataset['resources'].forEach( function(entry)
     {
         if ( entry['format'] == 'PDF')
@@ -633,14 +662,33 @@ function getToolForDataset(dataset)
     return ret_html;
 }
 
-function generateCoppleteDetailsPanel( dataset )
+function generateCompleteDetailsPanel( dataset )
 {
-
+    // Add variable, description and tool accessà
+    let ret_html = '';
+    ret_html += '<div class="card card-body">'
+    ret_html += "<h4 class='details_label'>" + i18nStrings.getUIString("dataset_description") + "</h4>";
+    if ( ckan_server.support_multilanguage)
+    {
+        ret_html += "<p class='details_text'>" + i18nStrings.getTranslation(dataset['notes_translated']) + "</p>";
+    }
+    else
+    {
+        ret_html += "<p class='details_text'>" + dataset['notes'] + "</p>";
+    }
+    ret_html += '<div class="asset-data-links"><span>' + i18nStrings.getUIString("dataset_tools") + ':</span>';
+    ret_html += '<a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '" class="asset-link" target="_blank" role="button">CKAN</a> ';
+    ret_html += getToolForDataset(dataset);
+    ret_html += '</div><br />';
+    ret_html += "<p class='details_label'>" + i18nStrings.getUIString("dataset_provider") + "</p><a href='" + ckan_server.getURLForOrganization(dataset['organization']['name']) + "' target='_blank'>";
+    ret_html += "<span class=''details_text>" + dataset['organization']['title'] + "</span></a><br />";
+    ret_html += "</div>";
+    return ret_html;
 }
 
 function generateDetailsPanel( dataset ) //, language, dataset_id, title, description, provider, link_url, prov_url)
 {
-    ret_html = "<div id='" + dataset["id"] + "'class='asset_details');'>";
+    let ret_html = "<div id='" + dataset["id"] + "'class='asset_details');'>";
     ret_html += "<h3 class='details_label'>" + i18nStrings.getUIString("dataset_title") + "</h3>";
     if ( ckan_server.support_multilanguage)
     {
@@ -657,26 +705,7 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     // ret_html += '<button type="button" class="button" onclick="selectFeatureOnMap(\'' + dataset["id"] + '\');");">Map</button> ';
     // ret_html += '<a class="button" data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button">details</a>';
     ret_html += '</div>';
-    ret_html += '<div class="asset-data-links"><span>Data:</span>';
-    ret_html += '<a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '" class="asset-link" target="_blank" role="button">CKAN</a> ';
-    ret_html += getToolForDataset(dataset);
-    ret_html += '</div>';
     ret_html += '<div class="collapse" id="' + dataset["id"] + '_collapse' + '">';
-    ret_html += '<div class="card card-body">'
-    ret_html += "<h4 class='details_label'>" + i18nStrings.getUIString("dataset_description") + "</h4>";
-    if ( ckan_server.support_multilanguage)
-    {
-        ret_html += "<p class='details_text'>" + i18nStrings.getTranslation(dataset['notes_translated']) + "</p>";
-    }
-    else
-    {
-        ret_html += "<p class='details_text'>" + dataset['notes'] + "</p>";
-    }
-    
-    ret_html += "<p class='details_label'>" + i18nStrings.getUIString("dataset_provider") + "</p><a href='" + ckan_server.getURLForOrganization(dataset['organization']['name']) + "'>up</a>";
-    ret_html += "<span class=''details_text>" + dataset['organization']['title'] + "</span><br />";
-    ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_tools") + "</span><br />";
-    ret_html += "</div>";
     ret_html += "</div>";
     ret_html += "</div>";
     ret_html += "<div>"
@@ -689,11 +718,12 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
 
 function DisplayCkanDatasetDetails(data)
 {
-    var html_dataset = "";
-    var i = 0;
-    var results = data['result']['results'];
+    let html_dataset = "";
+    let i = 0;
+    let results = data['result']['results'];
     while ( i < results.length ) {
-        var r = results[i];
+        let r = results[i];
+        // if complete dataset then add to cache
         html_dataset += generateDetailsPanel( r );
         //"fr", r['id'], i18nStrings.getTranslation(r['title_translated']), i18nStrings.getTranslation(r['notes_translated']), r['organization']['title'], 'https://test-catalogue.ogsl.ca/dataset/', r['organization']['name']);
         ++i;
@@ -703,11 +733,11 @@ function DisplayCkanDatasetDetails(data)
 
 function AddToDisplayCkanDatasetDetails(data)
 {
-    var html_dataset = "";
-    var i = 0;
-    var results = data['result']['results'];
+    let html_dataset = "";
+    let i = 0;
+    let results = data['result']['results'];
     while ( i < results.length ) {
-        var r = results[i];
+        let r = results[i];
         html_dataset += generateDetailsPanel(  r );
         //['id'], i18nStrings.getTranslation(r['title_translated']), i18nStrings.getTranslation(r['notes_translated']), r['organization']['title'], 'https://test-catalogue.ogsl.ca/dataset/', r['organization']['name']);
         ++i;
@@ -718,7 +748,7 @@ function AddToDisplayCkanDatasetDetails(data)
 
 function displayTotalSearchDetails( total, paging )
 {
-    stat_html = "";
+    let stat_html = "";
     if ( paging != undefined)
     {
         stat_html += "<span class='stat_count'>" + paging.toString() + " / " + + total.toString() + "</span>"
@@ -764,7 +794,7 @@ function addAndDisplaydataset(data)
             // continue paging
             displayTotalSearchDetails( data["result"]["count"], ckan_server.lastPagedDataIndex );
             // until the weird jquery jsonp bug is corrected, do it by hand!
-            url_ckan = ckan_server.getURLPaginated( ckan_server.lastPagedDataIndex, ckan_server.resultPageSize);
+            let url_ckan = ckan_server.getURLPaginated( ckan_server.lastPagedDataIndex, ckan_server.resultPageSize);
             ckan_server.lastPagedDataIndex += ckan_server.resultPageSize;
             // request first page of dataset
             if ( ckan_server.usejsonp)
@@ -775,8 +805,8 @@ function addAndDisplaydataset(data)
                     success: function( data )
                     {
                         // still ugly JSONP hack!!
-                        endofstr = data.length - 16;
-                        var resjson = data.substr(14, endofstr );
+                        let endofstr = data.length - 16;
+                        let resjson = data.substr(14, endofstr );
                         addAndDisplaydataset( JSON.parse(resjson));
                     }
                 });
@@ -830,7 +860,7 @@ function searchAndDisplayDataset(data)
         ckan_server.lastPagedDataIndex = ckan_server.resultPageSize;
         displayTotalSearchDetails( totaldataset, ckan_server.lastPagedDataIndex );
         // until the weird jquery jsonp bug is corrected, do it by hand!
-        url_ckan = ckan_server.getURLPaginated( ckan_server.resultPageSize, ckan_server.resultPageSize);
+        let url_ckan = ckan_server.getURLPaginated( ckan_server.resultPageSize, ckan_server.resultPageSize);
         ckan_server.lastPagedDataIndex += ckan_server.resultPageSize;
         // request first page of dataset
         if ( ckan_server.usejsonp)
@@ -841,8 +871,8 @@ function searchAndDisplayDataset(data)
                 success: function( data )
                 {
                     // ugly JSONP hack!
-                    endofstr = data.length - 16;
-                    var resjson = data.substr(14, endofstr );
+                    let endofstr = data.length - 16;
+                    let resjson = data.substr(14, endofstr );
                     addAndDisplaydataset( JSON.parse(resjson));
                 }
             });
@@ -888,14 +918,13 @@ function checkCKANData()
     if ( ckan_server.hasActiveFilter() )
     {
         // use CKAN config to write call to package_search
-        // url_ckan = ckan_server.writeURL();
 
         // support jsonp by hand since jquery bug with adding other parameters at then end for nothing ( other than the callback )
 
         //var datavalue = {"q": "patate", "callback": "jsonpcallback"}
-        var url_ckan = ckan_server.writeURL();
+        let url_ckan = ckan_server.getSearchURL();
         // until the weird jquery jsonp bug is corrected, do it by hand!
-        var auth_header = {};
+        let auth_header = {};
         if ( ckan_server.use_basic_auth)
         {
             auth_header = { 'Authorization': 'Basic ' + btoa(ckan_server.basic_auth_user + ':' + ckan_server.basic_auth_password) };
@@ -909,8 +938,8 @@ function checkCKANData()
                 headers: auth_header,
                 success: function( data )
                 {
-                    endofstr = data.length - 16;
-                    var resjson = data.substr(14, endofstr );
+                    let endofstr = data.length - 16;
+                    let resjson = data.substr(14, endofstr );
                     //console.log(resjson);
                     searchAndDisplayDataset( JSON.parse(resjson));
                     //console.log(data);
@@ -936,5 +965,68 @@ function checkCKANData()
     {
         // remove all info from layers
         clearAllDatasets();
+    }
+}
+
+
+function updateDatasetDetails( datasets )
+{
+    let element = datasets['result'];
+    ckan_server.datasetDetails[element['id']] = element;
+    // update and open panel 
+    let itemid = '#' + element['id'] + '_collapse';
+    document.getElementById(element['id'] + '_collapse').innerHTML = generateCompleteDetailsPanel(element);
+    $(itemid).collapse("show");
+}
+
+function updateDatasetDetailsFromCache( datasetid )
+{
+    let element = ckan_server.datasetDetails[datasetid];
+    // update and open panel 
+    let itemid = '#' + element['id'] + '_collapse';
+    document.getElementById(element['id'] + '_collapse').innerHTML = generateCompleteDetailsPanel(element);
+    $(itemid).collapse("show");
+}
+
+function callDatasetDetailDescription( datasetid )
+{
+    // check cache, if not, make call
+    if ( datasetid in ckan_server.datasetDetails )
+    {
+        // details already in cache
+        updateDatasetDetailsFromCache(datasetid);
+        return;
+    }
+    let url_ckan = ckan_server.getDatasetShowURL(datasetid);
+    let auth_header = {};
+    if ( ckan_server.use_basic_auth)
+    {
+        auth_header = { 'Authorization': 'Basic ' + btoa(ckan_server.basic_auth_user + ':' + ckan_server.basic_auth_password) };
+    }
+    if ( ckan_server.usejsonp)
+    {
+        // add header with basic auth if required
+        $.ajax({
+            url: url_ckan,
+            dataType: "text",
+            headers: auth_header,
+            success: function( data )
+            {
+                let endofstr = data.length - 16;
+                let resjson = data.substr(14, endofstr );
+                //console.log(resjson);
+                updateDatasetDetails( JSON.parse(resjson));
+                //console.log(data);
+            }
+        });
+    }
+    else
+    {
+        $.ajax({
+            url: url_ckan,
+            dataType: "json",
+            headers: auth_header,
+            success: updateDatasetDetails
+        });
     }
 }

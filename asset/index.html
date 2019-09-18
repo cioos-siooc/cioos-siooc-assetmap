@@ -28,7 +28,7 @@
 
     function callChangeCKAN()
     {
-      var newckan = $( "#ckan_instance option:selected" ).val();
+      let newckan = $( "#ckan_instance option:selected" ).val();
       if ( newckan === "opencanada" )
       {
         changeCurrentCKAN("opendataca.json");
@@ -45,11 +45,17 @@
       {
         changeCurrentCKAN("nextgeoss_ckan.json");
       }
+      else if ( newckan === "pacific")
+      {
+        changeCurrentCKAN("cioos_pacific_ckan.json");
+      }
     }
 
     function callUpdateUserasicAuth()
     {
-
+      let username = $( "#username_tb").val();
+      let passwd = $( "#password_tb").val();
+      setBasicUserPassword(username, passwd);
     }
 
   </script>
@@ -76,13 +82,15 @@
     <select id="ckan_instance" oninput="callChangeCKAN();">
       <option value="opencanada">open.canada.ca</option>
       <option value="slgo">SLGO</option>
+      <option value="pacific">CIOOS Pacific</option>
       <option value="ioos">IOOS</option>
       <option value="Nextgeoss">Nextgeoss</option>
     </select><br />
     Username: 
-    <input type="text"><br />
+    <input type="text" id="username_tb"><br />
     Password:
-    <input type="password">
+    <input type="password" id="password_tb"><br />
+    <button onclick="callUpdateUserasicAuth();">Set Username/Password</button>>
   </div>
   <script src="js/asset_ol.js"></script>
 </body>

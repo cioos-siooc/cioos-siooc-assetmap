@@ -1,0 +1,15 @@
+{
+    "base_url":"https://pac-dev1.cioos.org/ckan/",
+    "api_url":"https://pac-dev1.cioos.org/ckan/api/",
+    "dataset_url": "https://pac-dev1.cioos.org/ckan/",
+    "organization_url": "https://pac-dev1.cioos.org/ckan/",
+    "access_url":"https://pac-dev1.cioos.org/ckan/api/",
+    "add_language_url": true,
+    "support_multilanguage": true,
+    "usejsonp": true,
+    "page_size": 40,
+    "restrict_json_return": true,
+    "basic_userd": "",
+    "basic_passd": "",
+    "use_basic_auth": true
+}

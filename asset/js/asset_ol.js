@@ -71,9 +71,15 @@ function initMapFromConfig(config)
     selectClick.on('select', function(e) {
         // if details panel close, open drawer
         // open details of selected feature dataset
-        var f = e.selected[0];
-        $('#' + f['values_']['id'] + '_collapse').collapse("show");
-        document.getElementById(f['values_']['id']).scrollIntoView();
+        let f = e.selected[0];
+        f['values_']['features'].forEach( function(element)
+            {
+                // call package show and update details panel
+                callDatasetDetailDescription(element['values_']['id']);
+            }
+        );
+        // $('#' + f['values_']['id'] + '_collapse').collapse("show");
+        // document.getElementById(f['values_']['id']).scrollIntoView();
         // $('#' + f['values_']['id']).scrollIntoView();
         // hide last selected
     });

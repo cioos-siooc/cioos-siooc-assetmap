@@ -29,7 +29,7 @@ def relaod_proxy(path):
 def call_ckan(path):
     # call CKAN and send response back
     global base_ckan_url
-    url = base_ckan_url + '3/action/package_search?' + path
+    url = base_ckan_url + '3/action/' + path
     print ( "Proxy for: " + url )
     return get(url).content
 
