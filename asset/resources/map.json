@@ -37,11 +37,7 @@
         }
     },
     "icon_cluster": {
-        "distance": 20,
-        "circleradius": 10,
-        "text_color": "#fff",
-        "fill_color": "#3399CC",
-        "stroke_color": "#fff",
+        "distance": 40,
         "minimum":{
             "cluster_value": 5,
             "circle_radius": 10,

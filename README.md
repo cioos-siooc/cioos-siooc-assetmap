@@ -43,7 +43,10 @@ Link to the CKAN instance:
 * usejsonp: Contact the CKAN API directly via JSONP ( remove the requirement of a proxy )
 * page_size: Maximum number of dataset returned per call the to API.
 * restrict_json_return: Use "fl" in the package search call to limit the item serialized per dataset. Only supported in the latest version of CKAN and require special consideration with Solr configurations.
-
+* support_time: Can use minimum and maximum time interval in search criteria (in development)
+* support_vertical: Can use minimum and maximum vertical (depth) in search criteria (in development)
+* support_eov: Add variable search criteria in eov tag and look in eov for vraible ifentifier (in development)
+* use_basic_auth: Add http basic authoization to the query (in debug, might be remove)
 
 Example of the configuration to use open.canada.ca catalog
 ```
@@ -57,7 +60,11 @@ Example of the configuration to use open.canada.ca catalog
     "start_bbox": [-118, 36, -40, 63],
     "usejsonp": true,
     "page_size": 40,
-    "restrict_json_return": false
+    "restrict_json_return": false,
+    "support_time": false,
+    "support_vertical": false,
+    "support_eov": false,
+    "use_basic_auth": false
 }
 ```
 
@@ -132,12 +139,22 @@ Some information for the basic icon clustering style are define in the "icon_clu
 
 ```
 "icon_cluster": {
-        "distance": 20,
-        "circleradius": 10,
+    "distance": 40,
+    "minimum":{
+        "cluster_value": 5,
+        "circle_radius": 10,
+        "text_color": "#fff",
+        "fill_color": "#3399CC",
+        "stroke_color": "#fff"
+    },
+    "maximum":{
+        "cluster_value": 25,
+        "circle_radius": 20,
         "text_color": "#fff",
         "fill_color": "#3399CC",
         "stroke_color": "#fff"
     }
+}
 ```
 
 ## ui_str.json
