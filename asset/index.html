@@ -51,13 +51,6 @@
       }
     }
 
-    function callUpdateUserasicAuth()
-    {
-      let username = $( "#username_tb").val();
-      let passwd = $( "#password_tb").val();
-      setBasicUserPassword(username, passwd);
-    }
-
   </script>
 </head>
 <body>
@@ -86,11 +79,6 @@
       <option value="ioos">IOOS</option>
       <option value="Nextgeoss">Nextgeoss</option>
     </select><br />
-    Username: 
-    <input type="text" id="username_tb"><br />
-    Password:
-    <input type="password" id="password_tb"><br />
-    <button onclick="callUpdateUserasicAuth();">Set Username/Password</button>>
   </div>
   <script src="js/asset_ol.js"></script>
 </body>

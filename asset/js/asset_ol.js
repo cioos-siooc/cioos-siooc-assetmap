@@ -118,3 +118,5 @@ function selectFeatureOnMap( id )
         }
     }
 }
+
+// Should have code to add dataset to layer here

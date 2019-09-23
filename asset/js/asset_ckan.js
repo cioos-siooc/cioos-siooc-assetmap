@@ -1,7 +1,5 @@
 
 
-
-
 function CKANServer()
 {
     this.url = 'ckan';
@@ -10,6 +8,9 @@ function CKANServer()
     this.organization_url= '';
     this.varriables = [];
     this.datasetDetails = {};
+
+    // CKAN inistance name for the proxy
+    this.ckan_proxy_name = undefined;
 
     // current language to display dataset and UI
     this.currentLanguage = "fr";
@@ -21,8 +22,21 @@ function CKANServer()
     // The server support translated elements
     this.support_multilanguage = false;
 
+    // use eov tag for the search and not q= only
+    this.support_eov = false;
+
     // bounding box where datatset need to intersect with
     this.bbox = undefined;
+
+    // Support filter usin min / mac time
+    this.support_time = false;
+    this.time_minimum = undefined;
+    this.time_maximum = undefined;
+
+    // Support filter in the vertical dimension. ex: min -100 max - 25
+    this.support_vertical = false;
+    this.vertical_minimum = undefined;
+    this.vertical_maximum = undefined;
 
     // call api via JSONP ( other site and not using proxy )
     this.usejsonp = true;
@@ -61,8 +75,15 @@ function CKANServer()
         this.resultPageSize = 40;
         this.slowDownPagingTreshold = 300;
         this.restrict_json_return = false;
+        this.support_eov = false;
         this.bbox = undefined;
         this.use_basic_auth = false;
+        this.support_vertical = false;
+        this.vertical_minimum = undefined;
+        this.vertical_maximum = undefined;
+        this.support_time = false;
+        this.time_minimum = undefined;
+        this.time_maximum = undefined;
         this.datasetDetails = {};
     }
 
@@ -77,7 +98,10 @@ function CKANServer()
         this.usejsonp = config["usejsonp"];
         this.resultPageSize = config["page_size"];
         this.restrict_json_return = config["restrict_json_return"];
+        this.support_eov =  config["support_eov"];
         this.use_basic_auth = config["use_basic_auth"];
+        this.support_vertical = config["support_vertical"];;
+        this.support_time = config["support_time"];;
         if ( config["start_bbox"] !== undefined )
         {
             if ( config["start_bbox"].length == 4 )
@@ -133,15 +157,48 @@ function CKANServer()
     // add bbounding box filter
     // add pagination
 
+    this.getURLParamForTimeFilter = function()
+    {
+        //  ?fq=temporal-extent-range:[yyyy-mm-ddThh:mm:ss.sss TO yyyy-mm-ddThh:mm:ss.sss]
+        // * = now [2015 TO *]  = 2015 TO NOW
+        ret = "";
+        return ret;
+    }
+
+    this.getURLParamForVerticalFilter = function()
+    {
+        // fq=vertical-extent-min:[* TO -25]  +vertical-extent-max:[-5 TO *]
+        ret = "";
+        return ret;
+    }
+
+    this.getURLParamterForFieldRestriction = function()
+    {
+        // fl=title_translated,notes_translated,eov,keywords,spatial
+        ret = "fl=id,title_translated,notes_translated,eov,keywords,spatial";
+        return ret;
+    }
+
     this.addVariableToURLFilter = function( variable )
     {
         ret = variable["ckantext"].join()
         return ret;
     }
 
+    this.getURLParmaterForVariables = function()
+    {
+        ret = "";
+
+        return ret;
+    }
+
     this.getDatasetShowURL = function( id )
     {
         var ret_url =  this.url;
+        if (this.ckan_proxy_name !== undefined)
+        {
+            ret_url += this.ckan_proxy_name + '/';
+        }
         if (this.usejsonp)
         {
             // add the package search
@@ -156,29 +213,42 @@ function CKANServer()
         return ret_url
     }
 
+    this.getURLParameterForBoundingBox = function()
+    {
+        let ret = "ext_bbox=" //-104,17,-18,63
+        ret += this.bbox[0].toString() + "," + this.bbox[1].toString() + "," + this.bbox[2].toString() + "," + this.bbox[3].toString();
+        return ret;
+    }
+
+
     this.getURLPaginated = function( startrow, numrow )
     {
-        var ret_url =  this.url;
-        if (this.usejsonp)
+        let ret_url =  this.url;
+        if (this.usejsonp == true)
         {
             // add the package search
             ret_url += '3/action/';
         }
+        else if (this.ckan_proxy_name !== undefined)
+        {
+            // since no jsonp and name of proxy define then add proxy info to url
+            ret_url += this.ckan_proxy_name + '/';
+        }
+
         ret_url += 'package_search?';
         if ( this.bbox !== undefined )
         {
-            ret_url += "ext_bbox=" //-104,17,-18,63
-            ret_url += this.bbox[0].toString() + "," + this.bbox[1].toString() + "," + this.bbox[2].toString() + "," + this.bbox[3].toString();
-            ret_url += "&"
+            ret_url += this.getURLParameterForBoundingBox() + "&";
         }
         if ( this.restrict_json_return ) 
         {
             // add fl with desired element to be returned in the JSON
             // this feature required the latest version of CKAN and that the items desired are 
+            ret_url += this.getURLParamterForFieldRestriction() + "&";
         }
         ret_url +=  'q=';
-        var v=0;
-        var nofilter = true;
+        let v=0;
+        let nofilter = true;
         while( v < this.varriables.length)
         {
             // get element for variable
@@ -196,7 +266,22 @@ function CKANServer()
             }
             ++v;
         }
-        ret_url += '&rows=' + numrow.toString() + '&start=' + startrow.toString();
+        if ( this.support_time )
+        {
+            ret_url += this.getURLParamForTimeFilter() + "&";
+        }
+        if ( this.support_vertical )
+        {
+            ret_url += this.getURLParamForVerticalFilter() + "&";
+        }
+        if ( numrow !== undefined )
+        {
+            ret_url += '&rows=' + numrow.toString();
+        }
+        if ( startrow !== undefined )
+        {
+            ret_url += '&start=' + startrow.toString();
+        } 
         if (this.usejsonp)
         {
             ret_url += '&callback=jsonpcallback'
@@ -222,59 +307,6 @@ function CKANServer()
         }
         return ret;
     };
-
-    this.getSearchURL = function () {
-        // list of variables
-        // rewtite URL to CKAN with search criteria
-        // write bbox filter if present
-        var ret_url =  this.url;
-        if (this.usejsonp)
-        {
-            // add the package search
-            ret_url += '3/action/';
-        }
-        ret_url += 'package_search?';
-        if ( this.bbox !== undefined )
-        {
-            ret_url += "ext_bbox=" //-104,17,-18,63
-            ret_url += this.bbox[0].toString() + "," + this.bbox[1].toString() + "," + this.bbox[2].toString() + "," + this.bbox[3].toString();
-            ret_url += "&"
-        }
-        if ( this.restrict_json_return ) 
-        {
-            // add fl with desired element to be returned in the JSON
-            // this feature required the latest version of CKAN and that the items desired are 
-        }
-        ret_url +=  'rows=' + this.resultPageSize + '&q=';
-        var nofilter = true;
-        var v=0;
-        while( v < this.varriables.length)
-        {
-            // get element for variable
-            varData = this.varriables[v];
-            varItem = document.getElementById(varData["id"]);
-            // if checked, add text to the filter
-            if ( varItem.checked )
-            {
-                ret_url += this.addVariableToURLFilter( varData );
-                if ( !nofilter )
-                {
-                    ret_url += ' + ';
-                }
-                nofilter = false;
-            }
-            ++v;
-        }
-        if (this.usejsonp)
-        {
-            ret_url += '&callback=jsonpcallback'
-        }
-        return ret_url;
-    };
-
-    
-    //
-
 
     this.addVariable = function ( variableName ) {
         // should be a dictionnary and don't add multiple time
@@ -310,7 +342,7 @@ function CKANServer()
     this.getCKANData = function ()
     {
         // call proxy with url and variable
-        url = this.getSearchURL();
+        url = this.getURLPaginated(0, 5);
         $.getJSON( url, afficheCKANExtent );
         //$.getJSON( "https://test-catalogue.ogsl.ca/api/3/action/package_search?ext_bbox=-104,17,-18,63&q=" + document.getElementById('searchbox').value, afficheCKANExtent );
     };
@@ -337,9 +369,10 @@ function addCKANExtent(data)
 
 function getCenterOfCoordinates( coords )
 {
+    // need to rework the ventroid caculation to support other geometry
     x = 0;
     y = 0;
-    if ( coords.length == 5 )
+    if ( coords.length == 5 || coords.length == 4 )
     {
         // rectangle!
         x = (coords[0][0] + coords[1][0] + coords[2][0] + coords[3][0] ) / 4;
@@ -509,13 +542,44 @@ function displayCKANExtent( data )
 }
 
 
+function getStyleFromClusterConfig( config, nbrElem)
+{
+    let ret = {};
+
+    let minweight = 0;
+    let maxweight = 1;
+    if ( nbrElem <= config['minimum']['cluster_value'] )
+    {
+        minweight = 1;
+        maxweight = 0;
+    }
+    else if ( nbrElem >= config['maximum']['cluster_value'] )
+    {
+        minweight = 0;
+        maxweight = 1;
+    }
+    else
+    {
+        let weigth = (nbrElem - config['minimum']['cluster_value']) / (config['maximum']['cluster_value'] - config['minimum']['cluster_value']);
+        maxweight = weigth;
+        minweight = 1 - maxweight;
+    }
+    config['minimum']['circle_radius'] * minweight + config['minimum']['circle_radius'] * maxweight;
+
+    ret['text_color'] = config['minimum']['text_color'];
+    ret['fill_color'] = config['minimum']['fill_color'];
+    ret['stroke_color'] = config['minimum']['stroke_color'];
+    ret['circle_radius'] = config['minimum']['circle_radius'] * minweight + config['maximum']['circle_radius'] * maxweight;
+    return ret;
+}
+
 function displayCKANClusterIcon( data )
 {
     // for each, look for the spatial extra
-    var i = 0;
-    var results = data['result']['results'];
+    let i = 0;
+    let results = data['result']['results'];
     // list of feature
-    var features = [];
+    let features = [];
     while ( i < results.length )
     {
         var r = results[i];
@@ -568,33 +632,35 @@ function displayCKANClusterIcon( data )
     clusterLayer = new ol.layer.Vector({
         source: clusterSource,
         style: function(feature) {
-          var featuresSize = feature.get('features')
+          let featuresSize = feature.get('features')
+          let curstyle;
           if ( featuresSize != undefined)
           {
-            var size = feature.get('features').length;
-            var style = styleCache[size];
-            if (!style) {
-                style = new ol.style.Style({
+            let size = feature.get('features').length;
+            curstyle = styleCache[size];
+            if (!curstyle) {
+                let cfg = getStyleFromClusterConfig(clusterStyleConfig, size);
+                curstyle = new ol.style.Style({
                 image: new ol.style.Circle({
-                    radius: clusterStyleConfig["circleradius"],
+                    radius: cfg["circle_radius"],
                     stroke: new ol.style.Stroke({
-                    color: clusterStyleConfig["stroke_color"]
+                    color: cfg["stroke_color"]
                     }),
                     fill: new ol.style.Fill({
-                    color: clusterStyleConfig["fill_color"]
+                    color: cfg["fill_color"]
                     })
                 }),
                 text: new ol.style.Text({
                     text: size.toString(),
                     fill: new ol.style.Fill({
-                    color: clusterStyleConfig["text_color"]
+                    color: cfg["text_color"]
                     })
                 })
                 });
-                styleCache[size] = style;
+                styleCache[size] = curstyle;
             }
           }
-          return style;
+          return curstyle;
         }
       });
     map.addLayer(clusterLayer);
@@ -605,13 +671,10 @@ function displayCKANClusterIcon( data )
 function getVariableForDatataset(dataset)
 {
     let ret_html = ""
-    // Use tag to identify variable available. Temporary solution
-    if (dataset['keywords'] !== undefined )
+    // if ckan_server support eov, then used it for variable link
+    if ( ckan_server.support_eov == true)
     {
-        // open canada keywords
-        // go through all keyword abs check if variable fit
-        dataset['keywords']["en"].forEach( function(entry){
-            // need to optimse with dictionary
+        dataset['eov'].forEach( function(entry){
             let thumb =  ckan_server.getVariableThumbnail(entry);
             if ( thumb !== undefined )
             {
@@ -619,18 +682,35 @@ function getVariableForDatataset(dataset)
             }
         });
     }
-    else if ( dataset['tags'] !== undefined )
+    else    
     {
-        // slgo tags
-        // go through all keyword tags check if variable fit
-        dataset['tags'].forEach( function(entry){
-            // need to optimse with dictionary
-            let thumb =  ckan_server.getVariableThumbnail(entry["name"]);
-            if ( thumb !== undefined )
-            {
-                ret_html += "<img src='" + "/asset/images/thumbnails/" + thumb + "'></img>";
-            }
-        });
+        // Use tag to identify variable available. Temporary solution
+        if (dataset['keywords'] !== undefined )
+        {
+            // open canada keywords
+            // go through all keyword abs check if variable fit
+            dataset['keywords']["en"].forEach( function(entry){
+                // need to optimse with dictionary
+                let thumb =  ckan_server.getVariableThumbnail(entry);
+                if ( thumb !== undefined )
+                {
+                    ret_html += "<img src='" + "/asset/images/thumbnails/" + thumb + "'></img>";
+                }
+            });
+        }
+        else if ( dataset['tags'] !== undefined )
+        {
+            // slgo tags
+            // go through all keyword tags check if variable fit
+            dataset['tags'].forEach( function(entry){
+                // need to optimse with dictionary
+                let thumb =  ckan_server.getVariableThumbnail(entry["name"]);
+                if ( thumb !== undefined )
+                {
+                    ret_html += "<img src='" + "/asset/images/thumbnails/" + thumb + "'></img>";
+                }
+            });
+        }
     }
     return ret_html;
 }
@@ -857,10 +937,10 @@ function searchAndDisplayDataset(data)
     var totaldataset =  parseInt(data["result"]["count"]);
     if ( totaldataset > ckan_server.resultPageSize )
     {
-        ckan_server.lastPagedDataIndex = ckan_server.resultPageSize;
+        ckan_server.lastPagedDataIndex = 5;
         displayTotalSearchDetails( totaldataset, ckan_server.lastPagedDataIndex );
         // until the weird jquery jsonp bug is corrected, do it by hand!
-        let url_ckan = ckan_server.getURLPaginated( ckan_server.resultPageSize, ckan_server.resultPageSize);
+        let url_ckan = ckan_server.getURLPaginated( ckan_server.lastPagedDataIndex, ckan_server.resultPageSize);
         ckan_server.lastPagedDataIndex += ckan_server.resultPageSize;
         // request first page of dataset
         if ( ckan_server.usejsonp)
@@ -922,7 +1002,7 @@ function checkCKANData()
         // support jsonp by hand since jquery bug with adding other parameters at then end for nothing ( other than the callback )
 
         //var datavalue = {"q": "patate", "callback": "jsonpcallback"}
-        let url_ckan = ckan_server.getSearchURL();
+        let url_ckan = ckan_server.getURLPaginated(0, 5);
         // until the weird jquery jsonp bug is corrected, do it by hand!
         let auth_header = {};
         if ( ckan_server.use_basic_auth)
@@ -968,7 +1048,6 @@ function checkCKANData()
     }
 }
 
-
 function updateDatasetDetails( datasets )
 {
     let element = datasets['result'];
@@ -1001,7 +1080,9 @@ function callDatasetDetailDescription( datasetid )
     let auth_header = {};
     if ( ckan_server.use_basic_auth)
     {
-        auth_header = { 'Authorization': 'Basic ' + btoa(ckan_server.basic_auth_user + ':' + ckan_server.basic_auth_password) };
+        auth_header = { 
+            'Authorization': 'Basic ' + btoa(ckan_server.basic_auth_user + ':' + ckan_server.basic_auth_password)
+            };
     }
     if ( ckan_server.usejsonp)
     {

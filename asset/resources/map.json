@@ -4,8 +4,28 @@
         "minZoom": 2,
         "center": [-68, 48]
     },
+    "backgrouns_layers": [
+        {
+            "name": "osm",
+            "type": "OpenStreetMap"
+        },
+        {
+            "name": "bing",
+            "type":  "bing",
+            "key": "",
+            "start": ""
+        },
+        {
+            "name": "bathy",
+            "type": "wms",
+            "server_url": "",
+            "layer_name": "",
+            "version": "",
+            "style": "",
+            "parameters": ""
+        }
+    ],
     "start_layer": "osm",
-    "bin_api_key": "",
     "Polystyle":{
         "Stroke":{
             "color": "blue",
@@ -21,7 +41,21 @@
         "circleradius": 10,
         "text_color": "#fff",
         "fill_color": "#3399CC",
-        "stroke_color": "#fff"
+        "stroke_color": "#fff",
+        "minimum":{
+            "cluster_value": 5,
+            "circle_radius": 10,
+            "text_color": "#fff",
+            "fill_color": "#3399CC",
+            "stroke_color": "#fff"
+        },
+        "maximum":{
+            "cluster_value": 25,
+            "circle_radius": 20,
+            "text_color": "#fff",
+            "fill_color": "#3399CC",
+            "stroke_color": "#fff"
+        }
     },
     "start_cluster": true 
 }

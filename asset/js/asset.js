@@ -105,6 +105,7 @@ function changeCurrentLanguage( newLanguage )
 function changeCurrentCKAN( ckan_instance )
 {
 
+    ckan_server.ckan_proxy_name = ckan_instance.substring(0, ckan_instance.length - 5)
     // reload ckan option
     $.ajax({
         url: "/asset/resources/" + ckan_instance,
@@ -142,7 +143,7 @@ $(document).ready(function () {
     ckan_server = new CKANServer();
     i18nStrings = new StringTranslator();
     $.ajax({
-        url: "/asset/resources/ui_str_0_0_2.json",
+        url: "/asset/resources/ui_str.json",
         dataType: 'json',
         async: false,
         success: function (data) {
