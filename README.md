@@ -186,6 +186,31 @@ Variables needs to be clearly identified in the CKAN schema. The asset map could
 
 The interface need to show the user a link to the available tools to display, manipulate or download the specific dataset. Ther need to be a way to identified or compute the link based on the information in the CKAN schema. This could be as resources to the dataset or specific item. Fo example, if the dataset in accessible via ERDAPP, the url need to be available or the base ERDDAP url availbale in a configuration and using the id or other info, retwrite the URL. 
 
+
+# Python Proxy
+
+During development, you can use the python Flask project as the static file server and as proxy.
+
+## Proxy auth.json
+
+if a file auth.json is available at the root of the project, the proxy will try to load the file and check for authorization information for a specific proxy setting. The default setting is for ckan.json. Only Basic HTTP Auth is supported. The file auth.json is ignore by git and need to be created when you deploy the proxy. 
+
+Ex:  
+```
+{
+    "ckan.json": {
+        "type": "Basic",
+        "username": "your_username_for_default",
+        "password": "your_password_for_default"
+    },
+    "cioos_pacific_ckan.json": {
+        "type": "Basic",
+        "username": "your_username_for_cioos_pacific",
+        "password": "your_password_for_cioos_pacific"
+    }
+}
+```
+
 # References
 
 [Mockup](https://xd.adobe.com/view/f27999f2-a6d1-4498-51b1-37dc757286ff-8448/screen/6b487dff-190c-45b1-b1ca-478295611337/Web-1920-15/)
