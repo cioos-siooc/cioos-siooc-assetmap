@@ -102,7 +102,8 @@ Each variable defines the text used in the ckan package seach. This is a tempora
             "fr":"Salinité",
             "en":"Salinity"
         },
-        "ckantext":"salinity",
+        "ckantext":["salinity"],
+        "eov":["salinity"],
         "enabled": true
     }]
 ```

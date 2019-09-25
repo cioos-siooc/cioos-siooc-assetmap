@@ -20,6 +20,7 @@
                     "en":"Temperature"
                 },
                 "ckantext":["Sea Surface Temperature", "Potential Temperature", "Sub Surface Temperature"],
+                "eovs": [ "seasurfacetemperature", "potentialtemperature", "subsurfacetemperature" ],
                 "enabled": true
             },
             {
@@ -31,6 +32,7 @@
                     "en":"Wind"
                 },
                 "ckantext":["wind"],
+                "eovs": [ "seasurfacetemperature", "potentialtemperature", "subsurfacetemperature" ],
                 "enabled": true
             },
             {
@@ -42,17 +44,19 @@
                     "en":"Ice"
                 },
                 "ckantext":["glace"],
+                "eovs": [ "ice" ],
                 "enabled": false
             },
             {
-                "id": "var_wave",
+                "id": "var_seastate",
                 "icon":"seaSurfaceWaveMeanHeight.png",
                 "label":
                 {
-                    "fr":"Vague",
-                    "en":"Wave"
+                    "fr":"État de la mer",
+                    "en":"Sea State"
                 },
-                "ckantext":["vague"],
+                "ckantext": ["Sea State"],
+                "eovs": [ "seaState" ],
                 "enabled": true
             },
             {
@@ -64,6 +68,7 @@
                     "en":"Density"
                 },
                 "ckantext":["density"],
+                "eovs": [ "density" ],
                 "enabled": false
             },
             {
@@ -75,6 +80,7 @@
                     "en":"Salinity"
                 },
                 "ckantext":["salinity"],
+                "eovs": [ "salinity" ],
                 "enabled": true
             },
             {
@@ -86,6 +92,7 @@
                     "en":"Current"
                 },
                 "ckantext":["Current"],
+                "eovs": [ "current" ],
                 "enabled": true
             },
             {
@@ -97,17 +104,7 @@
                     "en":"Speed of sound"
                 },
                 "ckantext":["Speed of sound"],
-                "enabled": true
-            },
-            {
-                "id": "var_seastate",
-                "icon":"seaWaterSalinity.png",
-                "label":
-                {
-                    "fr":"État de la mer",
-                    "en":"Sea State"
-                },
-                "ckantext": ["Sea State"],
+                "eovs": [ "speedOfSound" ],
                 "enabled": true
             }
         ]
@@ -132,6 +129,7 @@
                     "en":"Oxygen"
                 },
                 "ckantext":["Oxygen"],
+                "eovs": [ "oxygen" ],
                 "enabled": true
             },
             {
@@ -143,6 +141,7 @@
                     "en":"Phosphate"
                 },
                 "ckantext":["Phosphate"],
+                "eovs": [ "phosphate" ],
                 "enabled": true
             },
             {
@@ -154,6 +153,7 @@
                     "en":"Nitrate"
                 },
                 "ckantext":["Nitrate"],
+                "eovs": [ "nitrate" ],
                 "enabled": true
             },
             {
@@ -165,6 +165,7 @@
                     "en":"Inorganic Carbon"
                 },
                 "ckantext":["Inorganic Carbon"],
+                "eovs": [ "inorganicCarbon" ],
                 "enabled": true
             },
             {
@@ -176,6 +177,7 @@
                     "en":"Dissolved Organic Carbon"
                 },
                 "ckantext":["Dissolved Organic Carbon"],
+                "eovs": [ "dissolvedOrganicCarbon" ],
                 "enabled": true
             },
             {
@@ -187,6 +189,7 @@
                     "en":"Silicate"
                 },
                 "ckantext":["Silicate"],
+                "eovs": [ "sillicate" ],
                 "enabled": true
             }
         ]
@@ -211,6 +214,7 @@
                     "en":"Whales"
                 },
                 "ckantext":["Whales"],
+                "eovs": [ "whale" ],
                 "enabled": true
             },
             {
@@ -222,6 +226,7 @@
                     "en":"Capelin"
                 },
                 "ckantext":["Capelin"],
+                "eovs": [ "capelin" ],
                 "enabled": true
             }
         ]

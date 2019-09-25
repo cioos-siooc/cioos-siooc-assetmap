@@ -161,14 +161,24 @@ function CKANServer()
     {
         //  ?fq=temporal-extent-range:[yyyy-mm-ddThh:mm:ss.sss TO yyyy-mm-ddThh:mm:ss.sss]
         // * = now [2015 TO *]  = 2015 TO NOW
-        ret = "";
+        ret =  [];
+        ret.push("temporal-extent-range:");
+        // add 
         return ret;
     }
 
     this.getURLParamForVerticalFilter = function()
     {
         // fq=vertical-extent-min:[* TO -25]  +vertical-extent-max:[-5 TO *]
-        ret = "";
+        ret = [];
+        if ( this.vertical_minimum !== undefined)
+        {
+            ret.push( "vertical-extent-min:[* TO " + this.vertical_minimum + "]");
+        }
+        if ( this.vertical_maximum !== undefined)
+        {
+            ret.push( "vertical-extent-max:[" + this.vertical_maximum + " TO *]");
+        }
         return ret;
     }
 
@@ -181,15 +191,24 @@ function CKANServer()
 
     this.addVariableToURLFilter = function( variable )
     {
-        ret = variable["ckantext"].join()
+        ret = variable["ckantext"].join();
         return ret;
     }
 
-    this.getURLParmaterForVariables = function()
+    this.getVariableEOVFilters = function( variable )
     {
-        ret = "";
-
+        // will there be any other processing required?
+        let ret = [];
+        variable['eovs'].forEach( function(element) {
+            ret.push("eov:" + "\"" + element + "\"");
+            }
+        )
         return ret;
+    }
+
+    this.getVariableEOVForQuery = function(variable)
+    {
+        return variable["ckantext"];
     }
 
     this.getDatasetShowURL = function( id )
@@ -224,6 +243,8 @@ function CKANServer()
     this.getURLPaginated = function( startrow, numrow )
     {
         let ret_url =  this.url;
+        let query_elems = [];
+        let filtered_query_elems = [];
         if (this.usejsonp == true)
         {
             // add the package search
@@ -246,9 +267,8 @@ function CKANServer()
             // this feature required the latest version of CKAN and that the items desired are 
             ret_url += this.getURLParamterForFieldRestriction() + "&";
         }
-        ret_url +=  'q=';
+
         let v=0;
-        let nofilter = true;
         while( v < this.varriables.length)
         {
             // get element for variable
@@ -257,23 +277,35 @@ function CKANServer()
             // if checked, add text to the filter
             if ( varItem.checked )
             {
-                ret_url += this.addVariableToURLFilter( varData );
-                if ( !nofilter )
+                if ( this.support_eov )
                 {
-                    ret_url += ' + ';
+                    filtered_query_elems = filtered_query_elems.concat(this.getVariableEOVFilters(varData));
                 }
-                nofilter = false;
+                else
+                {
+                    query_elems = query_elems.concat(this.getVariableEOVForQuery(varData))
+                }
             }
             ++v;
         }
         if ( this.support_time )
         {
-            ret_url += this.getURLParamForTimeFilter() + "&";
+            filtered_query_elems = filtered_query_elems.concat(this.getURLParamForTimeFilter());
         }
         if ( this.support_vertical )
         {
-            ret_url += this.getURLParamForVerticalFilter() + "&";
+            filtered_query_elems = filtered_query_elems.concat(this.getURLParamForVerticalFilter());
         }
+        // generate q and fq url parameter
+        if ( query_elems.length > 0 )
+        {
+            ret_url += "&q=" + query_elems.join( ' +' );
+        }
+        if ( filtered_query_elems.length > 0)
+        {
+            ret_url += "&fq=" + filtered_query_elems.join( ' +' );
+        }
+
         if ( numrow !== undefined )
         {
             ret_url += '&rows=' + numrow.toString();
@@ -287,6 +319,7 @@ function CKANServer()
             ret_url += '&callback=jsonpcallback'
         }
         // bbox
+        console.log(ret_url);
         return ret_url;
     };
 
