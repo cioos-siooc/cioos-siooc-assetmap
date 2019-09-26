@@ -98,7 +98,7 @@ function CKANServer()
         this.usejsonp = config["usejsonp"];
         this.resultPageSize = config["page_size"];
         this.restrict_json_return = config["restrict_json_return"];
-        this.support_eov =  config["support_eov"];
+        this.support_eov = config["support_eov"];
         this.use_basic_auth = config["use_basic_auth"];
         this.support_vertical = config["support_vertical"];;
         this.support_time = config["support_time"];;
@@ -297,13 +297,19 @@ function CKANServer()
             filtered_query_elems = filtered_query_elems.concat(this.getURLParamForVerticalFilter());
         }
         // generate q and fq url parameter
+        let hasquery = false;
         if ( query_elems.length > 0 )
         {
-            ret_url += "&q=" + query_elems.join( ' +' );
+            ret_url += "q=" + query_elems.join( ' +' );
+            hasquery = true;
         }
         if ( filtered_query_elems.length > 0)
         {
-            ret_url += "&fq=" + filtered_query_elems.join( ' +' );
+            if (hasquery)
+            {
+                ret_url += "&";
+            }
+            ret_url += "fq=" + filtered_query_elems.join( ' +' );
         }
 
         if ( numrow !== undefined )
@@ -574,6 +580,68 @@ function displayCKANExtent( data )
     // update map
 }
 
+function textColorToRGBA(color)
+{
+    let ret = [0, 0, 0, 0];
+    var result;
+    // detect color type
+    if ( color[0] == '#')
+    {
+        if ( color.length == 4)
+        {
+            result = /^#?([a-f\d]{1})([a-f\d]{1})([a-f\d]{1})$/i.exec(color);
+            ret = [ parseInt(result[1], 16) * 16, parseInt(result[2], 16) * 16, parseInt(result[3], 16) * 16, 255.0];
+        }
+        else if ( color.length == 7)
+        {
+            result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+            ret = [ parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16), 255.0];
+        }
+        else if ( color.length == 9)
+        {
+            result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+            ret = [ parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16), parseInt(result[4], 16)];
+        } 
+    }
+    else if ( color.startsWith('rgb('))
+    {
+        // extract 3 numbers between the ( ) seprated by ,
+        result = /^rgb\(?([d]{3})([d]{3})([d]{3})$/i.exec(color);
+        ret = [ parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16), 255.0];
+    }
+    else if ( color.startsWith('rgba('))
+    {
+        // extract 4 numbers between the ( ) seprated by ,
+        result = /^rgb\(?([d]{3})([d]{3})([d]{3})([d]{3})$/i.exec(color);
+        ret = [ parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16), parseInt(result[4], 16)];
+    } 
+    // hex only 3 letter ( rgb )
+    // hex 6 letter ( rgb )
+    // hex 8 letter ( rgba )
+    // rgb function
+    // rgba function
+    return ret;
+}
+
+function lerpColor( color1, color2, lerpvalue)
+{
+    // lerp should be between 0 and 1.
+    // color as a 
+    // 0 = only color1
+    // 1 = only color2
+    // the result should be clamp between 0 and 255
+    col1mult = 1 - lerpvalue;
+    let ret = [ Math.round((color1[0] * col1mult) + (color2[0] * lerpvalue)),
+    Math.round((color1[1] * col1mult) + (color2[1] * lerpvalue)),
+    Math.round((color1[2] * col1mult) + (color2[2] * lerpvalue)),
+    Math.round((color1[3] * col1mult) + (color2[3] * lerpvalue)) ];
+    return ret;
+}
+
+function rgbaColorToHexRGB( color )
+{
+    return "#" + ( (1 << 24)  + (color[0] << 16) + (color[1] << 8) + color[2] ).toString(16).slice(1);
+}
 
 function getStyleFromClusterConfig( config, nbrElem)
 {
@@ -598,10 +666,10 @@ function getStyleFromClusterConfig( config, nbrElem)
         minweight = 1 - maxweight;
     }
     config['minimum']['circle_radius'] * minweight + config['minimum']['circle_radius'] * maxweight;
-
-    ret['text_color'] = config['minimum']['text_color'];
-    ret['fill_color'] = config['minimum']['fill_color'];
-    ret['stroke_color'] = config['minimum']['stroke_color'];
+    
+    ret['text_color'] = rgbaColorToHexRGB(lerpColor(textColorToRGBA(config['minimum']['text_color']), textColorToRGBA(config['maximum']['text_color']), maxweight));
+    ret['fill_color'] = rgbaColorToHexRGB(lerpColor(textColorToRGBA(config['minimum']['fill_color']), textColorToRGBA(config['maximum']['fill_color']), maxweight));
+    ret['stroke_color'] = rgbaColorToHexRGB(lerpColor(textColorToRGBA(config['minimum']['stroke_color']), textColorToRGBA(config['maximum']['stroke_color']), maxweight));
     ret['circle_radius'] = config['minimum']['circle_radius'] * minweight + config['maximum']['circle_radius'] * maxweight;
     return ret;
 }

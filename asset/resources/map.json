@@ -42,14 +42,14 @@
             "cluster_value": 5,
             "circle_radius": 10,
             "text_color": "#fff",
-            "fill_color": "#3399CC",
+            "fill_color": "#52a79b",
             "stroke_color": "#fff"
         },
         "maximum":{
             "cluster_value": 25,
             "circle_radius": 20,
             "text_color": "#fff",
-            "fill_color": "#3399CC",
+            "fill_color": "#fa7268",
             "stroke_color": "#fff"
         }
     },

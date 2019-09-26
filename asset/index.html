@@ -51,6 +51,22 @@
       }
     }
 
+    function changeTimeFilters()
+    {
+      let minvalue = $( "#debug_date_min" ).val();
+      let maxalue = $( "#debug_date_max" ).val();
+      alert(minvalue);
+      alert(maxalue);
+    }
+
+    function changeVerticalFilters()
+    {
+      let minvalue = $( "#debug_vertical_min" ).val();
+      let maxalue = $( "#debug_vertical_max" ).val();
+      alert(minvalue);
+      alert(maxalue);
+    }
+
   </script>
 </head>
 <body>
@@ -79,6 +95,12 @@
       <option value="ioos">IOOS</option>
       <option value="Nextgeoss">Nextgeoss</option>
     </select><br />
+    Minimum time interval: <input type="datetime-local" id="debug_date_min"><br />
+    Maximum time interval: <input type="datetime-local" id="debug_date_max"><br />
+    <button id="bnt_debug_setdate" onclick="changeTimeFilters();">Set Date filters</button>
+    Vertical minimum: <input type="number" id="debug_vertical_min" min="-3000" max="10000"><br />
+    Vertical maximum: <input type="number" id="debug_vertical_max" min="-3000" max="10000"><br />
+    <button id="bnt_debug_setdate" onclick="changeVerticalFilters();">Set Vertical filters</button>
   </div>
   <script src="js/asset_ol.js"></script>
 </body>
