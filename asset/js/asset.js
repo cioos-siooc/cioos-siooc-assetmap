@@ -139,6 +139,51 @@ function setBasicUserPassword( username, password)
     ckan_server.setBasicAuthInfo(username, password);
 }
 
+function setTimeFilters( minDate, maxDate )
+{
+    if ( minDate !== undefined )
+    {
+        ckan_server.minDate = minDate;
+    }
+    else
+    {
+        ckan_server.minDate =undefined;
+    }
+
+    if ( maxDate !== undefined )
+    {
+        ckan_server.maxDate = maxDate;
+    }
+    else
+    {
+        ckan_server.maxDate = undefined;
+    }
+}
+
+function setVerticalFilters( minVertical, maxVertical )
+{
+    if ( minVertical !== undefined )
+    {
+        ckan_server.minVertical = minVertical;
+    }
+    else
+    {
+        ckan_server.minVertical = undefined;
+    }
+
+    if ( maxVertical !== undefined )
+    {
+        ckan_server.maxVertical = maxVertical;
+    }
+    else
+    {
+        ckan_server.maxVertical = undefined;
+    }
+}
+
+
+
+
 $(document).ready(function () {
     ckan_server = new CKANServer();
     i18nStrings = new StringTranslator();

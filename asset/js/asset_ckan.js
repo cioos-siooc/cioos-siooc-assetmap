@@ -161,8 +161,26 @@ function CKANServer()
     {
         //  ?fq=temporal-extent-range:[yyyy-mm-ddThh:mm:ss.sss TO yyyy-mm-ddThh:mm:ss.sss]
         // * = now [2015 TO *]  = 2015 TO NOW
-        ret =  [];
-        ret.push("temporal-extent-range:");
+        let ret =  [];
+        if ( this.minDate !== undefined || this.maxDate !== undefined)
+        {
+            let ret_str = "temporal-extent-range:[";
+            if ( this.minDate !== undefined )
+            {
+                ret_str += this.minDate;
+            }
+            ret_str += " TO ";
+            if ( this.maxDate !== undefined )
+            {
+                ret_str += this.minDate;
+            }
+            else
+            {
+                ret_str += "*";
+            }
+            ret_str += "]";
+            ret.push(ret_str);
+        }
         // add 
         return ret;
     }
@@ -170,7 +188,7 @@ function CKANServer()
     this.getURLParamForVerticalFilter = function()
     {
         // fq=vertical-extent-min:[* TO -25]  +vertical-extent-max:[-5 TO *]
-        ret = [];
+        let ret = [];
         if ( this.vertical_minimum !== undefined)
         {
             ret.push( "vertical-extent-min:[* TO " + this.vertical_minimum + "]");
