@@ -7,25 +7,36 @@
     "backgrouns_layers": [
         {
             "name": "osm",
-            "type": "OpenStreetMap"
-        },
-        {
-            "name": "bing",
-            "type":  "bing",
-            "key": "",
-            "start": ""
+            "type": "OpenStreetMap",
+            "attribution": {
+                "fr": "",
+                "en": ""
+            },
+            "label": {
+                "fr": "",
+                "en": ""
+            }
         },
         {
             "name": "bathy",
             "type": "wms",
-            "server_url": "",
-            "layer_name": "",
+            "server_url": "https://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?",
+            "layer_name": "gebco_latest",
+            "serverType": "geoserver",
             "version": "",
             "style": "",
-            "parameters": ""
+            "parameters": "",
+            "attribution": {
+                "fr": "",
+                "en": ""
+            },
+            "label": {
+                "fr": "",
+                "en": ""
+            }
         }
     ],
-    "start_layer": "osm",
+    "start_layer": "bathy",
     "Polystyle":{
         "Stroke":{
             "color": "blue",

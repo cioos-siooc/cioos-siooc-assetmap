@@ -158,6 +158,71 @@ Some information for the basic icon clustering style are define in the "icon_clu
 }
 ```
 
+### background layer
+
+Three type of background layer are available: OpenStreetMap, Bing map and custom WMS
+
+OpenStreetMap
+
+```
+{
+    "name": "osm",
+    "type": "OpenStreetMap"
+    "attribution"{
+        "fr": "",
+        "en": ""
+    },
+    "label": {
+        "fr": "",
+        "en": ""
+    }
+}
+```
+
+Bing Maps
+
+```
+{
+    "name": "bing",
+    "type":  "Bing",
+    "key": "",
+    "imagerySet": ""
+    "attribution"{
+        "fr": "",
+        "en": ""
+    },
+    "label": {
+        "fr": "",
+        "en": ""
+    }
+}
+```
+
+Custom WMS
+
+```
+{
+    "name": "name_of_map",
+    "type": "wms",
+    "server_url": "https://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?",
+    "layer_name": "gebco_latest",
+    "serverType": "geoserver",
+    "version": "",
+    "style": "",
+    "parameters": ""
+    "attribution"{
+        "fr": "",
+        "en": ""
+    },
+    "label": {
+        "fr": "",
+        "en": ""
+    }
+}
+```
+
+
+
 ## ui_str.json
 
 Translation strings.

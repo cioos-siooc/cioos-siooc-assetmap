@@ -11,6 +11,48 @@ var selectPointerMove = null;
 var map = null;
 var useClustering = false;
 
+// list of possible layers as background indexed by name from config
+var bacground_layers = {};
+
+
+function CreateBackgroundLayerFromConfig( lconfig )
+{
+    let ret = undefined;
+    // switch type 
+    if ( lconfig['type'] === "OpenStreetMap")
+    {
+        ret = new  ol.layer.Tile({
+            visible: false,
+            source: new ol.source.OSM()
+        })
+    }
+    else if ( lconfig['type'] === "Bing")
+    {
+        ret = new ol.layer.Tile({
+            visible: false,
+            preload: Infinity,
+            source: new ol.source.BingMaps({
+              key: lconfig['key'],
+              imagerySet: lconfig['imagerySet']
+              // use maxZoom 19 to see stretched tiles instead of the BingMaps
+              // "no photos at this zoom level" tiles
+              // maxZoom: 19
+            })
+          });
+    }
+    else if ( lconfig['type'] === "wms")
+    {
+        ret = new ol.layer.Tile({
+            source: new ol.source.TileWMS({
+              url: lconfig['server_url'],
+              params: {'LAYERS': lconfig['layer_name'], 'TILED': true},
+              serverType: lconfig['serverType'],
+              transition: 0
+            })
+          });
+    } 
+    return ret;
+}
 
 function initMapFromConfig(config)
 {
@@ -53,12 +95,21 @@ function initMapFromConfig(config)
     // transform center from WGS84 lat/long
     startview.setCenter( ol.proj.transform(config["start_view"]["center"], 'EPSG:4326', 'EPSG:3857'));
 
+    config["backgrouns_layers"].forEach( function(element)
+        {
+            let blayer = CreateBackgroundLayerFromConfig(element);
+            if ( blayer !== undefined)
+            {
+                bacground_layers[element['name']] = blayer;
+            }
+        }
+    );
+
+    bacground_layers[config['start_layer']].setVisible(true);
     map = new ol.Map({
         layers: [
             // backlayer come from config
-            new  ol.layer.Tile({
-                source: new ol.source.OSM()
-            }),
+            bacground_layers[config['start_layer']],
             vectorLayer
         ],
         target: 'map',
