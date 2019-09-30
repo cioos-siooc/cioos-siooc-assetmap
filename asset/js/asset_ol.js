@@ -14,6 +14,10 @@ var useClustering = false;
 // list of possible layers as background indexed by name from config
 var bacground_layers = {};
 
+// cache dataset centroid and geometry
+// coucld reuse vector source and cluster source?
+var datasetGeometryCache = {};
+
 
 function CreateBackgroundLayerFromConfig( lconfig )
 {
@@ -144,6 +148,49 @@ function initMapFromConfig(config)
         }
     });
 }
+
+function clearGeometryCache()
+{
+    datasetGeometryCache = {};
+}
+
+
+function addGeometryToCache(id, spatial)
+{
+    // take spatial json as is
+    datasetGeometryCache[id] = spatial;
+}
+
+
+function showInGeometryLayer( id )
+{
+    // Display the spatial geometry in the vector layer
+    // set id to the dataset id ( select )
+
+    // clear the source to be sure that only one geometry is displayed
+    let cursource = vectorLayer.getSource();
+    cursource.clear();
+
+    // create vector geometry object and set properties
+    var feature = new ol.Feature({
+        geometry: new ol.geom.Polygon(datasetGeometryCache[id]['coordinates'])
+    });
+    feature.setId(id);
+    feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
+    // set id to link to description panel
+    feature.set('id', id);
+
+    cursource.addFeature(feature);
+    // update the map
+    vectorLayer.setVisible(true);
+
+    var newBound = cursource.getExtent();
+    // map.getSize(),
+    map.getView().fit(newBound, { duration: 1000 });
+    // move map and zoom to fit geometry
+    //startview.animate(  {center: ol.proj.transform(getCenterOfCoordinates(datasetGeometryCache[id]['coordinates'][0]), 'EPSG:4326', 'EPSG:3857')});
+}
+
 
 function selectFeatureOnMap( id )
 {

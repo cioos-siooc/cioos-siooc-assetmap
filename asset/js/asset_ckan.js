@@ -469,6 +469,7 @@ function AddDisplayCKANExtent( data )
         if ( objspatial != undefined )
         {
             // Create geometry feature as polygone (rect extent)
+            addGeometryToCache(r['id'], objspatial);
             var feature = new ol.Feature({
                 geometry: new ol.geom.Polygon(objspatial['coordinates'])
             });
@@ -520,6 +521,7 @@ function AddDisplayCKANClusterIcon( data )
        }
        if ( objspatial != undefined )
        {
+            addGeometryToCache(r['id'], objspatial);
            // Create geometry feature as polygone (rect extent)
            var feature = new ol.Feature({
             geometry: new ol.geom.Point(getCenterOfCoordinates(objspatial['coordinates'][0]))
@@ -539,6 +541,26 @@ function AddDisplayCKANClusterIcon( data )
    //cursource = clusterLayer.getSource();
    clusterVectorSource.addFeatures(features);
    // update map
+}
+
+function datasetHasSpatial(data)
+{
+    if (data["spatial"] != undefined && data["spatial"] !== "")
+    {
+       return true;
+    }
+    else if ( data['extras'] != undefined)
+    {
+        // slgo + extension spatial schema
+        data['extras'].forEach( function(entry)
+        {
+            if ( entry['key'] == 'spatial')
+            {
+                return true;
+            }
+        });
+    }
+    return false;
 }
 
 function displayCKANExtent( data )
@@ -571,6 +593,7 @@ function displayCKANExtent( data )
         }
         if ( objspatial != undefined )
         {
+            addGeometryToCache(r['id'], objspatial);
             // Create geometry feature as polygone (rect extent)
             var feature = new ol.Feature({
                 geometry: new ol.geom.Polygon(objspatial['coordinates'])
@@ -721,6 +744,7 @@ function displayCKANClusterIcon( data )
         }
         if ( objspatial != undefined )
         {
+            addGeometryToCache(r['id'], objspatial);
             // Create geometry feature as polygone (rect extent)
             //new Feature(new Point(coordinates));
             var pointfeature = new ol.Feature({
@@ -899,8 +923,13 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     }
     ret_html += '<div class="asset-actions">';
     ret_html += '<span>Information:</span>';
-    ret_html += '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button">Details</a>';
-    ret_html += '<a href="#" onclick="selectFeatureOnMap(\'' + dataset["id"] + '\');");">Map</a> ';
+    ret_html += '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="callDatasetDetailDescription(\'' + dataset["id"] + '\')">' + i18nStrings.getUIString("details") + '</a>';
+    
+    // check if geomeetry details available for this dataset
+    if ( datasetHasSpatial(dataset) )
+    {
+        ret_html += '<a href="#" onclick="showInGeometryLayer(\'' + dataset["id"] + '\');");">' + i18nStrings.getUIString("map") + '</a> ';
+    }
     // ret_html += '<button type="button" class="button" onclick="selectFeatureOnMap(\'' + dataset["id"] + '\');");">Map</button> ';
     // ret_html += '<a class="button" data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button">details</a>';
     ret_html += '</div>';
@@ -923,6 +952,10 @@ function DisplayCkanDatasetDetails(data)
     while ( i < results.length ) {
         let r = results[i];
         // if complete dataset then add to cache
+        if ( ckan_server.restrict_json_return == false)
+        {
+            ckan_server.datasetDetails[r['id']] = r;
+        }
         html_dataset += generateDetailsPanel( r );
         //"fr", r['id'], i18nStrings.getTranslation(r['title_translated']), i18nStrings.getTranslation(r['notes_translated']), r['organization']['title'], 'https://test-catalogue.ogsl.ca/dataset/', r['organization']['name']);
         ++i;
@@ -937,6 +970,11 @@ function AddToDisplayCkanDatasetDetails(data)
     let results = data['result']['results'];
     while ( i < results.length ) {
         let r = results[i];
+         // if complete dataset then add to cache
+         if ( ckan_server.restrict_json_return == false)
+         {
+             ckan_server.datasetDetails[r['id']] = r;
+         }
         html_dataset += generateDetailsPanel(  r );
         //['id'], i18nStrings.getTranslation(r['title_translated']), i18nStrings.getTranslation(r['notes_translated']), r['organization']['title'], 'https://test-catalogue.ogsl.ca/dataset/', r['organization']['name']);
         ++i;
@@ -1104,7 +1142,7 @@ function clearAllDatasets()
          source: vectorSource,
          style: polyStyle
      });
-    map.addLayer(vectorLayer);
+    // map.addLayer(vectorLayer);
      // update map
 
 }

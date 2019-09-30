@@ -24,5 +24,15 @@
   {
     "fr": "CATALOGUE",
     "en": "CATALOG"
+  },
+  "map": 
+  {
+    "fr": "Carte",
+    "en": "Map"
+  },
+  "details": 
+  {
+    "fr": "Détails",
+    "en": "Details"
   }
 }
