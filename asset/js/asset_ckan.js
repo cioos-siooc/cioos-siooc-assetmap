@@ -486,7 +486,7 @@ function AddDisplayCKANExtent( data )
     // recreate layer 
     
     //console.log(vectorLayer);
-    cursource = vectorLayer.getSource();
+    let cursource = vectorLayer.getSource();
     cursource.addFeatures(features);
     // update map
 }
@@ -609,15 +609,12 @@ function displayCKANExtent( data )
         ++i;
     }
     // recreate layer 
-    map.removeLayer(vectorLayer);
-    vectorSource= new ol.source.Vector({
+    let vectorSource= new ol.source.Vector({
         features: features
     });
-    vectorLayer = new ol.layer.Vector({
-        source: vectorSource,
-        style: polyStyle
-    });
-    map.addLayer(vectorLayer);
+    vectorSource.clear();
+    vectorSource.addFeatures(features);
+    vectorLayer.setVisible(true);
     // update map
 }
 
@@ -760,8 +757,6 @@ function displayCKANClusterIcon( data )
         ++i;
     }
     // recreate layer 
-    map.removeLayer(clusterLayer);
-
     clusterVectorSource = new ol.source.Vector({
         features: features
     });
@@ -806,6 +801,7 @@ function displayCKANClusterIcon( data )
           return curstyle;
         }
       });
+    clusterLayer.setZIndex(10);
     map.addLayer(clusterLayer);
     // update map
 
@@ -1133,15 +1129,10 @@ function clearAllDatasets()
     document.getElementById('dataset_desc').innerHTML = "";
 
     // clear map display
-    map.removeLayer(clusterLayer);
-    map.removeLayer(vectorLayer);
-    vectorSource= new ol.source.Vector({
-         features: []
-     });
-    vectorLayer = new ol.layer.Vector({
-         source: vectorSource,
-         style: polyStyle
-     });
+    clusterLayer.setVisible(false);
+    vectorLayer.setVisible(false);
+    let vectorSource= vectorLayer.getSource();
+    vectorSource.clear();
     // map.addLayer(vectorLayer);
      // update map
 

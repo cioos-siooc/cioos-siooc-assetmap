@@ -90,9 +90,9 @@ function initMapFromConfig(config)
         condition: ol.events.condition.click
     });
 
-    selectPointerMove = new ol.interaction.Select({
-        condition: ol.events.condition.pointerMove
-      });
+    // selectPointerMove = new ol.interaction.Select({
+    //     condition: ol.events.condition.pointerMove
+    //   });
 
     startview = new ol.View(
         config["start_view"]);
@@ -109,6 +109,7 @@ function initMapFromConfig(config)
         }
     );
 
+    vectorLayer.setVisible(false);
     bacground_layers[config['start_layer']].setVisible(true);
     map = new ol.Map({
         layers: [
@@ -122,7 +123,7 @@ function initMapFromConfig(config)
     });
 
     map.addInteraction(selectClick);
-    map.addInteraction(selectPointerMove);
+    // map.addInteraction(selectPointerMove);
     selectClick.on('select', function(e) {
         // if details panel close, open drawer
         // open details of selected feature dataset
@@ -139,14 +140,14 @@ function initMapFromConfig(config)
         // hide last selected
     });
 
-    selectPointerMove.on('select', function(e) {
-        f = e.selected[0];
-        // highlight details panel of hoovered feature dataset
-        if ( f !== undefined )
-        {
-            console.log(f['values_']['id']);
-        }
-    });
+    // selectPointerMove.on('select', function(e) {
+    //     f = e.selected[0];
+    //     // highlight details panel of hoovered feature dataset
+    //     if ( f !== undefined )
+    //     {
+    //         console.log(f['values_']['id']);
+    //     }
+    // });
 }
 
 function clearGeometryCache()
