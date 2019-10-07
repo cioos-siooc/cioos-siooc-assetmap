@@ -53,7 +53,7 @@ function generateCategoryButton( catData)
 
 function toggleTab(e, link)
 /**
- * [bar description]
+ * [enables and disables variables drawer]
  * @param  {[event]} e [event]
  * @param  {[object]} link [element]
  */
