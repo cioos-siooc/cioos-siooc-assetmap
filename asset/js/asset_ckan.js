@@ -1215,11 +1215,11 @@ function updateDatasetDetailsFromCache( datasetid )
     $(itemid).collapse("show");
 }
 
+function showDatasetDetailDescription( datasetid )
 /**
  * Shows Dataset Detail Description and adjusts the scroll so that detail panel is visible
  * @param  {[string]} datasetid [element]
  */
-function showDatasetDetailDescription( datasetid )
 {
     // collapse other detail panels
     $('#dataset_desc').find('.collapse').each(function() {
