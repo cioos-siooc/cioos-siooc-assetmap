@@ -52,6 +52,12 @@ function generateCategoryButton( catData)
 }
 
 function toggleTab(e, link)
+/**
+ * [bar description]
+ * @param  {[event]} e [event]
+ * @param  {[object]} link [element]
+ */
+
 {
     e.preventDefault();
     let tab = $(link).attr("href");
