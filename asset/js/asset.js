@@ -42,13 +42,29 @@ function generateVariableBox( vardata )
 
 function generateCategoryButton( catData)
 {
-    ret_html = '<a href="#' + category["id"] + '_tab' + '" data-toggle="tab" role="tab">';
+    ret_html = '<a href="#' + category["id"] + '_tab' + '" role="tab" onclick="toggleTab(event, this);">';
     ret_html += "<div class='category_cell_bg'>";
     ret_html += "<div class='category-icon'><img src='/asset/images/" + catData["icon"] + "' onclick=''></div>";
     ret_html += i18nStrings.getTranslation(catData["label"]);
     ret_html += "</div>";
     ret_html += "</a>";
     return ret_html;
+}
+
+function toggleTab(e, link)
+{
+    e.preventDefault();
+    let tab = $(link).attr("href");
+    if (!$(tab).hasClass("active")) {
+        $(tab).addClass("active");
+        $(tab)
+          .siblings()
+          .removeClass("active");
+        $(tab).show();
+    } else {
+        $(tab).hide();
+        $(tab).removeClass("active");
+    }
 }
 
 function generateFilterCategories()
