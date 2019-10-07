@@ -1221,7 +1221,15 @@ function updateDatasetDetailsFromCache( datasetid )
  */
 function showDatasetDetailDescription( datasetid )
 {
+    // collapse other detail panels
+    $('#dataset_desc').find('.collapse').each(function() {
+        if ($(this).attr('id') != datasetid || true) {
+            $(this).collapse('hide');
+        }
+    });
+    // show details panel
     callDatasetDetailDescription(datasetid);
+    // sroll up to this panel
     $("#"+datasetid).on("shown.bs.collapse", function() {
         let topPos = $('#dataset_desc').scrollTop() + $("#"+datasetid).position().top;
         $('#dataset_desc').animate({scrollTop:topPos}, 500);
