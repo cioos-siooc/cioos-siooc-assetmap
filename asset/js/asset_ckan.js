@@ -385,7 +385,7 @@ function CKANServer()
 
     this.getVariableThumbnail = function(name)
     {
-        ret = undefined;
+        let ret = undefined;
         this.varriables.forEach( function(v)
         {
             if (v["ckantext"] == name)
@@ -395,6 +395,19 @@ function CKANServer()
         }); 
         return ret;
     };
+
+    this.getVariableForEOV = function(name)
+    {
+        let ret = undefined;
+        this.varriables.forEach( function(v)
+        {
+            if  ( v["eovs"].includes(name) )
+            {
+                ret = v;
+            }
+        }); 
+        return ret;
+    }
 
     this.getCKANData = function ()
     {
@@ -854,6 +867,26 @@ function getVariableForDatataset(dataset)
     return ret_html;
 }
 
+function getCategoriesForDataset(dataset)
+{
+    let ret_html = "<ul>"
+    // if ckan_server support eov, then used it for variable link
+    if ( ckan_server.support_eov == true)
+    {
+        dataset['eov'].forEach( function(entry){
+            // search eov for matching variable
+            let catvar =  ckan_server.getVariableForEOV(entry);
+            if ( catvar !== undefined )
+            {
+                // use lable for now, requires parent category too
+                // must not reuse the same variable !
+                ret_html += "<li>" + i18nStrings.getTranslation(catvar["label"]) + "</li>";
+            }
+        });
+    }
+    ret_html += "</ul><br />"
+    return ret_html;
+}
 
 function getToolForDataset(dataset)
 {
@@ -886,14 +919,20 @@ function generateCompleteDetailsPanel( dataset )
     // Add variable, description and tool accessà
     let ret_html = '';
     ret_html += '<div class="card card-body">'
-    ret_html += "<h4 class='details_label'>" + i18nStrings.getUIString("dataset_description") + "</h4>";
+    if ( ckan_server.support_eov == true)
+    {
+        // add categories from variable 
+        ret_html += "<span class='details_text'>" + i18nStrings.getUIString("category") + "</span>";
+        ret_html += getCategoriesForDataset( dataset);
+    }
+    ret_html += "<span class='details_text'>" + i18nStrings.getUIString("dataset_description") + "</span>";
     if ( ckan_server.support_multilanguage)
     {
-        ret_html += "<p class='details_text'>" + i18nStrings.getTranslation(dataset['notes_translated']) + "</p>";
+        ret_html += "<p class='details_label'>" + i18nStrings.getTranslation(dataset['notes_translated']) + "</p>";
     }
     else
     {
-        ret_html += "<p class='details_text'>" + dataset['notes'] + "</p>";
+        ret_html += "<p class='details_label'>" + dataset['notes'] + "</p>";
     }
     ret_html += '<div class="asset-data-links"><span>' + i18nStrings.getUIString("dataset_tools") + ':</span>';
     ret_html += '<a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '" class="asset-link" target="_blank" role="button">CKAN</a> ';
@@ -908,7 +947,7 @@ function generateCompleteDetailsPanel( dataset )
 function generateDetailsPanel( dataset ) //, language, dataset_id, title, description, provider, link_url, prov_url)
 {
     let ret_html = "<div id='" + dataset["id"] + "'class='asset_details');'>";
-    ret_html += "<h3 class='details_label'>" + i18nStrings.getUIString("dataset_title") + "</h3>";
+    ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_title") + "</span>";
     if ( ckan_server.support_multilanguage)
     {
         ret_html += "<p class='details_text'>" + i18nStrings.getTranslation(dataset['title_translated']) + "</p>";
@@ -918,7 +957,7 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
         ret_html += "<p class='details_text'>" + dataset['title'] + "</p>";
     }
     ret_html += '<div class="asset-actions">';
-    ret_html += '<span>Information:</span>';
+    ret_html += '<span class="details_label">Information:</span>';
     ret_html += '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="callDatasetDetailDescription(\'' + dataset["id"] + '\')">' + i18nStrings.getUIString("details") + '</a>';
     
     // check if geomeetry details available for this dataset
@@ -932,9 +971,6 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     ret_html += '<div class="collapse" id="' + dataset["id"] + '_collapse' + '">';
     ret_html += "</div>";
     ret_html += "</div>";
-    ret_html += "<div>"
-    ret_html += getVariableForDatataset(dataset);
-    ret_html += "</div>"
     return ret_html;
 }
 
