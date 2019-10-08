@@ -1,6 +1,6 @@
 {
   "dataset_title": {
-    "fr": "Titre du jeu de données",
+    "fr": "Titre",
     "en": "Dataset title"
   },
   "dataset_description": {
@@ -34,5 +34,10 @@
   {
     "fr": "Détails",
     "en": "Details"
+  },
+  "category": 
+  {
+    "fr": "Catégorie(s)",
+    "en": "Category(ies)"
   }
 }

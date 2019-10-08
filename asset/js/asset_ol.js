@@ -47,6 +47,7 @@ function CreateBackgroundLayerFromConfig( lconfig )
     else if ( lconfig['type'] === "wms")
     {
         ret = new ol.layer.Tile({
+            visible: false,
             source: new ol.source.TileWMS({
               url: lconfig['server_url'],
               params: {'LAYERS': lconfig['layer_name'], 'TILED': true},
@@ -99,24 +100,41 @@ function initMapFromConfig(config)
     // transform center from WGS84 lat/long
     startview.setCenter( ol.proj.transform(config["start_view"]["center"], 'EPSG:4326', 'EPSG:3857'));
 
-    config["backgrouns_layers"].forEach( function(element)
-        {
-            let blayer = CreateBackgroundLayerFromConfig(element);
-            if ( blayer !== undefined)
+    if ( "backgrouns_layers" in config)
+    {
+        config["backgrouns_layers"].forEach( function(element)
             {
-                bacground_layers[element['name']] = blayer;
+                let blayer = CreateBackgroundLayerFromConfig(element);
+                if ( blayer !== undefined)
+                {
+                    bacground_layers[element['name']] = blayer;
+                }
             }
-        }
-    );
+        );
+    }
+    if ( Object.keys(bacground_layers).length == 0)
+    {
+        // if no background layer defined, add default OpenStreetMap
+        bacground_layers['default'] = new  ol.layer.Tile({
+            visible: false,
+            source: new ol.source.OSM()
+        });
+    }
 
     vectorLayer.setVisible(false);
-    bacground_layers[config['start_layer']].setVisible(true);
+    if ( !( "start_layer" in config) )
+    {
+        // can't find start layer in config, use first layer
+        bacground_layers[Object.keys(bacground_layers)[0]].setVisible(true);
+    }
+    else
+    {
+        bacground_layers[config['start_layer']].setVisible(true);
+    }
+    let maplayers = Object.values(bacground_layers);
+    maplayers.push(vectorLayer);
     map = new ol.Map({
-        layers: [
-            // backlayer come from config
-            bacground_layers[config['start_layer']],
-            vectorLayer
-        ],
+        layers: maplayers,
         target: 'map',
         // needs to come form config
         view: startview
@@ -162,6 +180,24 @@ function addGeometryToCache(id, spatial)
     datasetGeometryCache[id] = spatial;
 }
 
+
+function changeBackgrounLayer( layername )
+{
+    if ( layername in bacground_layers)
+    {
+        // set layer visible
+        bacground_layers[layername].setVisible(true);
+
+        // set all others invisible
+        for ( let key in  bacground_layers)
+        {
+            if ( key !== layername)
+            {
+                bacground_layers[key].setVisible(false);
+            }
+        }
+    }
+}
 
 function showInGeometryLayer( id )
 {
