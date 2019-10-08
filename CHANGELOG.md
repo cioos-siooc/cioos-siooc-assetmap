@@ -1,33 +1,10 @@
-# Quick Todo:
+# Changelog
+All notable changes to this project will be documented in this file.
 
-* Create details panel with cache or call when "detail" button click 
-* Add dataset details in cache when restrict_json_return set to false
-* implement cluster mouse over / clic
-* Add basic auth support in API call ( debug )
-    * define in config
-    * require user info 
-* Add option for EOV support in CKAN config
-* Define tool support configuration
-    * define resource identification
-    * define i18n label / icon
-* better code documentation
-* Change current icon for new one ( currently canibalised from Condition Maritime )
-* bettter ids for dataset panel ( limit conflict with crm )
-* on detail click, scroll to correct panel
-* add CSS for variable label et category label + layout
-* position variable with 3 per row
-* sort rectangle by area size
-* transform CKAN description in html ( markdown style)
-* hide/show variable panel drawer
-* hide/show dataset details drawer
-* show the map control and attribution even with open panel
-* add responsive css
-* better error checking
-    * Look if dataset has a minimum ( id, title, etc ) before adding it
-* CSS, again and again and again...
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-# Done
-
+## [Unreleased]
 * separate details panel creation with basic / complete info
     * update complete info with separate call to CKAN with resource
 * Verify support_multilanguage to disable multilingual support parsing
