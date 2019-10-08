@@ -141,6 +141,7 @@ ul.variable-options li input[type="checkbox"]:focus + label {
   top: 0px;
   width: 400px;
   height: 640px;
+  position: relative;
 }
 .asset_details {
   background: #fff;

@@ -149,7 +149,7 @@ function initMapFromConfig(config)
         f['values_']['features'].forEach( function(element)
             {
                 // call package show and update details panel
-                callDatasetDetailDescription(element['values_']['id']);
+                showDatasetDetailDescription(element['values_']['id']);
             }
         );
         // $('#' + f['values_']['id'] + '_collapse').collapse("show");
