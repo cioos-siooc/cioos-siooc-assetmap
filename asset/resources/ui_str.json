@@ -1,6 +1,6 @@
 {
   "dataset_title": {
-    "fr": "Titre",
+    "fr": "Titre du jeu de connées",
     "en": "Dataset title"
   },
   "dataset_description": {
@@ -8,8 +8,8 @@
     "en": "Description"
   },
   "dataset_provider": {
-    "fr": "Distributeur",
-    "en": "Provider"
+    "fr": "Source des données",
+    "en": "Data provider"
   },
   "dataset_tools": {
     "fr": "Données",

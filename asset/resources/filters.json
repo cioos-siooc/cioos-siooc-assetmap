@@ -113,8 +113,8 @@
         "id": "Biogeochemical",
         "label":
         {
-            "fr": "BIOGÉOCHIMIQUE",
-            "en": "BIOGEOCHEMICAL"
+            "fr": "BIOGÉOCHIMIE",
+            "en": "BIOGEOCHEMISTRY"
         },
         "icon": "biochem.png",
         "enabled": true,
@@ -161,7 +161,7 @@
                 "icon":"seaWaterSalinity.png",
                 "label":
                 {
-                    "fr":"Carbon inorganique",
+                    "fr":"Carbone inorganique",
                     "en":"Inorganic Carbon"
                 },
                 "ckantext":["Inorganic Carbon"],
@@ -173,7 +173,7 @@
                 "icon":"seaWaterSalinity.png",
                 "label":
                 {
-                    "fr":"carbon organique dissous",
+                    "fr":"Carbone organique dissous",
                     "en":"Dissolved Organic Carbon"
                 },
                 "ckantext":["Dissolved Organic Carbon"],
