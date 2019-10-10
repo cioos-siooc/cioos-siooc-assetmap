@@ -1,5 +1,6 @@
 
 var vectorsource = null;
+var vectorLayer = null;
 var polystyle = null;
 var polyLayer = null;
 var clusterLayer = null;
@@ -230,27 +231,28 @@ function showInGeometryLayer( id )
 
 
 function selectFeatureOnMap( id )
+/**
+ * Selects the feature on the map and centers the view on it
+ * @param  {[string]} datasetid [element]
+ */
 {
     // get feature from vector layer
     f = vectorLayer.getSource().getFeatureById(id);
-    if ( f !== undefined )
-    {
-        selectClick.getFeatures().push(f);
-        // center view on feature
-        startview.animate(  {center: ol.proj.transform(f['values_']['center'], 'EPSG:4326', 'EPSG:3857')})
-        //startview.setCenter( ol.proj.transform(f['values_']['center'], 'EPSG:4326', 'EPSG:3857'));
+    if (!f) {
+        f = clusterVectorSource.getFeatureById(id);
     }
-    else
-    {
-        f = clusterLayer.getSource().getFeatureById(id);
-        if ( f !== undefined )
-        {
-            alert(id);
-            //selectClick.getFeatures().push(f);
-            // center view on feature
-            //startview.animate(  {center: ol.proj.transform(f['values_']['center'], 'EPSG:4326', 'EPSG:3857')})
-            //startview.setCenter( ol.proj.transform(f['values_']['center'], 'EPSG:4326', 'EPSG:3857'));
-        }
+
+    if (f) {
+        // select feature on the map
+        selectClick.getFeatures().clear();
+        selectClick.getFeatures().push(f);
+
+        // center view on feature
+        var point = f.getGeometry();
+        center = point.getCoordinates();
+        var size = map.getSize();
+//        startview.centerOn(point.getCoordinates(), size, [500, 500]);
+        startview.animate( {center: point.getCoordinates()} );
     }
 }
 

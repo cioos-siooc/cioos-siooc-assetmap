@@ -958,7 +958,7 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     }
     ret_html += '<div class="asset-actions">';
     ret_html += '<span class="details_label">Information:</span>';
-    ret_html += '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="showDatasetDetailDescription(\'' + dataset["id"] + '\')">' + i18nStrings.getUIString("details") + '</a>';
+    ret_html += '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="showDatasetDetailDescription(\'' + dataset["id"] + '\');">' + i18nStrings.getUIString("details") + '</a>';
     
     // check if geomeetry details available for this dataset
     if ( datasetHasSpatial(dataset) )
@@ -1245,9 +1245,11 @@ function updateDatasetDetails( datasets )
 function updateDatasetDetailsFromCache( datasetid )
 {
     let element = ckan_server.datasetDetails[datasetid];
-    // update and open panel 
+    // update and open panel
     let itemid = '#' + element['id'] + '_collapse';
-    document.getElementById(element['id'] + '_collapse').innerHTML = generateCompleteDetailsPanel(element);
+    if (document.getElementById(element['id'] + '_collapse')) {
+        document.getElementById(element['id'] + '_collapse').innerHTML = generateCompleteDetailsPanel(element);
+    }
     $(itemid).collapse("show");
 }
 
@@ -1270,6 +1272,8 @@ function showDatasetDetailDescription( datasetid )
         let topPos = $('#dataset_desc').scrollTop() + $("#"+datasetid).position().top;
         $('#dataset_desc').animate({scrollTop:topPos}, 500);
     });
+    // center the selected resource on map
+    selectFeatureOnMap( datasetid );
 }
 
 function callDatasetDetailDescription( datasetid )
