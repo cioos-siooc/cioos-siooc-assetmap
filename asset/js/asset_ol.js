@@ -147,10 +147,13 @@ function initMapFromConfig(config)
         // if details panel close, open drawer
         // open details of selected feature dataset
         let f = e.selected[0];
+        let scroll_to_description = f['values_']['features'].length > 1 ? false : true; // don't scroll if there are many points in one
+        let center_on_map = true;  // center on the first feature in the collection
         f['values_']['features'].forEach( function(element)
             {
                 // call package show and update details panel
-                showDatasetDetailDescription(element['values_']['id']);
+                showDatasetDetailDescription(element['values_']['id'], scroll_to_description, false, center_on_map);
+                center_on_map = false;
             }
         );
         // $('#' + f['values_']['id'] + '_collapse').collapse("show");
@@ -230,10 +233,11 @@ function showInGeometryLayer( id )
 }
 
 
-function selectFeatureOnMap( id )
+function getFeaturePointById ( id )
 /**
- * Selects the feature on the map and centers the view on it
+ * Gets the feature (point) on the map view by datasetid
  * @param  {[string]} datasetid [element]
+ * @return {Feature} Feature object
  */
 {
     // get feature from vector layer
@@ -241,12 +245,32 @@ function selectFeatureOnMap( id )
     if (!f) {
         f = clusterVectorSource.getFeatureById(id);
     }
+    return f;
+}
+
+function selectFeatureOnMap( id )
+/**
+ * Selects the feature on the map
+ * @param  {[string]} datasetid [element]
+ */
+{
+    f = getFeaturePointById(id);
 
     if (f) {
-        // select feature on the map
         selectClick.getFeatures().clear();
         selectClick.getFeatures().push(f);
+    }
+}
 
+function centerFeatureOnMap( id )
+/**
+ * Centers the view on the feature given
+ * @param  {[string]} datasetid [element]
+ */
+{
+    f = getFeaturePointById(id);
+
+    if (f) {
         // center view on feature
         var point = f.getGeometry();
         center = point.getCoordinates();
@@ -254,6 +278,12 @@ function selectFeatureOnMap( id )
 //        startview.centerOn(point.getCoordinates(), size, [500, 500]);
         startview.animate( {center: point.getCoordinates()} );
     }
+}
+
+function selectAndCenterFeatureOnMap( id )
+{
+    selectFeatureOnMap(id);
+    centerFeatureOnMap(id);
 }
 
 // Should have code to add dataset to layer here

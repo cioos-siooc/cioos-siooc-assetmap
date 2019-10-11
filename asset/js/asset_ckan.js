@@ -963,9 +963,9 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     // check if geomeetry details available for this dataset
     if ( datasetHasSpatial(dataset) )
     {
-        ret_html += '<a href="#" onclick="showInGeometryLayer(\'' + dataset["id"] + '\');");">' + i18nStrings.getUIString("map") + '</a> ';
+        ret_html += '<a href="#" onclick="showInGeometryLayer(\'' + dataset["id"] + '\');">' + i18nStrings.getUIString("map") + '</a> ';
     }
-    // ret_html += '<button type="button" class="button" onclick="selectFeatureOnMap(\'' + dataset["id"] + '\');");">Map</button> ';
+    // ret_html += '<button type="button" class="button" onclick="selectAndCenterFeatureOnMap(\'' + dataset["id"] + '\');">Map</button> ';
     // ret_html += '<a class="button" data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button">details</a>';
     ret_html += '</div>';
     ret_html += '<div class="collapse" id="' + dataset["id"] + '_collapse' + '">';
@@ -1253,27 +1253,36 @@ function updateDatasetDetailsFromCache( datasetid )
     $(itemid).collapse("show");
 }
 
-function showDatasetDetailDescription( datasetid )
+function showDatasetDetailDescription( datasetid , goto_description = true, select_point = true, center_point = true)
 /**
  * Shows Dataset Detail Description and adjusts the scroll so that detail panel is visible
- * @param  {[string]} datasetid [element]
+ * @param  {[string]} datasetid
+ * @param  {[bool]} goto_description - scroll to the current description in the right panel if True
+ * @param  {[bool]} select_point - selects corresponding feature (point) on the map
+ * @param  {[bool]} center_point - center corresponding feature (point) on the map
  */
 {
     // collapse other detail panels
     $('#dataset_desc').find('.collapse').each(function() {
-        if ($(this).attr('id') != datasetid || true) {
+        if ($(this).attr('id') != datasetid) {
             $(this).collapse('hide');
         }
     });
-    // show details panel
+    // load details panel
     callDatasetDetailDescription(datasetid);
-    // sroll up to this panel
-    $("#"+datasetid).on("shown.bs.collapse", function() {
-        let topPos = $('#dataset_desc').scrollTop() + $("#"+datasetid).position().top;
-        $('#dataset_desc').animate({scrollTop:topPos}, 500);
-    });
-    // center the selected resource on map
-    selectFeatureOnMap( datasetid );
+    // scroll up to this panel
+    if (goto_description) {
+        $("#"+datasetid).on("shown.bs.collapse", function() {
+            let topPos = $('#dataset_desc').scrollTop() + $("#"+datasetid).position().top;
+            $('#dataset_desc').animate({scrollTop:topPos}, 500);
+        });
+    }
+    if (select_point) {
+        selectFeatureOnMap(datasetid);
+    }
+    if (center_point) {
+        centerFeatureOnMap(datasetid);
+    }
 }
 
 function callDatasetDetailDescription( datasetid )
