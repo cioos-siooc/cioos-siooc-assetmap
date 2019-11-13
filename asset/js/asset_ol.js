@@ -1,11 +1,15 @@
 
 var vectorsource = null;
+var hoverSource = null;
 var polystyle = null;
 var polyLayer = null;
+var hoverlayer = null;
 var clusterLayer = null;
 var clusterVectorSource = null;
 var clusterSource = null;
 var clusterStyleConfig = {};
+
+var selectDoubleCLick = null;
 var selectClick = null;
 var selectPointerMove = null;
 var map = null;
@@ -64,6 +68,10 @@ function initMapFromConfig(config)
     vectorSource= new ol.source.Vector({
         features: []
     });
+
+    hoverSource = new ol.source.Vector({
+        features: []
+    });
     
     polyStyle =  new ol.style.Style({
         stroke: new ol.style.Stroke(
@@ -74,6 +82,11 @@ function initMapFromConfig(config)
 
     vectorLayer = new ol.layer.Vector({
         source: vectorSource,
+        style: polyStyle
+    });
+
+    hoverlayer= new ol.layer.Vector({
+        source: hoverSource,
         style: polyStyle
     });
 
@@ -91,9 +104,14 @@ function initMapFromConfig(config)
         condition: ol.events.condition.click
     });
 
-    // selectPointerMove = new ol.interaction.Select({
-    //     condition: ol.events.condition.pointerMove
-    //   });
+    selectDoubleCLick = new ol.interaction.Select({
+        condition: ol.events.condition.doubleClick
+    });
+    
+
+    selectPointerMove = new ol.interaction.Select({
+        condition: ol.events.condition.pointerMove
+      });
 
     startview = new ol.View(
         config["start_view"]);
@@ -133,6 +151,7 @@ function initMapFromConfig(config)
     }
     let maplayers = Object.values(bacground_layers);
     maplayers.push(vectorLayer);
+    maplayers.push(hoverlayer);
     map = new ol.Map({
         layers: maplayers,
         target: 'map',
@@ -141,7 +160,8 @@ function initMapFromConfig(config)
     });
 
     map.addInteraction(selectClick);
-    // map.addInteraction(selectPointerMove);
+    map.addInteraction(selectDoubleCLick);
+    map.addInteraction(selectPointerMove);
     selectClick.on('select', function(e) {
         // if details panel close, open drawer
         // open details of selected feature dataset
@@ -158,14 +178,62 @@ function initMapFromConfig(config)
         // hide last selected
     });
 
-    // selectPointerMove.on('select', function(e) {
-    //     f = e.selected[0];
-    //     // highlight details panel of hoovered feature dataset
-    //     if ( f !== undefined )
-    //     {
-    //         console.log(f['values_']['id']);
-    //     }
-    // });
+    selectDoubleCLick.on('select', function(e) {
+        // if details panel close, open drawer
+        // open details of selected feature dataset
+        let f = e.selected[0];
+        if ( f !== undefined )
+        {
+            // if is cluster
+            // calculate extent
+            // animate zoom to extent
+            // if only one feature in cluster, than show entire geom et go to description
+            if ( 'features' in f['values_'])
+            {
+                let coords = [];
+                
+                f['values_']['features'].forEach( function(element)
+                    {
+                        // call package show and update details panel
+                        coords.push(element['values_']['geometry']['flatCoordinates']);
+                    }
+                );
+                let newBound = ol.extent.boundingExtent(coords);
+                map.getView().fit(newBound, { duration: 1000 });
+            }
+            else
+            {
+                // is not, this a specific region or dataset
+                console.log('specific feature');
+                console.log(f['values_']['id']);
+            }
+        }
+    });
+
+    selectPointerMove.on('select', function(e) {
+        let f = e.selected[0];
+        // highlight details panel of hovered feature dataset
+        if ( f !== undefined )
+        {
+            // look if f contains features in the values, if so, this is a cluster
+            if ( 'features' in f['values_'])
+            {
+                console.log('found features list: ' + f['values_']['features'].length);
+            }
+            else
+            {
+                // is not, this a specific region or dataset
+                console.log('specific feature');
+                console.log(f['values_']['id']);
+            }
+            
+        }
+        else
+        {
+            // pointer move to nothing ( out of object event )
+            console.log('pointer out of object');
+        }
+    });
 }
 
 function clearGeometryCache()
