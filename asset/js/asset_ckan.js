@@ -947,7 +947,7 @@ function generateCompleteDetailsPanel( dataset )
 function generateDetailsPanel( dataset ) //, language, dataset_id, title, description, provider, link_url, prov_url)
 {
     let ret_html = "<div id='" + dataset["id"] + "'class='asset_details');'>";
-    ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_title") + "</span>";
+    ret_html += "<h3 class='details_label'>" + i18nStrings.getUIString("dataset_title") + "</h3>";
     if ( ckan_server.support_multilanguage)
     {
         ret_html += "<p class='details_text'>" + i18nStrings.getTranslation(dataset['title_translated']) + "</p>";
