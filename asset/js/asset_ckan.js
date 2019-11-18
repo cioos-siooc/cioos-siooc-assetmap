@@ -1165,7 +1165,9 @@ function clearAllDatasets()
     document.getElementById('dataset_desc').innerHTML = "";
 
     // clear map display
-    clusterLayer.setVisible(false);
+    if (clusterLayer !== undefined){
+        clusterLayer.setVisible(false);   
+    }
     vectorLayer.setVisible(false);
     let vectorSource= vectorLayer.getSource();
     vectorSource.clear();
