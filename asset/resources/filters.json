@@ -7,7 +7,7 @@
             "fr": "PHYSIQUE",
             "en": "PHYSIC"
         },
-        "icon": "physics.png",
+        "icon": "icons/physics.svg",
         "enabled": true,
         "variables":
         [
@@ -116,7 +116,7 @@
             "fr": "BIOGÉOCHIMIE",
             "en": "BIOGEOCHEMISTRY"
         },
-        "icon": "biochem.png",
+        "icon": "icons/biogeochemistry.svg",
         "enabled": true,
         "variables":
         [
@@ -201,7 +201,7 @@
             "fr": "BIOLOGIE",
             "en": "BIOLOGY"
         },
-        "icon": "biology.png",
+        "icon": "icons/biology-and-ecosystems.svg",
         "enabled": true,
         "variables":
         [
