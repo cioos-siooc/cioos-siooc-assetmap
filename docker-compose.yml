@@ -1,7 +1,9 @@
 version: '3.7'
 
 services:
-  assetmap:
+  debug_asset_map:
     build: ./
+    container_name: debug_asset_map
+    image: debug_asset_map
     ports:
       - "8008:5000"
