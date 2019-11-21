@@ -78,7 +78,7 @@
       $( "#debug_vertical_max" ).val('');
       setVerticalFilters(undefined, undefined);
     }
-
+    callChangeLanguage();
 
   </script>
 </head>
@@ -93,12 +93,12 @@
       <div class="panel_search_info" style="text-align:center" id="dataset_search_stats"></div>
     </div>
   </div>
-  <div>
+  <div style="display: none;">
     <h2>Debug Options</h2><br />
     language: 
     <select id="language" oninput="callChangeLanguage();">
       <option value="fr">Francais</option>
-      <option value="en">English</option>
+      <option value="en" selected="selected">English</option>
     </select><br />
     Ckan backend:
     <select id="ckan_instance" oninput="callChangeCKAN();">

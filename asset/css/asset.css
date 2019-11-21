@@ -14,7 +14,7 @@ Colours
 .map-container {
   position: relative;
   margin: 0 auto;
-  width: 1280px;
+  width: 1103px;
   height: 720px;
   font-family: 'Montserrat', sans-serif;
 }
@@ -137,7 +137,7 @@ ul.variable-options li input[type="checkbox"]:focus + label {
   background-color: #e8eef1;
   z-index: 2;
   position: absolute;
-  left: 880px;
+  left: 703px;
   top: 0px;
   width: 400px;
   height: 640px;
@@ -212,7 +212,7 @@ h4.details_label {
   background-color: rgba(64, 64, 65, 0.9);
   z-index: 2;
   position: absolute;
-  left: 880px;
+  left: 703px;
   top: 620px;
   width: 400px;
   height: 100px;
