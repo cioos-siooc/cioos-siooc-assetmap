@@ -158,15 +158,34 @@ ul.variable-options li input[type="checkbox"]:focus + label {
   text-align: left;
   white-space:normal;
 }
+.asset_details .map-marker {
+  height: 24px;
+  width: 24px;
+  display: inline;
+  margin-right: 5px;
+}
 .asset_details h3.details_label {
   color: #404041;
   font-size: 14px;
   font-weight: 700;
   margin: 0 0 6px 0;
+  display: inline;
 }
 .asset_details p.details_text,
 .asset_details p.details_label {
   color: #808081;
+}
+.asset_details .details_label.details_heading {
+  margin-bottom: 0;
+  font-weight: 700;
+  color: #333;
+}
+.asset_details .bottom-0 {
+  margin-bottom: 0;
+}
+.asset_details .details_text strong {
+  display: block;
+  margin-top: 10px;
 }
 .asset_details a.asset-link {
   color: #007bc2;
