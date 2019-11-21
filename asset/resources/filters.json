@@ -20,7 +20,7 @@
                     "en":"Temperature"
                 },
                 "ckantext":["Sea Surface Temperature", "Potential Temperature", "Sub Surface Temperature"],
-                "eovs": [ "seasurfacetemperature", "potentialtemperature", "subsurfacetemperature" ],
+                "eovs": [ "seaSurfaceTemperature", "potentialTemperature", "subSurfaceTemperature" ],
                 "enabled": true
             },
             {
@@ -32,7 +32,7 @@
                     "en":"Wind"
                 },
                 "ckantext":["wind"],
-                "eovs": [ "seasurfacetemperature", "potentialtemperature", "subsurfacetemperature" ],
+                "eovs": [ "seaSurfaceTemperature", "potentialTemperature", "subSurfaceTemperature" ],
                 "enabled": true
             },
             {
