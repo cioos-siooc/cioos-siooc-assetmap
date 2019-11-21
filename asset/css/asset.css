@@ -76,7 +76,7 @@ Colours
   position: absolute;
   left: 42px;
   top: 120px;
-  width: 600px;
+  width: 796px;
   height: auto;
 }
 ul.variable-options {
@@ -95,11 +95,19 @@ ul.variable-options li label {
   white-space: nowrap;
   cursor: pointer;
   padding: 10px 20px;
+  font-weight: 700;
+  font-size: 12px;
+
 }
 ul.variable-options li label img {
   width: auto;
   height: 24px;
   margin-right: 5px;
+  border-radius: 24px;
+}
+ul.variable-options li label em {
+  vertical-align: middle;
+  font-style: normal;
 }
 ul.variable-options li label:hover {
   background: rgba(82, 167, 155, 1);
