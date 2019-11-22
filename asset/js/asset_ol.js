@@ -1,16 +1,11 @@
 
 var vectorsource = null;
-var vectorLayer = null;
-var hoverSource = null;
 var polystyle = null;
 var polyLayer = null;
-var hoverlayer = null;
 var clusterLayer = null;
 var clusterVectorSource = null;
 var clusterSource = null;
 var clusterStyleConfig = {};
-
-var selectDoubleCLick = null;
 var selectClick = null;
 var selectPointerMove = null;
 var map = null;
@@ -69,10 +64,6 @@ function initMapFromConfig(config)
     vectorSource= new ol.source.Vector({
         features: []
     });
-
-    hoverSource = new ol.source.Vector({
-        features: []
-    });
     
     polyStyle =  new ol.style.Style({
         stroke: new ol.style.Stroke(
@@ -83,11 +74,6 @@ function initMapFromConfig(config)
 
     vectorLayer = new ol.layer.Vector({
         source: vectorSource,
-        style: polyStyle
-    });
-
-    hoverlayer= new ol.layer.Vector({
-        source: hoverSource,
         style: polyStyle
     });
 
@@ -105,14 +91,9 @@ function initMapFromConfig(config)
         condition: ol.events.condition.click
     });
 
-    selectDoubleCLick = new ol.interaction.Select({
-        condition: ol.events.condition.doubleClick
-    });
-    
-
-    selectPointerMove = new ol.interaction.Select({
-        condition: ol.events.condition.pointerMove
-      });
+    // selectPointerMove = new ol.interaction.Select({
+    //     condition: ol.events.condition.pointerMove
+    //   });
 
     startview = new ol.View(
         config["start_view"]);
@@ -152,7 +133,6 @@ function initMapFromConfig(config)
     }
     let maplayers = Object.values(bacground_layers);
     maplayers.push(vectorLayer);
-    maplayers.push(hoverlayer);
     map = new ol.Map({
         layers: maplayers,
         target: 'map',
@@ -161,19 +141,15 @@ function initMapFromConfig(config)
     });
 
     map.addInteraction(selectClick);
-    map.addInteraction(selectDoubleCLick);
-    map.addInteraction(selectPointerMove);
+    // map.addInteraction(selectPointerMove);
     selectClick.on('select', function(e) {
         // if details panel close, open drawer
         // open details of selected feature dataset
         let f = e.selected[0];
-        let scroll_to_description = f['values_']['features'].length > 1 ? false : true; // don't scroll if there are many points in one
-        let center_on_map = true;  // center on the first feature in the collection
         f['values_']['features'].forEach( function(element)
             {
                 // call package show and update details panel
-                showDatasetDetailDescription(element['values_']['id'], scroll_to_description, false, center_on_map);
-                center_on_map = false;
+                showDatasetDetailDescription(element['values_']['id']);
             }
         );
         // $('#' + f['values_']['id'] + '_collapse').collapse("show");
@@ -182,62 +158,14 @@ function initMapFromConfig(config)
         // hide last selected
     });
 
-    selectDoubleCLick.on('select', function(e) {
-        // if details panel close, open drawer
-        // open details of selected feature dataset
-        let f = e.selected[0];
-        if ( f !== undefined )
-        {
-            // if is cluster
-            // calculate extent
-            // animate zoom to extent
-            // if only one feature in cluster, than show entire geom et go to description
-            if ( 'features' in f['values_'])
-            {
-                let coords = [];
-                
-                f['values_']['features'].forEach( function(element)
-                    {
-                        // call package show and update details panel
-                        coords.push(element['values_']['geometry']['flatCoordinates']);
-                    }
-                );
-                let newBound = ol.extent.boundingExtent(coords);
-                map.getView().fit(newBound, { duration: 1000 });
-            }
-            else
-            {
-                // is not, this a specific region or dataset
-                console.log('specific feature');
-                console.log(f['values_']['id']);
-            }
-        }
-    });
-
-    selectPointerMove.on('select', function(e) {
-        let f = e.selected[0];
-        // highlight details panel of hovered feature dataset
-        if ( f !== undefined )
-        {
-            // look if f contains features in the values, if so, this is a cluster
-            if ( 'features' in f['values_'])
-            {
-                console.log('found features list: ' + f['values_']['features'].length);
-            }
-            else
-            {
-                // is not, this a specific region or dataset
-                console.log('specific feature');
-                console.log(f['values_']['id']);
-            }
-            
-        }
-        else
-        {
-            // pointer move to nothing ( out of object event )
-            console.log('pointer out of object');
-        }
-    });
+    // selectPointerMove.on('select', function(e) {
+    //     f = e.selected[0];
+    //     // highlight details panel of hoovered feature dataset
+    //     if ( f !== undefined )
+    //     {
+    //         console.log(f['values_']['id']);
+    //     }
+    // });
 }
 
 function clearGeometryCache()
@@ -301,57 +229,29 @@ function showInGeometryLayer( id )
 }
 
 
-function getFeaturePointById ( id )
-/**
- * Gets the feature (point) on the map view by datasetid
- * @param  {[string]} datasetid [element]
- * @return {Feature} Feature object
- */
+function selectFeatureOnMap( id )
 {
     // get feature from vector layer
     f = vectorLayer.getSource().getFeatureById(id);
-    if (!f) {
-        f = clusterVectorSource.getFeatureById(id);
-    }
-    return f;
-}
-
-function selectFeatureOnMap( id )
-/**
- * Selects the feature on the map
- * @param  {[string]} datasetid [element]
- */
-{
-    f = getFeaturePointById(id);
-
-    if (f) {
-        selectClick.getFeatures().clear();
+    if ( f !== undefined )
+    {
         selectClick.getFeatures().push(f);
-    }
-}
-
-function centerFeatureOnMap( id )
-/**
- * Centers the view on the feature given
- * @param  {[string]} datasetid [element]
- */
-{
-    f = getFeaturePointById(id);
-
-    if (f) {
         // center view on feature
-        var point = f.getGeometry();
-        center = point.getCoordinates();
-        var size = map.getSize();
-//        startview.centerOn(point.getCoordinates(), size, [500, 500]);
-        startview.animate( {center: point.getCoordinates()} );
+        startview.animate(  {center: ol.proj.transform(f['values_']['center'], 'EPSG:4326', 'EPSG:3857')})
+        //startview.setCenter( ol.proj.transform(f['values_']['center'], 'EPSG:4326', 'EPSG:3857'));
     }
-}
-
-function selectAndCenterFeatureOnMap( id )
-{
-    selectFeatureOnMap(id);
-    centerFeatureOnMap(id);
+    else
+    {
+        f = clusterLayer.getSource().getFeatureById(id);
+        if ( f !== undefined )
+        {
+            alert(id);
+            //selectClick.getFeatures().push(f);
+            // center view on feature
+            //startview.animate(  {center: ol.proj.transform(f['values_']['center'], 'EPSG:4326', 'EPSG:3857')})
+            //startview.setCenter( ol.proj.transform(f['values_']['center'], 'EPSG:4326', 'EPSG:3857'));
+        }
+    }
 }
 
 // Should have code to add dataset to layer here

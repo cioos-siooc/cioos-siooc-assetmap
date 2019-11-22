@@ -223,7 +223,7 @@ function setVerticalFilters( minVertical, maxVertical )
 
         initMapFromConfig
         $.ajax({
-            url: "/asset/resources/map.json",
+            url: "/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/resources/map.json",
             dataType: 'json',
             async: false,
             success: function (data) {
@@ -235,7 +235,7 @@ function setVerticalFilters( minVertical, maxVertical )
         });
 
         $.ajax({
-            url: "/asset/resources/ckan.json",
+            url: "/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/resources/cioos_pacific_ckan.json",
             dataType: 'json',
             async: false,
             success: function (data) {
@@ -247,7 +247,7 @@ function setVerticalFilters( minVertical, maxVertical )
         });
 
         $.ajax({
-            url: "/asset/resources/filters.json",
+            url: "/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/resources/filters.json",
             dataType: 'json',
             async: false,
             success: function (data) {
