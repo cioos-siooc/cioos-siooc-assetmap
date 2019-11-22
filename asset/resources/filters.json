@@ -7,37 +7,37 @@
             "fr": "PHYSIQUE",
             "en": "PHYSIC"
         },
-        "icon": "physics.png",
+        "icon": "physics.svg",
         "enabled": true,
         "variables":
         [
             {
                 "id": "var_temperature",
-                "icon":"seaWaterTemperature.png",
+                "icon":"temperature.svg",
                 "label":
                 {
                     "fr":"Température",
                     "en":"Temperature"
                 },
                 "ckantext":["Sea Surface Temperature", "Potential Temperature", "Sub Surface Temperature"],
-                "eovs": [ "seasurfacetemperature", "potentialtemperature", "subsurfacetemperature" ],
+                "eovs": [ "seaSurfaceTemperature", "potentialTemperature", "subSurfaceTemperature" ],
                 "enabled": true
             },
             {
                 "id": "var_wind",
-                "icon":"windSpeed.png",
+                "icon":"",
                 "label":
                 {
                     "fr":"Vent",
                     "en":"Wind"
                 },
                 "ckantext":["wind"],
-                "eovs": [ "seasurfacetemperature", "potentialtemperature", "subsurfacetemperature" ],
+                "eovs": [ "seaSurfaceTemperature", "potentialTemperature", "subSurfaceTemperature" ],
                 "enabled": true
             },
             {
                 "id": "var_ice",
-                "icon":"windSpeed.png",
+                "icon":"sea-ice.svg",
                 "label":
                 {
                     "fr":"Glace",
@@ -49,7 +49,7 @@
             },
             {
                 "id": "var_seastate",
-                "icon":"seaSurfaceWaveMeanHeight.png",
+                "icon":"sea-state.svg",
                 "label":
                 {
                     "fr":"État de la mer",
@@ -61,7 +61,7 @@
             },
             {
                 "id": "var_density",
-                "icon":"seaWaterDensity.png",
+                "icon":"",
                 "label":
                 {
                     "fr":"Densité",
@@ -73,7 +73,7 @@
             },
             {
                 "id": "var_salinity",
-                "icon":"seaWaterSalinity.png",
+                "icon":"salinity.svg",
                 "label":
                 {
                     "fr":"Salinité",
@@ -85,7 +85,7 @@
             },
             {
                 "id": "var_surface_current",
-                "icon":"seaWaterSalinity.png",
+                "icon":"currents.svg",
                 "label":
                 {
                     "fr":"Courant",
@@ -97,7 +97,7 @@
             },
             {
                 "id": "var_speedofsound",
-                "icon":"seaWaterSalinity.png",
+                "icon":"",
                 "label":
                 {
                     "fr":"Vitesse du son",
@@ -116,13 +116,13 @@
             "fr": "BIOGÉOCHIMIE",
             "en": "BIOGEOCHEMISTRY"
         },
-        "icon": "biochem.png",
+        "icon": "biogeochemistry.svg",
         "enabled": true,
         "variables":
         [
             {
                 "id": "var_oxygen",
-                "icon":"seaWaterSalinity.png",
+                "icon":"dissolved-oxygen.svg",
                 "label":
                 {
                     "fr":"Oxygène",
@@ -134,7 +134,7 @@
             },
             {
                 "id": "var_phosphate",
-                "icon":"seaWaterSalinity.png",
+                "icon":"nutrients.svg",
                 "label":
                 {
                     "fr":"Phosphate",
@@ -146,7 +146,7 @@
             },
             {
                 "id": "var_nitrate",
-                "icon":"seaWaterSalinity.png",
+                "icon":"nutrients.svg",
                 "label":
                 {
                     "fr":"Nitrate",
@@ -158,7 +158,7 @@
             },
             {
                 "id": "var_inorgamiccarbon",
-                "icon":"seaWaterSalinity.png",
+                "icon":"inorganic-carbon.svg",
                 "label":
                 {
                     "fr":"Carbone inorganique",
@@ -170,7 +170,7 @@
             },
             {
                 "id": "var_dissolvecarbon",
-                "icon":"seaWaterSalinity.png",
+                "icon":"dissolved-organic-carbon.svg",
                 "label":
                 {
                     "fr":"Carbone organique dissous",
@@ -182,7 +182,7 @@
             },
             {
                 "id": "var_silicate",
-                "icon":"seaWaterSalinity.png",
+                "icon":"nutrients.svg",
                 "label":
                 {
                     "fr":"Silicate",
@@ -201,13 +201,13 @@
             "fr": "BIOLOGIE",
             "en": "BIOLOGY"
         },
-        "icon": "biology.png",
+        "icon": "biology-and-ecosystems.svg",
         "enabled": true,
         "variables":
         [
             {
                 "id": "var_whale",
-                "icon":"seaWaterSalinity.png",
+                "icon":"birds-mammals.svg",
                 "label":
                 {
                     "fr":"Baleines",
@@ -219,7 +219,7 @@
             },
             {
                 "id": "var_capelin",
-                "icon":"seaWaterSalinity.png",
+                "icon":"fish.svg",
                 "label":
                 {
                     "fr":"Capelan",
