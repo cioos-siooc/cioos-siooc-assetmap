@@ -32,11 +32,7 @@ function generateVariableBox( vardata )
         ret_html += "disabled";
     }
     ret_html += " onclick='checkCKANData();'>";
-<<<<<<< HEAD
-    ret_html += "<label for='" + vardata["id"] + "'>" + "<img src='/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/images/" + vardata["icon"] + "' />" + i18nStrings.getTranslation(vardata["label"]) + "</label>";
-=======
-    ret_html += "<label for='" + vardata["id"] + "'>" + "<img src='/asset/images/icons/" + vardata["icon"] + "' />" + "<em>" + i18nStrings.getTranslation(vardata["label"]) + "</em>" + "</label>";
->>>>>>> master
+    ret_html += "<label for='" + vardata["id"] + "'>" + "<img src='/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/images/icons/" + vardata["icon"] + "' />" + i18nStrings.getTranslation(vardata["label"]) + "</label>";
     ret_html += "</li>";
     return ret_html;
 }
@@ -48,11 +44,7 @@ function generateCategoryButton( catData)
 {
     ret_html = '<a href="#' + category["id"] + '_tab' + '" role="tab" onclick="toggleTab(event, this);">';
     ret_html += "<div class='category_cell_bg'>";
-<<<<<<< HEAD
-    ret_html += "<div class='category-icon'><img src='/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/images/" + catData["icon"] + "' onclick=''></div>";
-=======
-    ret_html += "<div class='category-icon'><img src='/asset/images/icons/" + catData["icon"] + "' onclick=''></div>";
->>>>>>> master
+    ret_html += "<div class='category-icon'><img src='/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/images/icons/" + catData["icon"] + "' onclick=''></div>";
     ret_html += i18nStrings.getTranslation(catData["label"]);
     ret_html += "</div>";
     ret_html += "</a>";

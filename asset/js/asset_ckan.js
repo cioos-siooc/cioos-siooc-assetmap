@@ -957,18 +957,6 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     {
         ret_html += "<p class='details_text bottom-0'>" + i18nStrings.getTranslation(dataset['title_translated']) + "</p>";
     }
-<<<<<<< HEAD
-    ret_html += '<div class="asset-actions">';
-    ret_html += '<span class="details_label">Information:</span>';
-    ret_html += '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="showDatasetDetailDescription(\'' + dataset["id"] + '\')">' + i18nStrings.getUIString("details") + '</a>';
-    
-    // check if geomeetry details available for this dataset
-    if ( datasetHasSpatial(dataset) )
-    {
-        ret_html += '<a href="#" onclick="showInGeometryLayer(\'' + dataset["id"] + '\');");">' + i18nStrings.getUIString("map") + '</a> ';
-    }
-    // ret_html += '<button type="button" class="button" onclick="selectFeatureOnMap(\'' + dataset["id"] + '\');");">Map</button> ';
-=======
     else
     {
         ret_html += "<p class='details_text bottom-0'>" + dataset['title'] + "</p>";
@@ -977,7 +965,6 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     // ret_html += '<span class="details_label">Information:</span>';
     // ret_html += '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="showDatasetDetailDescription(\'' + dataset["id"] + '\');">' + i18nStrings.getUIString("details") + '</a>';
     // ret_html += '<button type="button" class="button" onclick="selectAndCenterFeatureOnMap(\'' + dataset["id"] + '\');">Map</button> ';
->>>>>>> master
     // ret_html += '<a class="button" data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button">details</a>';
     // ret_html += '</div>';
     ret_html += '<div class="collapse" id="' + dataset["id"] + '_collapse' + '">';
