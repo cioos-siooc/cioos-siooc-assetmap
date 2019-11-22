@@ -1,0 +1,43 @@
+{
+  "dataset_title": {
+    "fr": "Titre du jeu de connées",
+    "en": "Dataset title"
+  },
+  "dataset_description": {
+    "fr": "Description",
+    "en": "Description"
+  },
+  "dataset_provider": {
+    "fr": "Source des données",
+    "en": "Data provider"
+  },
+  "dataset_tools": {
+    "fr": "Données",
+    "en": "Data"
+  },
+  "more_data_catalog":
+  {
+    "fr": "Plus d'options de recherche dans le",
+    "en": "More search options in the"
+  },
+  "catalog":
+  {
+    "fr": "CATALOGUE",
+    "en": "CATALOG"
+  },
+  "map": 
+  {
+    "fr": "Carte",
+    "en": "Map"
+  },
+  "details": 
+  {
+    "fr": "Détails",
+    "en": "Details"
+  },
+  "category": 
+  {
+    "fr": "Catégorie(s)",
+    "en": "Category(ies)"
+  }
+}

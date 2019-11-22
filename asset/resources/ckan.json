@@ -1,0 +1,17 @@
+{
+    "base_url":"http://open.canada.ca/",
+    "api_url":"http://open.canada.ca/data/api/",
+    "dataset_url": "http://open.canada.ca/data/",
+    "organization_url": "http://open.canada.ca/data/",
+    "access_url":"https://open.canada.ca/data/api/",
+    "add_language_url": true,
+    "support_multilanguage": true,
+    "start_bbox": [-118, 36, -40, 63],
+    "usejsonp": true,
+    "page_size": 40,
+    "restrict_json_return": false,
+    "support_time": false,
+    "support_vertical": false,
+    "support_eov": false,
+    "use_basic_auth": false
+}

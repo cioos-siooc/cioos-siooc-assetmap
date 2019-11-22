@@ -1,0 +1,16 @@
+{
+    "base_url":"https://data.ioos.us/",
+    "api_url":"https://data.ioos.us/api/",
+    "dataset_url": "https://data.ioos.us/",
+    "organization_url": "https://data.ioos.us/",
+    "access_url":"/ckan/",
+    "add_language_url": false,
+    "support_multilanguage": false,
+    "usejsonp": false,
+    "page_size": 50,
+    "restrict_json_return": false,
+    "support_time": false,
+    "support_vertical": false,
+    "support_eov": false,
+    "use_basic_auth": false
+}

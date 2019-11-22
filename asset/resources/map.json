@@ -1,0 +1,68 @@
+{
+    "start_view": {
+        "zoom": 4,
+        "minZoom": 2,
+        "center": [-68, 48]
+    },
+    "backgrouns_layers": [
+        {
+            "name": "osm",
+            "type": "OpenStreetMap",
+            "attribution": {
+                "fr": "",
+                "en": ""
+            },
+            "label": {
+                "fr": "",
+                "en": ""
+            }
+        },
+        {
+            "name": "bathy",
+            "type": "wms",
+            "server_url": "https://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?",
+            "layer_name": "gebco_latest",
+            "serverType": "geoserver",
+            "version": "",
+            "style": "",
+            "parameters": "",
+            "attribution": {
+                "fr": "",
+                "en": ""
+            },
+            "label": {
+                "fr": "",
+                "en": ""
+            }
+        }
+    ],
+    "start_layer": "bathy",
+    "Polystyle":{
+        "Stroke":{
+            "color": "blue",
+            "lineDash": [4],
+            "width": 3
+        },
+        "Fill":{
+            "color": "rgba(0, 0, 255, 0.05)"
+        }
+    },
+    "icon_cluster": {
+        "distance": 40,
+        "minimum":{
+            "cluster_value": 5,
+            "circle_radius": 10,
+            "text_color": "#fff",
+            "fill_color": "#52a79b",
+            "stroke_color": "#fff"
+        },
+        "maximum":{
+            "cluster_value": 25,
+            "circle_radius": 20,
+            "text_color": "#fff",
+            "fill_color": "#fa7268",
+            "stroke_color": "#fff"
+        }
+    },
+    "start_cluster": true 
+}
