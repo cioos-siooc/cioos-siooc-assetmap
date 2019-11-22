@@ -1,6 +1,6 @@
 var lg = null;
 var ui_str = null;
-var ckan_server = null;
+var ckan_server = "pacific";
 var i18nStrings = null;
 var filters = null;
 var mapconfig = null;
@@ -32,7 +32,7 @@ function generateVariableBox( vardata )
         ret_html += "disabled";
     }
     ret_html += " onclick='checkCKANData();'>";
-    ret_html += "<label for='" + vardata["id"] + "'>" + "<img src='/asset/images/icons/" + vardata["icon"] + "' />" + "<em>" + i18nStrings.getTranslation(vardata["label"]) + "</em>" + "</label>";
+    ret_html += "<label for='" + vardata["id"] + "'>" + "<img src='/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/images/icons/" + vardata["icon"] + "' />" + "<em>" + i18nStrings.getTranslation(vardata["label"]) + "</em>" + "</label>";
     ret_html += "</li>";
     return ret_html;
 }
@@ -44,7 +44,7 @@ function generateCategoryButton( catData)
 {
     ret_html = '<a href="#' + category["id"] + '_tab' + '" role="tab" onclick="toggleTab(event, this);">';
     ret_html += "<div class='category_cell_bg'>";
-    ret_html += "<div class='category-icon'><img src='/asset/images/icons/" + catData["icon"] + "' onclick=''></div>";
+    ret_html += "<div class='category-icon'><img src='/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/images/icons/" + catData["icon"] + "' onclick=''></div>";
     ret_html += i18nStrings.getTranslation(catData["label"]);
     ret_html += "</div>";
     ret_html += "</a>";
@@ -130,7 +130,7 @@ function changeCurrentCKAN( ckan_instance )
     ckan_server.ckan_proxy_name = ckan_instance.substring(0, ckan_instance.length - 5)
     // reload ckan option
     $.ajax({
-        url: "/asset/resources/" + ckan_instance,
+        url: "/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/resources/" + ckan_instance,
         dataType: 'json',
         async: false,
         success: function (data) {
@@ -143,7 +143,7 @@ function changeCurrentCKAN( ckan_instance )
     });
 
     $.ajax({
-        url: "/reload/" + ckan_instance,
+        url: "/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/reload/" + ckan_instance,
         dataType: 'text',
         async: false,
         success: function (data) {
@@ -204,59 +204,57 @@ function setVerticalFilters( minVertical, maxVertical )
 }
 
 
+    $(document).ready(function () {
+        ckan_server = new CKANServer();
+        i18nStrings = new StringTranslator();
+        $.ajax({
+            url: "/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/resources/ui_str.json",
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                ui_str = data;
+                i18nStrings.setUIStrings(ui_str);
+                i18nStrings.setBaseLanguage("fr");
+                i18nStrings.setCurrentLanguage("fr");
+            },
+            error: function (e) {
+            }
+        });
 
+        initMapFromConfig
+        $.ajax({
+            url: "/asset/resources/map.json",
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                initMapFromConfig(data);
+                // init ckan server from data
+            },
+            error: function (e) {
+            }
+        });
 
-$(document).ready(function () {
-    ckan_server = new CKANServer();
-    i18nStrings = new StringTranslator();
-    $.ajax({
-        url: "/asset/resources/ui_str.json",
-        dataType: 'json',
-        async: false,
-        success: function (data) {
-            ui_str = data;
-            i18nStrings.setUIStrings(ui_str);
-            i18nStrings.setBaseLanguage("fr");
-            i18nStrings.setCurrentLanguage("fr");
-        },
-        error: function (e) {
-        }
+        $.ajax({
+            url: "/asset/resources/ckan.json",
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                ckan_server.loadConfig(data);
+                // init ckan server from data
+            },
+            error: function (e) {
+            }
+        });
+
+        $.ajax({
+            url: "/asset/resources/filters.json",
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                filters = data;
+                generateFilterCategories();
+            },
+            error: function (e) {
+            }
+        });
     });
-
-    initMapFromConfig
-    $.ajax({
-        url: "/asset/resources/map.json",
-        dataType: 'json',
-        async: false,
-        success: function (data) {
-            initMapFromConfig(data);
-            // init ckan server from data
-        },
-        error: function (e) {
-        }
-    });
-
-    $.ajax({
-        url: "/asset/resources/ckan.json",
-        dataType: 'json',
-        async: false,
-        success: function (data) {
-            ckan_server.loadConfig(data);
-            // init ckan server from data
-        },
-        error: function (e) {
-        }
-    });
-
-    $.ajax({
-        url: "/asset/resources/filters.json",
-        dataType: 'json',
-        async: false,
-        success: function (data) {
-            filters = data;
-            generateFilterCategories();
-        },
-        error: function (e) {
-        }
-    });
-});
