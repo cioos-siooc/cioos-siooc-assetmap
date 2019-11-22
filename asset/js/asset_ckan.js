@@ -1164,7 +1164,9 @@ function clearAllDatasets()
     document.getElementById('dataset_desc').innerHTML = "";
 
     // clear map display
-    clusterLayer.setVisible(false);
+    if (clusterLayer !== undefined){
+        clusterLayer.setVisible(false);   
+    }
     vectorLayer.setVisible(false);
     let vectorSource= vectorLayer.getSource();
     vectorSource.clear();
@@ -1244,31 +1246,44 @@ function updateDatasetDetails( datasets )
 function updateDatasetDetailsFromCache( datasetid )
 {
     let element = ckan_server.datasetDetails[datasetid];
-    // update and open panel 
+    // update and open panel
     let itemid = '#' + element['id'] + '_collapse';
-    document.getElementById(element['id'] + '_collapse').innerHTML = generateCompleteDetailsPanel(element);
+    if (document.getElementById(element['id'] + '_collapse')) {
+        document.getElementById(element['id'] + '_collapse').innerHTML = generateCompleteDetailsPanel(element);
+    }
     $(itemid).collapse("show");
 }
 
-function showDatasetDetailDescription( datasetid )
+function showDatasetDetailDescription( datasetid , goto_description = true, select_point = true, center_point = true)
 /**
  * Shows Dataset Detail Description and adjusts the scroll so that detail panel is visible
- * @param  {[string]} datasetid [element]
+ * @param  {[string]} datasetid
+ * @param  {[bool]} goto_description - scroll to the current description in the right panel if True
+ * @param  {[bool]} select_point - selects corresponding feature (point) on the map
+ * @param  {[bool]} center_point - center corresponding feature (point) on the map
  */
 {
     // collapse other detail panels
     $('#dataset_desc').find('.collapse').each(function() {
-        if ($(this).attr('id') != datasetid || true) {
+        if ($(this).attr('id') != datasetid) {
             $(this).collapse('hide');
         }
     });
-    // show details panel
+    // load details panel
     callDatasetDetailDescription(datasetid);
-    // sroll up to this panel
-    $("#"+datasetid).on("shown.bs.collapse", function() {
-        let topPos = $('#dataset_desc').scrollTop() + $("#"+datasetid).position().top;
-        $('#dataset_desc').animate({scrollTop:topPos}, 500);
-    });
+    // scroll up to this panel
+    if (goto_description) {
+        $("#"+datasetid).on("shown.bs.collapse", function() {
+            let topPos = $('#dataset_desc').scrollTop() + $("#"+datasetid).position().top;
+            $('#dataset_desc').animate({scrollTop:topPos}, 500);
+        });
+    }
+    if (select_point) {
+        selectFeatureOnMap(datasetid);
+    }
+    if (center_point) {
+        centerFeatureOnMap(datasetid);
+    }
 }
 
 function callDatasetDetailDescription( datasetid )
