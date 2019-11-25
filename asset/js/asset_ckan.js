@@ -323,7 +323,7 @@ function CKANServer()
         let hasquery = false;
         if ( query_elems.length )
         {
-            ret_url += "q=text:(\"" + query_elems.join( '" OR "' ) + '\")';
+            ret_url += 'q=text:("' + query_elems.join( '" OR "' ) + '")';
             hasquery = true;
         }
         if ( filtered_query_elems.length > 0)
