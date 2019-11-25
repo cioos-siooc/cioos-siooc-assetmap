@@ -218,7 +218,7 @@ function CKANServer()
         // will there be any other processing required?
         let ret = [];
         variable['eovs'].forEach( function(element) {
-            ret.push("eov:" + "\"" + element + "\"");
+            ret.push(element);
             }
         )
         return ret;
@@ -263,6 +263,8 @@ function CKANServer()
         let ret_url =  this.url;
         let query_elems = [];
         let filtered_query_elems = [];
+        let eovs_query = [];
+
         if (this.usejsonp == true)
         {
             // add the package search
@@ -297,7 +299,7 @@ function CKANServer()
             {
                 if ( this.support_eov )
                 {
-                    filtered_query_elems = filtered_query_elems.concat(this.getVariableEOVFilters(varData));
+                    eovs_query = eovs_query.concat(this.getVariableEOVFilters(varData));
                 }
                 else
                 {
@@ -306,6 +308,9 @@ function CKANServer()
             }
             ++v;
         }
+        if(eovs_query.length)
+            filtered_query_elems.push('eov:(' + eovs_query.join(' OR ') + ')');
+
         if ( this.support_time )
         {
             filtered_query_elems = filtered_query_elems.concat(this.getURLParamForTimeFilter());
@@ -316,9 +321,9 @@ function CKANServer()
         }
         // generate q and fq url parameter
         let hasquery = false;
-        if ( query_elems.length > 0 )
+        if ( query_elems.length )
         {
-            ret_url += "q=" + query_elems.join( ' +' );
+            ret_url += "q=text:(" + query_elems.join( ' OR ' ) + ')';
             hasquery = true;
         }
         if ( filtered_query_elems.length > 0)
