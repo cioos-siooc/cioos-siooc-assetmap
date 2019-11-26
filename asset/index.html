@@ -10,7 +10,7 @@
   <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
   <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
   <script src="js/asset_i18n.js"></script>
@@ -22,13 +22,13 @@
 
     function callChangeLanguage()
     {
-      var newl = $( "#language option:selected" ).val();
+      var newl = jQuery( "#language option:selected" ).val();
       changeCurrentLanguage(newl);
     }
 
     function callChangeCKAN()
     {
-      let newckan = $( "#ckan_instance option:selected" ).val();
+      let newckan = jQuery( "#ckan_instance option:selected" ).val();
       if ( newckan === "opencanada" )
       {
         changeCurrentCKAN("opendataca.json");
@@ -49,33 +49,37 @@
       {
         changeCurrentCKAN("cioos_pacific_ckan.json");
       }
+      else if ( newckan === "national")
+      {
+        changeCurrentCKAN("national_ckan.json");
+      }
     }
 
     function changeTimeFilters()
     {
-      let minvalue = $( "#debug_date_min" ).val();
-      let maxalue = $( "#debug_date_max" ).val();
+      let minvalue = jQuery( "#debug_date_min" ).val();
+      let maxalue = jQuery( "#debug_date_max" ).val();
       setTimeFilters(minvalue, maxalue);
     }
 
     function clearTimeFilters()
     {
-      $( "#debug_date_min" ).val('');
-      $( "#debug_date_max" ).val('');
+      jQuery( "#debug_date_min" ).val('');
+      jQuery( "#debug_date_max" ).val('');
       setTimeFilters(undefined, undefined);
     }
 
     function changeVerticalFilters()
     {
-      let minvalue = $( "#debug_vertical_min" ).val();
-      let maxalue = $( "#debug_vertical_max" ).val();
+      let minvalue = jQuery( "#debug_vertical_min" ).val();
+      let maxalue = jQuery( "#debug_vertical_max" ).val();
       setVerticalFilters(minvalue, maxalue);
     }
 
     function clearVerticalFilters()
     {
-      $( "#debug_vertical_min" ).val('');
-      $( "#debug_vertical_max" ).val('');
+      jQuery( "#debug_vertical_min" ).val('');
+      jQuery( "#debug_vertical_max" ).val('');
       setVerticalFilters(undefined, undefined);
     }
 
@@ -103,6 +107,7 @@
     Ckan backend:
     <select id="ckan_instance" oninput="callChangeCKAN();">
       <option value="opencanada">open.canada.ca</option>
+      <option value="national">CIOOS National</option>
       <option value="slgo">SLGO</option>
       <option value="pacific">CIOOS Pacific</option>
       <option value="ioos">IOOS</option>
