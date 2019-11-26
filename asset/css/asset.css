@@ -35,10 +35,10 @@ Colours
   height: auto;
 }
 .category-selection .category_cell_bg {
-  background: rgba(82, 167, 155, 0.7);
-  color: #ffffff;
+  color: rgba(82, 167, 155, 1);
+  background: rgba(255, 255, 255, 1);
   display: inline-block;
-  width: 130px;
+  width: 150px;
   height: auto;
   margin-right: 5px;
   text-align: center;
@@ -56,13 +56,12 @@ Colours
   text-decoration: none;
 }
 .category-selection a:hover .category_cell_bg {
-  background: #fa7268;
+  background: rgba(82, 167, 155, 1);
+  color: #fff;
 }
 .category-selection .category-icon {
   width: 50px;
   height: 50px;
-  background: #ffffff;
-  border-radius: 50px;
   line-height: 50px;
   margin: 0 auto 5px;
 }
@@ -77,7 +76,7 @@ Colours
   position: absolute;
   left: 42px;
   top: 120px;
-  width: 600px;
+  width: 796px;
   height: auto;
 }
 ul.variable-options {
@@ -91,19 +90,27 @@ ul.variable-options li {
 ul.variable-options li label {
   display: inline-block;
   transition: all 0.3s ease;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 1);
   border-radius: 3px;
   white-space: nowrap;
   cursor: pointer;
   padding: 10px 20px;
+  font-weight: 700;
+  font-size: 12px;
+
 }
 ul.variable-options li label img {
   width: auto;
   height: 24px;
   margin-right: 5px;
+  border-radius: 24px;
+}
+ul.variable-options li label em {
+  vertical-align: middle;
+  font-style: normal;
 }
 ul.variable-options li label:hover {
-  background-color: rgba(82, 167, 155, 0.7);
+  background: rgba(82, 167, 155, 1);
   color: #ffffff;
 }
 ul.variable-options li label::before {
@@ -124,7 +131,7 @@ ul.variable-options li input[type="checkbox"] {
 }
 ul.variable-options li input[type="checkbox"]:checked + label {
   color: #ffffff;
-  background-color: #fa7268;
+  background-color: rgba(82, 167, 155, 1);
   transition: all 0.3s ease;
 }
 ul.variable-options li input[type="checkbox"]:focus + label {
@@ -140,7 +147,7 @@ ul.variable-options li input[type="checkbox"]:focus + label {
   left: 880px;
   top: 0px;
   width: 400px;
-  height: 640px;
+  height: 620px;
   position: relative;
 }
 .asset_details {
@@ -151,16 +158,34 @@ ul.variable-options li input[type="checkbox"]:focus + label {
   text-align: left;
   white-space:normal;
 }
+.asset_details .map-marker {
+  height: 24px;
+  width: 24px;
+  display: inline;
+  margin-right: 5px;
+}
 .asset_details h3.details_label {
   color: #404041;
-  font-size: 20px;
+  font-size: 14px;
   font-weight: 700;
-  font-family: 'Quicksand', sans-serif;
-  margin: 0 0 12px 0;
+  margin: 0 0 6px 0;
+  display: inline;
 }
 .asset_details p.details_text,
 .asset_details p.details_label {
   color: #808081;
+}
+.asset_details .details_label.details_heading {
+  margin-bottom: 0;
+  font-weight: 700;
+  color: #333;
+}
+.asset_details .bottom-0 {
+  margin-bottom: 0;
+}
+.asset_details .details_text strong {
+  display: block;
+  margin-top: 10px;
 }
 .asset_details a.asset-link {
   color: #007bc2;
