@@ -159,10 +159,15 @@ ul.variable-options li input[type="checkbox"]:focus + label {
   white-space:normal;
 }
 .asset_details .map-marker {
-  height: 24px;
-  width: 24px;
+  height: 20px;
+  width: auto;
   display: inline;
-  margin-right: 5px;
+  margin-right: 8px;
+  filter: opacity(70%);
+  margin-top: -8px;
+}
+.asset_details .map-marker:hover {
+  filter: opacity(100%);
 }
 .asset_details h3.details_label {
   color: #404041;
