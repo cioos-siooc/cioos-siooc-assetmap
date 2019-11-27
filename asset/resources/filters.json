@@ -25,7 +25,7 @@
             },
             {
                 "id": "var_wind",
-                "icon":"",
+                "icon":"physics.svg",
                 "label":
                 {
                     "fr":"Vent",
@@ -61,7 +61,7 @@
             },
             {
                 "id": "var_density",
-                "icon":"",
+                "icon":"particulate-matter.svg",
                 "label":
                 {
                     "fr":"Densité",
@@ -97,7 +97,7 @@
             },
             {
                 "id": "var_speedofsound",
-                "icon":"",
+                "icon":"physics.svg",
                 "label":
                 {
                     "fr":"Vitesse du son",
