@@ -130,7 +130,7 @@ function changeCurrentCKAN( ckan_instance )
     ckan_server.ckan_proxy_name = ckan_instance.substring(0, ckan_instance.length - 5)
     // reload ckan option
     jQuery.ajax({
-        url: "/asset/resources/" + ckan_instance,
+        url: "/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/resources/" + ckan_instance,
         dataType: 'json',
         async: false,
         success: function (data) {
@@ -143,7 +143,7 @@ function changeCurrentCKAN( ckan_instance )
     });
 
     jQuery.ajax({
-        url: "/reload/" + ckan_instance,
+        url: "/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/reload/" + ckan_instance,
         dataType: 'text',
         async: false,
         success: function (data) {
@@ -204,41 +204,13 @@ function setVerticalFilters( minVertical, maxVertical )
 }
 
 
-    $(document).ready(function () {
-        ckan_server = new CKANServer();
-        i18nStrings = new StringTranslator();
-        $.ajax({
-            url: "/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/resources/ui_str.json",
-            dataType: 'json',
-            async: false,
-            success: function (data) {
-                ui_str = data;
-                i18nStrings.setUIStrings(ui_str);
-                i18nStrings.setBaseLanguage("fr");
-                i18nStrings.setCurrentLanguage("fr");
-            },
-            error: function (e) {
-            }
-        });
 
-        initMapFromConfig
-        $.ajax({
-            url: "/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/resources/map.json",
-            dataType: 'json',
-            async: false,
-            success: function (data) {
-                initMapFromConfig(data);
-                // init ckan server from data
-            },
-            error: function (e) {
-            }
-        });
 
 jQuery(document).ready(function () {
     ckan_server = new CKANServer();
     i18nStrings = new StringTranslator();
     jQuery.ajax({
-        url: "/asset/resources/ui_str.json",
+            url: "/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/resources/ui_str.json",
         dataType: 'json',
         async: false,
         success: function (data) {
@@ -253,7 +225,7 @@ jQuery(document).ready(function () {
 
     initMapFromConfig
     jQuery.ajax({
-        url: "/asset/resources/map.json",
+            url: "/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/resources/map.json",
         dataType: 'json',
         async: false,
         success: function (data) {
@@ -265,7 +237,7 @@ jQuery(document).ready(function () {
     });
 
     jQuery.ajax({
-        url: "/asset/resources/ckan.json",
+            url: "/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/resources/ckan.json",
         dataType: 'json',
         async: false,
         success: function (data) {
@@ -277,7 +249,7 @@ jQuery(document).ready(function () {
     });
 
     jQuery.ajax({
-        url: "/asset/resources/filters.json",
+            url: "/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/resources/filters.json",
         dataType: 'json',
         async: false,
         success: function (data) {
