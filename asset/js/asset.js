@@ -60,16 +60,16 @@ function toggleTab(e, link)
 
 {
     e.preventDefault();
-    let tab = $(link).attr("href");
-    if (!$(tab).hasClass("active")) {
-        $(tab).addClass("active");
-        $(tab)
+    let tab = jQuery(link).attr("href");
+    if (!jQuery(tab).hasClass("active")) {
+        jQuery(tab).addClass("active");
+        jQuery(tab)
           .siblings()
           .removeClass("active");
-        $(tab).show();
+          jQuery(tab).show();
     } else {
-        $(tab).hide();
-        $(tab).removeClass("active");
+        jQuery(tab).hide();
+        jQuery(tab).removeClass("active");
     }
 }
 
@@ -129,8 +129,8 @@ function changeCurrentCKAN( ckan_instance )
 
     ckan_server.ckan_proxy_name = ckan_instance.substring(0, ckan_instance.length - 5)
     // reload ckan option
-    $.ajax({
-        url: "/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/resources/" + ckan_instance,
+    jQuery.ajax({
+        url: "/asset/resources/" + ckan_instance,
         dataType: 'json',
         async: false,
         success: function (data) {
@@ -142,8 +142,8 @@ function changeCurrentCKAN( ckan_instance )
         }
     });
 
-    $.ajax({
-        url: "/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/reload/" + ckan_instance,
+    jQuery.ajax({
+        url: "/reload/" + ckan_instance,
         dataType: 'text',
         async: false,
         success: function (data) {
@@ -234,27 +234,57 @@ function setVerticalFilters( minVertical, maxVertical )
             }
         });
 
-        $.ajax({
-            url: "/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/resources/ckan.json",
-            dataType: 'json',
-            async: false,
-            success: function (data) {
-                ckan_server.loadConfig(data);
-                // init ckan server from data
-            },
-            error: function (e) {
-            }
-        });
-
-        $.ajax({
-            url: "/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/resources/filters.json",
-            dataType: 'json',
-            async: false,
-            success: function (data) {
-                filters = data;
-                generateFilterCategories();
-            },
-            error: function (e) {
-            }
-        });
+jQuery(document).ready(function () {
+    ckan_server = new CKANServer();
+    i18nStrings = new StringTranslator();
+    jQuery.ajax({
+        url: "/asset/resources/ui_str.json",
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            ui_str = data;
+            i18nStrings.setUIStrings(ui_str);
+            i18nStrings.setBaseLanguage("fr");
+            i18nStrings.setCurrentLanguage("fr");
+        },
+        error: function (e) {
+        }
     });
+
+    initMapFromConfig
+    jQuery.ajax({
+        url: "/asset/resources/map.json",
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            initMapFromConfig(data);
+            // init ckan server from data
+        },
+        error: function (e) {
+        }
+    });
+
+    jQuery.ajax({
+        url: "/asset/resources/ckan.json",
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            ckan_server.loadConfig(data);
+            // init ckan server from data
+        },
+        error: function (e) {
+        }
+    });
+
+    jQuery.ajax({
+        url: "/asset/resources/filters.json",
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            filters = data;
+            generateFilterCategories();
+        },
+        error: function (e) {
+        }
+    });
+});
