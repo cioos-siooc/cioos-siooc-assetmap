@@ -1,0 +1,18 @@
+{
+    "base_url":"https://cnckan.cioos.ca/",
+    "api_url":"https://cnckan.cioos.ca/api/",
+    "dataset_url": "https://cnckan.cioos.ca/",
+    "organization_url": "https://cnckan.cioos.ca/",
+    "access_url":"https://cnckan.cioos.ca/api/",
+    "add_language_url": true,
+    "support_multilanguage": true,
+    "usejsonp": true,
+    "page_size": 40,
+    "restrict_json_return": true,
+    "basic_userd": "",
+    "basic_passd": "",
+    "support_time": false,
+    "support_vertical": false,
+    "support_eov": true,
+    "use_basic_auth": false
+}
