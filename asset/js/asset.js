@@ -60,16 +60,16 @@ function toggleTab(e, link)
 
 {
     e.preventDefault();
-    let tab = $(link).attr("href");
-    if (!$(tab).hasClass("active")) {
-        $(tab).addClass("active");
-        $(tab)
+    let tab = jQuery(link).attr("href");
+    if (!jQuery(tab).hasClass("active")) {
+        jQuery(tab).addClass("active");
+        jQuery(tab)
           .siblings()
           .removeClass("active");
-        $(tab).show();
+          jQuery(tab).show();
     } else {
-        $(tab).hide();
-        $(tab).removeClass("active");
+        jQuery(tab).hide();
+        jQuery(tab).removeClass("active");
     }
 }
 
@@ -129,7 +129,7 @@ function changeCurrentCKAN( ckan_instance )
 
     ckan_server.ckan_proxy_name = ckan_instance.substring(0, ckan_instance.length - 5)
     // reload ckan option
-    $.ajax({
+    jQuery.ajax({
         url: "/asset/resources/" + ckan_instance,
         dataType: 'json',
         async: false,
@@ -142,7 +142,7 @@ function changeCurrentCKAN( ckan_instance )
         }
     });
 
-    $.ajax({
+    jQuery.ajax({
         url: "/reload/" + ckan_instance,
         dataType: 'text',
         async: false,
@@ -206,10 +206,10 @@ function setVerticalFilters( minVertical, maxVertical )
 
 
 
-$(document).ready(function () {
+jQuery(document).ready(function () {
     ckan_server = new CKANServer();
     i18nStrings = new StringTranslator();
-    $.ajax({
+    jQuery.ajax({
         url: "/asset/resources/ui_str.json",
         dataType: 'json',
         async: false,
@@ -224,7 +224,7 @@ $(document).ready(function () {
     });
 
     initMapFromConfig
-    $.ajax({
+    jQuery.ajax({
         url: "/asset/resources/map.json",
         dataType: 'json',
         async: false,
@@ -236,7 +236,7 @@ $(document).ready(function () {
         }
     });
 
-    $.ajax({
+    jQuery.ajax({
         url: "/asset/resources/ckan.json",
         dataType: 'json',
         async: false,
@@ -248,7 +248,7 @@ $(document).ready(function () {
         }
     });
 
-    $.ajax({
+    jQuery.ajax({
         url: "/asset/resources/filters.json",
         dataType: 'json',
         async: false,
