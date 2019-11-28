@@ -42,7 +42,7 @@ function generateVariableBox( vardata )
 
 function generateCategoryButton( catData)
 {
-    ret_html = '<a href="#' + category["id"] + '_tab' + '" role="tab" onclick="toggleTab(event, this);">';
+    ret_html = '<a id="' + category["id"] + '_link" href="#' + category["id"] + '_tab' + '" role="tab" onclick="toggleTab(event, this);">';
     ret_html += "<div class='category_cell_bg'>";
     ret_html += "<div class='category-icon'><img src='/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/images/icons/" + catData["icon"] + "' onclick=''></div>";
     ret_html += i18nStrings.getTranslation(catData["label"]);

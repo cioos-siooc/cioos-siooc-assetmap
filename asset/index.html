@@ -53,6 +53,10 @@
       {
         changeCurrentCKAN("national_ckan.json");
       }
+      else if ( newckan === "atlantic")
+      {
+        changeCurrentCKAN("cioos_atlantic_ckan.json");
+      }
     }
 
     function changeTimeFilters()
@@ -82,7 +86,12 @@
       jQuery( "#debug_vertical_max" ).val('');
       setVerticalFilters(undefined, undefined);
     }
-
+    $(document).ready(function () {
+	callChangeLanguage();
+	callChangeCKAN();
+	$("div#category_panel > a#physic_link").click();
+	$("input#var_temperature").click();
+    });
 
   </script>
 </head>
@@ -97,19 +106,22 @@
       <div class="panel_search_info" style="text-align:center" id="dataset_search_stats"></div>
     </div>
   </div>
-  <div>
+  <div style="display: none;">
     <h2>Debug Options</h2><br />
     language: 
     <select id="language" oninput="callChangeLanguage();">
+      <!-- Set one of these as selected="selected" to load with page. -->
       <option value="fr">Francais</option>
-      <option value="en">English</option>
+      <option value="en" selected="selected">English</option>
     </select><br />
     Ckan backend:
     <select id="ckan_instance" oninput="callChangeCKAN();">
+      <!-- Set one of these as selected="selected" to load with page. -->
       <option value="opencanada">open.canada.ca</option>
       <option value="national">CIOOS National</option>
       <option value="slgo">SLGO</option>
       <option value="pacific">CIOOS Pacific</option>
+      <option value="atlantic" selected="selected">CIOOS Atlantic</option>
       <option value="ioos">IOOS</option>
       <option value="Nextgeoss">Nextgeoss</option>
     </select><br />

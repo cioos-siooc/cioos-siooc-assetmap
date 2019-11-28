@@ -5,7 +5,7 @@
         "label":
         {
             "fr": "PHYSIQUE",
-            "en": "PHYSIC"
+            "en": "PHYSICS"
         },
         "icon": "physics.svg",
         "enabled": true,
