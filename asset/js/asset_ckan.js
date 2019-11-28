@@ -970,15 +970,10 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     {
         ret_html += '<a href="#" onclick="showInGeometryLayer(\'' + dataset["id"] + '\')" title="' + i18nStrings.getUIString("map") + '"><img class="map-marker" src="/wp-content/themes/cioos-siooc-wordpress-theme-master/asset/images/map-marker.png"></a>';
     }
-    ret_html += '<h3 class="details_label">' + '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="showDatasetDetailDescription(\'' + dataset["id"] + '\');">' + i18nStrings.getUIString("dataset_title") + '</a></h3>'; 
-    if ( ckan_server.support_multilanguage)
-    {
-        ret_html += "<p class='details_text bottom-0'>" + i18nStrings.getTranslation(dataset['title_translated']) + "</p>";
-    }
-    else
-    {
-        ret_html += "<p class='details_text bottom-0'>" + dataset['title'] + "</p>";
-    }
+    
+    const title = ckan_server.support_multilanguage ? i18nStrings.getTranslation(dataset['title_translated']) : dataset['title'];
+    ret_html += '<h3 class="details_label">' + '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="showDatasetDetailDescription(\'' + dataset["id"] + '\');">' + title + '</a></h3>'; 
+    
     // ret_html += '<div class="asset-actions">';
     // ret_html += '<span class="details_label">Information:</span>';
     // ret_html += '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="showDatasetDetailDescription(\'' + dataset["id"] + '\');">' + i18nStrings.getUIString("details") + '</a>';
