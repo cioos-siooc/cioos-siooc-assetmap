@@ -1,8 +1,8 @@
 {
     "start_view": {
-        "zoom": 4,
+        "zoom": 5,
         "minZoom": 2,
-        "center": [-68, 48]
+        "center": [-54, 52]
     },
     "backgrouns_layers": [
         {

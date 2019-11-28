@@ -86,9 +86,11 @@
       jQuery( "#debug_vertical_max" ).val('');
       setVerticalFilters(undefined, undefined);
     }
-    $(document).ready(function () {    
-        callChangeLanguage();
-        callChangeCKAN();
+    $(document).ready(function () {
+	callChangeLanguage();
+	callChangeCKAN();
+	$("div#category_panel > a#physic_link").click();
+	$("input#var_temperature").click();
     });
 
   </script>
