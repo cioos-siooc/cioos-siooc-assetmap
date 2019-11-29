@@ -4,6 +4,7 @@ var ckan_server = null;
 var i18nStrings = null;
 var filters = null;
 var mapconfig = null;
+var wordpresspath = "/wp-content/themes/cioos-siooc-wordpress-theme-master"
 
 function displayDatasetSummary( )
 {
@@ -130,7 +131,7 @@ function changeCurrentCKAN( ckan_instance )
     ckan_server.ckan_proxy_name = ckan_instance.substring(0, ckan_instance.length - 5)
     // reload ckan option
     jQuery.ajax({
-        url: "/asset/resources/" + ckan_instance,
+        url: wordpresspath + "/asset/resources/" + ckan_instance,
         dataType: 'json',
         async: false,
         success: function (data) {
@@ -210,7 +211,7 @@ jQuery(document).ready(function () {
     ckan_server = new CKANServer();
     i18nStrings = new StringTranslator();
     jQuery.ajax({
-        url: "/asset/resources/ui_str.json",
+        url: wordpresspath + "/asset/resources/ui_str.json",
         dataType: 'json',
         async: false,
         success: function (data) {
@@ -225,7 +226,7 @@ jQuery(document).ready(function () {
 
     initMapFromConfig
     jQuery.ajax({
-        url: "/asset/resources/map.json",
+        url: wordpresspath + "/asset/resources/map.json",
         dataType: 'json',
         async: false,
         success: function (data) {
@@ -237,7 +238,7 @@ jQuery(document).ready(function () {
     });
 
     jQuery.ajax({
-        url: "/asset/resources/ckan.json",
+        url: wordpresspath + "/asset/resources/ckan.json",
         dataType: 'json',
         async: false,
         success: function (data) {
@@ -249,7 +250,7 @@ jQuery(document).ready(function () {
     });
 
     jQuery.ajax({
-        url: "/asset/resources/filters.json",
+        url: wordpresspath + "/asset/resources/filters.json",
         dataType: 'json',
         async: false,
         success: function (data) {

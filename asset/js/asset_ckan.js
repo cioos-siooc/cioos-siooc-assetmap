@@ -8,6 +8,7 @@ function CKANServer()
     this.organization_url= '';
     this.varriables = [];
     this.datasetDetails = {};
+    this.wordpresspath = '/wp-content/themes/cioos-siooc-wordpress-theme-master';
 
     // CKAN inistance name for the proxy
     this.ckan_proxy_name = undefined;
@@ -848,7 +849,7 @@ function getVariableForDatataset(dataset)
             let thumb =  ckan_server.getVariableThumbnail(entry);
             if ( thumb !== undefined )
             {
-                ret_html += "<img src='" + "/asset/images/thumbnails/" + thumb + "'></img>";
+                ret_html += "<img src='" + wordpresspath + "/asset/images/thumbnails/" + thumb + "'></img>";
             }
         });
     }
@@ -864,7 +865,7 @@ function getVariableForDatataset(dataset)
                 let thumb =  ckan_server.getVariableThumbnail(entry);
                 if ( thumb !== undefined )
                 {
-                    ret_html += "<img src='" + "/asset/images/thumbnails/" + thumb + "'></img>";
+                    ret_html += "<img src='" + wordpresspath + "/asset/images/thumbnails/" + thumb + "'></img>";
                 }
             });
         }
@@ -877,7 +878,7 @@ function getVariableForDatataset(dataset)
                 let thumb =  ckan_server.getVariableThumbnail(entry["name"]);
                 if ( thumb !== undefined )
                 {
-                    ret_html += "<img src='" + "/asset/images/thumbnails/" + thumb + "'></img>";
+                    ret_html += "<img src='" + wordpresspath + "/asset/images/thumbnails/" + thumb + "'></img>";
                 }
             });
         }
@@ -968,7 +969,7 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     // check if geomeetry details available for this dataset
     if ( spatial && spatial['type'] === 'Polygon')
     {
-        ret_html += '<a href="#" onclick="showInGeometryLayer(\'' + dataset["id"] + '\')" title="' + i18nStrings.getUIString("map") + '"><img class="map-marker" src="/asset/images/map-marker.svg"></a>';
+        ret_html += '<a href="#" onclick="showInGeometryLayer(\'' + dataset["id"] + '\')" title="' + i18nStrings.getUIString("map") + '"><img class="map-marker" src="'+ wordpresspath +'"/asset/images/map-marker.svg"></a>';
     }
     ret_html += '<h3 class="details_label">' + '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="showDatasetDetailDescription(\'' + dataset["id"] + '\');">' + i18nStrings.getUIString("dataset_title") + '</a></h3>'; 
     if ( ckan_server.support_multilanguage)
