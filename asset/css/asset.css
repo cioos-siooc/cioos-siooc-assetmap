@@ -35,7 +35,7 @@ Colours
   height: auto;
 }
 .category-selection .category_cell_bg {
-  color: rgba(185,214,242,1);
+  color: rgba(82, 167, 155, 1);
   background: rgba(255, 255, 255, 1);
   display: inline-block;
   width: 150px;
@@ -56,7 +56,7 @@ Colours
   text-decoration: none;
 }
 .category-selection a:hover .category_cell_bg {
-  background: rgba(185,214,242,1);
+  background: rgba(82, 167, 155, 1);
   color: #fff;
 }
 .category-selection .category-icon {
@@ -110,7 +110,7 @@ ul.variable-options li label em {
   font-style: normal;
 }
 ul.variable-options li label:hover {
-  background: rgba(185,214,242,1);
+  background: rgba(82, 167, 155, 1);
   color: #ffffff;
 }
 ul.variable-options li label::before {
@@ -131,7 +131,7 @@ ul.variable-options li input[type="checkbox"] {
 }
 ul.variable-options li input[type="checkbox"]:checked + label {
   color: #ffffff;
-  background-color: rgba(185,214,242,1);
+  background-color: rgba(82, 167, 155, 1);
   transition: all 0.3s ease;
 }
 ul.variable-options li input[type="checkbox"]:focus + label {
@@ -159,10 +159,15 @@ ul.variable-options li input[type="checkbox"]:focus + label {
   white-space:normal;
 }
 .asset_details .map-marker {
-  height: 24px;
-  width: 24px;
+  height: 20px;
+  width: auto;
   display: inline;
-  margin-right: 5px;
+  margin-right: 8px;
+  filter: opacity(70%);
+  margin-top: -8px;
+}
+.asset_details .map-marker:hover {
+  filter: opacity(100%);
 }
 .asset_details h3.details_label {
   color: #404041;
@@ -284,9 +289,4 @@ a.button:active  {
   text-decoration: none;
   filter: drop-shadow(0 3px 3px #c8ccd0);
   background: #fa7268;
-}
-.btn-info {
-  color: #fff;
-  background-color: rgba(185,214,242,1);
-  border-color: rgba(185,214,242,1);
 }
