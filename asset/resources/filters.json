@@ -60,6 +60,18 @@
                 "enabled": true
             },
             {
+                "id": "var_seasurfaceheight",
+                "icon":"sea-state.svg",
+                "label":
+                {
+                    "fr":"État de la mer",
+                    "en":"Sea Surface Height"
+                },
+                "ckantext": ["Sea Surface Height"],
+                "eovs": [ "seaSurfaceHeight" ],
+                "enabled": true
+            },
+            {
                 "id": "var_density",
                 "icon":"particulate-matter.svg",
                 "label":
