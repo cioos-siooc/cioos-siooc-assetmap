@@ -33,7 +33,7 @@ function generateVariableBox( vardata )
         ret_html += "disabled";
     }
     ret_html += " onclick='checkCKANData();'>";
-    ret_html += "<label for='" + vardata["id"] + "'>" + "<img src='/asset/images/icons/" + vardata["icon"] + "' />" + "<em>" + i18nStrings.getTranslation(vardata["label"]) + "</em>" + "</label>";
+    ret_html += "<label for='" + vardata["id"] + "'>" + "<img src='" + wordpresspath + "/images/icons/" + vardata["icon"] + "' />" + "<em>" + i18nStrings.getTranslation(vardata["label"]) + "</em>" + "</label>";
     ret_html += "</li>";
     return ret_html;
 }
@@ -43,9 +43,9 @@ function generateVariableBox( vardata )
 
 function generateCategoryButton( catData)
 {
-    ret_html = '<a href="#' + category["id"] + '_tab' + '" role="tab" onclick="toggleTab(event, this);">';
+    ret_html = '<a id="' + category["id"] + '_link" href="#' + category["id"] + '_tab' + '" role="tab" onclick="toggleTab(event, this);">';
     ret_html += "<div class='category_cell_bg'>";
-    ret_html += "<div class='category-icon'><img src='/asset/images/icons/" + catData["icon"] + "' onclick=''></div>";
+    ret_html += "<div class='category-icon'><img src='" + wordpresspath + "/images/icons/" + catData["icon"] + "' onclick=''></div>";
     ret_html += i18nStrings.getTranslation(catData["label"]);
     ret_html += "</div>";
     ret_html += "</a>";
@@ -144,7 +144,7 @@ function changeCurrentCKAN( ckan_instance )
     });
 
     jQuery.ajax({
-        url: "/reload/" + ckan_instance,
+        url: "" + wordpresspath + "/reload/" + ckan_instance,
         dataType: 'text',
         async: false,
         success: function (data) {

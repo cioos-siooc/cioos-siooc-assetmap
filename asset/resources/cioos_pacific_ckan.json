@@ -3,7 +3,7 @@
     "api_url":"https://pac-dev1.cioos.org/ckan/api/",
     "dataset_url": "https://pac-dev1.cioos.org/ckan/",
     "organization_url": "https://pac-dev1.cioos.org/ckan/",
-    "access_url":"/ckan/",
+    "access_url":"https://pac-dev1.cioos.org/ckan/api/3/action/",
     "add_language_url": true,
     "support_multilanguage": true,
     "usejsonp": false,
