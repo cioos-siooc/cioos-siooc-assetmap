@@ -5,7 +5,6 @@ var i18nStrings = null;
 var filters = null;
 var mapconfig = null;
 
-
 function displayDatasetSummary( )
 {
 
