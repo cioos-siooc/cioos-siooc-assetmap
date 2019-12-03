@@ -18,6 +18,19 @@ Colours
   height: 720px;
   font-family: 'Montserrat', sans-serif;
 }
+.overlay {
+  background: rgba(33, 138, 157, .4);
+  position: absolute;
+  width: 1280px;
+  height: 720px;
+  z-index: 99999999;
+  margin-left: calc(-1 * (1280px - 100%) / 2) !important;
+  background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/44969/34230.svg);
+  content:"View map";
+background-size: 100px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat; 
+}
 .map {
   z-index: 1;
   position: absolute;
@@ -292,40 +305,7 @@ a.button:active  {
 }
 
 
-.outer-map-container,
-.map-container.wide,
-.map-container.wide{
-  width: 80vw;
-  margin-left: calc(-1 * ((80vw - 100%) / 2));
-  height:40vw;
-  border:none;
+.outer-map-container{
+  position: relative;
 }
-.overlay {
-  background: rgba(33, 138, 157, .4);
-  background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/44969/34230.svg);
-  content:"View map";
-  background-size: 100px;
-  background-position: 50% 50%;
-  background-repeat: no-repeat; 
-  /* optionally, you can use background:transparent; if you want a more silent way of limiting the cursor capture. It will take 2 click to bring up map data. Some users won't notice this. */
-  position:relative; 
-  top:40vw;  
-  margin-top:-40vw; 
-}
-.yesphone .map-container {
-  text-align: center;
-}
-.yesphone .map-container {
-  display:block;
-  background:#eee;
-  padding:20%;
-}
-@media (min-width:770px){
-  .nophone {display:block}
-  .yesphone {display:none}
-}
-@media (max-width:769px){
-  .nophone {display:none}
-  .yesphone {display:block}
-  .overlay {display:none}
-}
+
