@@ -12,7 +12,8 @@ base_proxy_auth = {}
 
 app = Flask(__name__)
 
-def load_proxy_setting( jsonfilename ):
+
+def load_proxy_setting(jsonfilename):
     """
     Load config and put it in the config
     """
@@ -24,6 +25,7 @@ def load_proxy_setting( jsonfilename ):
         print(base_ckan_url)
         base_proxy_config[jsonfilename] = data
 
+
 def load_auth_config():
     global base_proxy_auth
     base_proxy_auth = {}
@@ -31,9 +33,11 @@ def load_auth_config():
         with open('auth.json', 'rt') as json_file:
             base_proxy_auth = json.load(json_file)
 
+
 @app.route('/')
 def hello():
     return 'Go to asset/index.html to see assetmap'
+
 
 @app.route('/robots.txt')
 def robot():
@@ -42,11 +46,13 @@ def robot():
 Disallow: /
 """
 
+
 @app.route('/reload/<path:path>')
 def relaod_proxy(path):
-    print( 'Try to load: ' + path)
+    print('Try to load: ' + path)
     load_proxy_setting(path)
     return 'proxy loaded'
+
 
 @app.route('/ckan/<path:path>')
 def call_ckan(path):
@@ -67,16 +73,19 @@ def call_ckan(path):
     config = base_proxy_config[proxyconfigname]
     url = config['api_url'] + '3/action/' + path
     if proxyconfigname in base_proxy_auth:
-        print ( "Proxy with auth for: " + url )
+        print("Proxy with auth for: " + url)
         authconf = base_proxy_auth[proxyconfigname]
         # extract username and password
-        return get(url, auth=(authconf['username'], authconf['password'])).content
-    print ( "Proxy for: " + url )
+        return get(url,
+                   auth=(authconf['username'], authconf['password'])).content
+    print("Proxy for: " + url)
     return get(url).content
+
 
 @app.route('/asset/<path:path>')
 def send_js(path):
     return send_from_directory('asset', path)
+
 
 if __name__ == '__main__':
     load_proxy_setting('ckan.json')

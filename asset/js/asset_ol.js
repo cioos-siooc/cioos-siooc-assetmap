@@ -26,7 +26,7 @@ var datasetGeometryCache = {};
 function CreateBackgroundLayerFromConfig( lconfig )
 {
     let ret = undefined;
-    // switch type 
+    // switch type
     if ( lconfig['type'] === "OpenStreetMap")
     {
         ret = new  ol.layer.Tile({
@@ -59,7 +59,7 @@ function CreateBackgroundLayerFromConfig( lconfig )
               transition: 0
             })
           });
-    } 
+    }
     return ret;
 }
 
@@ -72,7 +72,7 @@ function initMapFromConfig(config)
     hoverSource = new ol.source.Vector({
         features: []
     });
-    
+
     polyStyle =  new ol.style.Style({
         stroke: new ol.style.Stroke(
             config["Polystyle"]["Stroke"]),
@@ -107,7 +107,7 @@ function initMapFromConfig(config)
     selectDoubleCLick = new ol.interaction.Select({
         condition: ol.events.condition.doubleClick
     });
-    
+
 
     selectPointerMove = new ol.interaction.Select({
         condition: ol.events.condition.pointerMove
@@ -162,6 +162,29 @@ function initMapFromConfig(config)
     map.addInteraction(selectClick);
     map.addInteraction(selectDoubleCLick);
     map.addInteraction(selectPointerMove);
+    var dragBox = new ol.interaction.DragBox({
+        condition: ol.events.condition.platformModifierKeyOnly
+      });
+
+    map.addInteraction(dragBox);
+
+    dragBox.on('boxend', function() {
+        debugger;
+        // features that intersect the box are added to the collection of
+        // selected features
+        var coordinates = dragBox
+          .getGeometry()
+          .transform("EPSG:3857", "EPSG:4326")
+          .getExtent()
+
+        ckan_server.setCustomBbox(
+          coordinates.map(function(value) {
+            return parseInt(value);
+          })
+        );
+        checkCKANData()
+      });
+
     selectClick.on('select', function(e) {
         // if details panel close, open drawer
         // open details of selected feature dataset
@@ -191,7 +214,7 @@ function initMapFromConfig(config)
             if ( 'features' in f['values_'])
             {
                 let coords = [];
-                
+
                 f['values_']['features'].forEach( function(element)
                     {
                         // call package show and update details panel
@@ -226,7 +249,7 @@ function initMapFromConfig(config)
                 console.log('specific feature');
                 console.log(f['values_']['id']);
             }
-            
+
         }
         else
         {
