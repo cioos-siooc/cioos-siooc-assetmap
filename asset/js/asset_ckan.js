@@ -82,7 +82,7 @@ function CKANServer() {
     this.spatialSearch = {
       customBbox: false,
       bbox: []
-    }
+    };
     this.use_basic_auth = false;
     this.support_vertical = false;
     this.vertical_minimum = undefined;
@@ -154,12 +154,12 @@ function CKANServer() {
     this.currentLanguage = language;
   };
 
-  this.setCustomBbox = function(bbox){
+  this.setCustomBbox = function(bbox) {
     this.spatialSearch = {
       customBbox: true,
       bbox: bbox
     };
-  }
+  };
 
   // add bbounding box filter
   // add pagination
@@ -279,7 +279,7 @@ function CKANServer() {
 
     ret_url += "package_search?";
 
-    if (this.spatialSearch.customBbox){
+    if (this.spatialSearch.customBbox) {
       ret_url += this.getURLParameterForBoundingBox(true) + "&";
     } else if (this.bbox !== undefined) {
       ret_url += this.getURLParameterForBoundingBox(false) + "&";
@@ -361,7 +361,7 @@ function CKANServer() {
       ++v;
     }
 
-    if (!ret){
+    if (!ret) {
       if (this.spatialSearch.customBbox) {
         ret = true;
       }
@@ -1176,7 +1176,6 @@ function clearAllDatasets() {
 }
 
 function checkCKANData() {
-  debugger;
   // update the current state of filters ( use to check for parelle paging of data)
   ckan_server.lastFilterChange += 1;
   // verify if filters are active, if not, remove all data and don't access the entire catalogue
@@ -1189,6 +1188,7 @@ function checkCKANData() {
     let url_ckan = ckan_server.getURLPaginated(0, 5);
     // until the weird jquery jsonp bug is corrected, do it by hand!
     let auth_header = {};
+
     if (ckan_server.use_basic_auth) {
       auth_header = {
         Authorization:
@@ -1198,18 +1198,23 @@ function checkCKANData() {
           )
       };
     }
-    var that = this;
     if (ckan_server.usejsonp) {
       // add header with basic auth if required
+      if (ckan_server.use_basic_auth) {
+        auth_header = {
+          Authorization:
+            "Basic " +
+            btoa(
+              ckan_server.basic_auth_user +
+                ":" +
+                ckan_server.basic_auth_password
+            )
+        };
+      }
       $.ajax({
         url: url_ckan,
         dataType: "text",
-        beforeSend: function (xhr) {
-          if (that.use_basic_auth){
-            debugger;
-            xhr.setRequestHeader("Authorization", auth_header.Authorization);
-          }
-        },
+        headers: auth_header,
         success: function(data) {
           let endofstr = data.length - 16;
           let resjson = data.substr(14, endofstr);
@@ -1235,6 +1240,13 @@ function checkCKANData() {
     // remove all info from layers
     clearAllDatasets();
   }
+}
+
+function setLocationAndCheck(location){
+  ckan_server.setCustomBbox(
+    location
+  );
+  checkCKANData()
 }
 
 function updateDatasetDetails(datasets) {
@@ -1319,6 +1331,6 @@ function callDatasetDetailDescription(datasetid) {
       dataType: "json",
       headers: auth_header,
       success: updateDatasetDetails
- });
+    });
   }
 }

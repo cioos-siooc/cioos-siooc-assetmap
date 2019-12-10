@@ -169,7 +169,6 @@ function initMapFromConfig(config)
     map.addInteraction(dragBox);
 
     dragBox.on('boxend', function() {
-        debugger;
         // features that intersect the box are added to the collection of
         // selected features
         var coordinates = dragBox

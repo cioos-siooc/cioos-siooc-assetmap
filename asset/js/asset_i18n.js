@@ -29,7 +29,7 @@ function StringTranslator()
         }
         return ret_str;
     };
-    
+
 
     this.getTranslation = function(i18nStrings){
         ret_str = "i18n_error";

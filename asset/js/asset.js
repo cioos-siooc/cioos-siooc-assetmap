@@ -37,8 +37,19 @@ function generateVariableBox( vardata )
     return ret_html;
 }
 
-
-
+function generateLocationBox( location )
+{
+    ret_html = "<li>";
+    ret_html += "<input class='variable-checkbox' style='' type='checkbox' id='" + location["id"] + "' ";
+    if ( !location["enabled"])
+    {
+        ret_html += "disabled";
+    }
+    ret_html += " onclick='setLocationAndCheck("+ JSON.stringify(location["extent"]) +");'>";
+    ret_html += "<label for='" + location["id"] + "'>" + i18nStrings.getTranslation(location["label"]) + "</label>";
+    ret_html += "</li>";
+    return ret_html;
+}
 
 function generateCategoryButton( catData)
 {
@@ -46,6 +57,19 @@ function generateCategoryButton( catData)
     ret_html += "<div class='category_cell_bg'>";
     ret_html += "<div class='category-icon'><img src='/asset/images/" + catData["icon"] + "' onclick=''></div>";
     ret_html += i18nStrings.getTranslation(catData["label"]);
+    ret_html += "</div>";
+    ret_html += "</a>";
+    return ret_html;
+}
+
+function generateLocationsButton(locationData)
+{
+    ret_html = '<a href="#locations_tab" role="tab" onclick="toggleTab(event, this);">';
+    ret_html += "<div class='category_cell_bg'>";
+    ret_html += i18nStrings.getTranslation({
+        "en": "Locations",
+        "fr": "Locations"
+    });
     ret_html += "</div>";
     ret_html += "</a>";
     return ret_html;
@@ -101,8 +125,25 @@ function generateFilterCategories()
     document.getElementById('variable_panel').innerHTML = VarInnerHtml;
 }
 
+function generateLocationCategories(locations)
+{
+  // for each variable, create box with label and icon
+  // add has a possible filter in the CKANServer
+  c = 0;
+  CatInnerHtml = generateLocationsButton();
+  VarInnerPanelHTML = '<div id="locations_tab" class="tab-pane" role="tabpanel"><ul class="variable-options">';
+  while (c < locations.length) {
+    place = locations[c];
+    VarInnerPanelHTML += generateLocationBox(place);
+    ++c;
+  }
+  VarInnerPanelHTML += "</ul></div>";
+  document.getElementById("category_panel").innerHTML += CatInnerHtml;
+  document.getElementById("variable_panel").innerHTML += VarInnerPanelHTML;
+}
 
-// Debug methode, shouldn't be in the final 
+
+// Debug methode, shouldn't be in the final
 
 function changeCurrentLanguage( newLanguage )
 {
@@ -113,7 +154,7 @@ function changeCurrentLanguage( newLanguage )
     i18nStrings.setBaseLanguage(newLanguage);
     i18nStrings.setCurrentLanguage(newLanguage);
 
-    
+
     // clear map and details
     clearAllDatasets();
 
@@ -121,7 +162,7 @@ function changeCurrentLanguage( newLanguage )
     generateFilterCategories();
 
     //
-    
+
 }
 
 function changeCurrentCKAN( ckan_instance )
@@ -223,7 +264,6 @@ $(document).ready(function () {
         }
     });
 
-    initMapFromConfig
     $.ajax({
         url: "/asset/resources/map.json",
         dataType: 'json',
@@ -259,4 +299,16 @@ $(document).ready(function () {
         error: function (e) {
         }
     });
+
+    $.ajax({
+        url: "/asset/resources/locations.json",
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            generateLocationCategories(data);
+        },
+        error: function (e) {
+        }
+    });
+
 });
