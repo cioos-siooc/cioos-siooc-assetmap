@@ -444,20 +444,41 @@ function addCKANExtent(data)
     
 }
 
+// adapted from https://stackoverflow.com/questions/9692448/how-can-you-find-the-centroid-of-a-concave-irregular-polygon-in-javascript
+// takes a 2D array of coordinates
+function getCenterOfCoordinates(pts) {
+    // one point
+    if (pts.length == 1) return pts[0];
 
-function getCenterOfCoordinates( coords )
-{
-    // need to rework the ventroid caculation to support other geometry
-    x = 0;
-    y = 0;
-    if ( coords.length == 5 || coords.length == 4 )
-    {
-        // rectangle!
-        x = (coords[0][0] + coords[1][0] + coords[2][0] + coords[3][0] ) / 4;
-        y = (coords[0][1] + coords[1][1] + coords[2][1] + coords[3][1] ) / 4;
+    // a line
+    if (pts.length == 2)
+        return [(pts[0][0] + pts[1][0]) / 2, (pts[0][1] + pts[1][1]) / 2];
+
+    var first = pts[0],
+        last = pts[pts.length - 1];
+    if (first[0] != last[0] || first[1] != last[1]) pts.push(first);
+    var twicearea = 0,
+        x = 0,
+        y = 0,
+        nPts = pts.length,
+        p1,
+        p2,
+        f;
+    for (var i = 0, j = nPts - 1; i < nPts; j = i++) {
+        p1 = pts[i];
+        p2 = pts[j];
+        f =
+        (p1[1] - first[1]) * (p2[0] - first[0]) -
+        (p2[1] - first[1]) * (p1[0] - first[0]);
+        twicearea += f;
+        x += (p1[0] + p2[0] - 2 * first[0]) * f;
+        y += (p1[1] + p2[1] - 2 * first[1]) * f;
     }
-    return [x, y];
-}
+    f = twicearea * 3;
+    const center = [x / f + first[0], y / f + first[1]];
+
+    return center;
+ }
 
 function AddDisplayCKANExtent( data )
 {
