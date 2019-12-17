@@ -32,7 +32,7 @@ function generateVariableBox( vardata )
         ret_html += "disabled";
     }
     ret_html += " onclick='checkCKANData();'>";
-    ret_html += "<label for='" + vardata["id"] + "'>" + "<img src='/asset/images/" + vardata["icon"] + "' />" + i18nStrings.getTranslation(vardata["label"]) + "</label>";
+    ret_html += "<label for='" + vardata["id"] + "'>" + "<img src='/asset/images/icons/" + vardata["icon"] + "' />" + "<em>" + i18nStrings.getTranslation(vardata["label"]) + "</em>" + "</label>";
     ret_html += "</li>";
     return ret_html;
 }
@@ -85,7 +85,7 @@ function generateCategoryButton( catData)
 {
     ret_html = '<a href="#' + category["id"] + '_tab' + '" role="tab" onclick="toggleTab(event, this);">';
     ret_html += "<div class='category_cell_bg'>";
-    ret_html += "<div class='category-icon'><img src='/asset/images/" + catData["icon"] + "' onclick=''></div>";
+    ret_html += "<div class='category-icon'><img src='/asset/images/icons/" + catData["icon"] + "' onclick=''></div>";
     ret_html += i18nStrings.getTranslation(catData["label"]);
     ret_html += "</div>";
     ret_html += "</a>";
@@ -101,16 +101,16 @@ function toggleTab(e, link)
 
 {
     e.preventDefault();
-    let tab = $(link).attr("href");
-    if (!$(tab).hasClass("active")) {
-        $(tab).addClass("active");
-        $(tab)
+    let tab = jQuery(link).attr("href");
+    if (!jQuery(tab).hasClass("active")) {
+        jQuery(tab).addClass("active");
+        jQuery(tab)
           .siblings()
           .removeClass("active");
-        $(tab).show();
+          jQuery(tab).show();
     } else {
-        $(tab).hide();
-        $(tab).removeClass("active");
+        jQuery(tab).hide();
+        jQuery(tab).removeClass("active");
     }
 }
 
@@ -170,7 +170,7 @@ function changeCurrentCKAN( ckan_instance )
 
     ckan_server.ckan_proxy_name = ckan_instance.substring(0, ckan_instance.length - 5)
     // reload ckan option
-    $.ajax({
+    jQuery.ajax({
         url: "/asset/resources/" + ckan_instance,
         dataType: 'json',
         async: false,
@@ -183,7 +183,7 @@ function changeCurrentCKAN( ckan_instance )
         }
     });
 
-    $.ajax({
+    jQuery.ajax({
         url: "/reload/" + ckan_instance,
         dataType: 'text',
         async: false,
@@ -247,10 +247,10 @@ function setVerticalFilters( minVertical, maxVertical )
 
 
 
-$(document).ready(function () {
+jQuery(document).ready(function () {
     ckan_server = new CKANServer();
     i18nStrings = new StringTranslator();
-    $.ajax({
+    jQuery.ajax({
         url: "/asset/resources/ui_str.json",
         dataType: 'json',
         async: false,
@@ -265,7 +265,7 @@ $(document).ready(function () {
     });
 
     initMapFromConfig
-    $.ajax({
+    jQuery.ajax({
         url: "/asset/resources/map.json",
         dataType: 'json',
         async: false,
@@ -277,7 +277,7 @@ $(document).ready(function () {
         }
     });
 
-    $.ajax({
+    jQuery.ajax({
         url: "/asset/resources/ckan.json",
         dataType: 'json',
         async: false,
@@ -289,7 +289,7 @@ $(document).ready(function () {
         }
     });
 
-    $.ajax({
+    jQuery.ajax({
         url: "/asset/resources/filters.json",
         dataType: 'json',
         async: false,

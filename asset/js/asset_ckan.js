@@ -58,7 +58,11 @@ function CKANServer()
     // result per paging
     this.resultPageSize = 20;
 
-    // rapid paging of data until x dataset receive then change for update before paging
+
+    // size of the first call ( smaller let the total of dataset be known quickly)
+    this.initialPageSize = 5;
+    
+    // rapid paging of data until x dataset receive then change for update before paging 
     this.slowDownPagingTreshold = 300;
 
     // use fl in the query to limit the number of element return un the JSON
@@ -235,7 +239,7 @@ function CKANServer()
         // will there be any other processing required?
         let ret = [];
         variable['eovs'].forEach( function(element) {
-            ret.push("eov:" + "\"" + element + "\"");
+            ret.push(element);
             }
         )
         return ret;
@@ -285,6 +289,8 @@ function CKANServer()
         let ret_url =  this.url;
         let query_elems = [];
         let filtered_query_elems = [];
+        let eovs_query = [];
+
         if (this.usejsonp == true)
         {
             // add the package search
@@ -320,7 +326,7 @@ function CKANServer()
             {
                 if ( this.support_eov )
                 {
-                    filtered_query_elems = filtered_query_elems.concat(this.getVariableEOVFilters(varData));
+                    eovs_query = eovs_query.concat(this.getVariableEOVFilters(varData));
                 }
                 else
                 {
@@ -329,6 +335,9 @@ function CKANServer()
             }
             ++v;
         }
+        if(eovs_query.length)
+            filtered_query_elems.push('eov:(' + eovs_query.join(' OR ') + ')');
+
         if ( this.support_time )
         {
             filtered_query_elems = filtered_query_elems.concat(this.getURLParamForTimeFilter());
@@ -339,9 +348,9 @@ function CKANServer()
         }
         // generate q and fq url parameter
         let hasquery = false;
-        if ( query_elems.length > 0 )
+        if ( query_elems.length )
         {
-            ret_url += "q=" + query_elems.join( ' +' );
+            ret_url += 'q=text:("' + query_elems.join( '" OR "' ) + '")';
             hasquery = true;
         }
         if ( filtered_query_elems.length > 0)
@@ -442,7 +451,7 @@ function CKANServer()
     {
         // call proxy with url and variable
         url = this.getURLPaginated(0, 5);
-        $.getJSON( url, afficheCKANExtent );
+        jQuery.getJSON( url, afficheCKANExtent );
         //$.getJSON( "https://test-catalogue.ogsl.ca/api/3/action/package_search?ext_bbox=-104,17,-18,63&q=" + document.getElementById('searchbox').value, afficheCKANExtent );
     };
 
@@ -465,20 +474,41 @@ function addCKANExtent(data)
 
 }
 
+// adapted from https://stackoverflow.com/questions/9692448/how-can-you-find-the-centroid-of-a-concave-irregular-polygon-in-javascript
+// takes a 2D array of coordinates
+function getCenterOfCoordinates(pts) {
+    // one point
+    if (pts.length == 1) return pts[0];
 
-function getCenterOfCoordinates( coords )
-{
-    // need to rework the ventroid caculation to support other geometry
-    x = 0;
-    y = 0;
-    if ( coords.length == 5 || coords.length == 4 )
-    {
-        // rectangle!
-        x = (coords[0][0] + coords[1][0] + coords[2][0] + coords[3][0] ) / 4;
-        y = (coords[0][1] + coords[1][1] + coords[2][1] + coords[3][1] ) / 4;
+    // a line
+    if (pts.length == 2)
+        return [(pts[0][0] + pts[1][0]) / 2, (pts[0][1] + pts[1][1]) / 2];
+
+    var first = pts[0],
+        last = pts[pts.length - 1];
+    if (first[0] != last[0] || first[1] != last[1]) pts.push(first);
+    var twicearea = 0,
+        x = 0,
+        y = 0,
+        nPts = pts.length,
+        p1,
+        p2,
+        f;
+    for (var i = 0, j = nPts - 1; i < nPts; j = i++) {
+        p1 = pts[i];
+        p2 = pts[j];
+        f =
+        (p1[1] - first[1]) * (p2[0] - first[0]) -
+        (p2[1] - first[1]) * (p1[0] - first[0]);
+        twicearea += f;
+        x += (p1[0] + p2[0] - 2 * first[0]) * f;
+        y += (p1[1] + p2[1] - 2 * first[1]) * f;
     }
-    return [x, y];
-}
+    f = twicearea * 3;
+    const center = [x / f + first[0], y / f + first[1]];
+
+    return center;
+ }
 
 function AddDisplayCKANExtent( data )
 {
@@ -565,8 +595,17 @@ function AddDisplayCKANClusterIcon( data )
        {
             addGeometryToCache(r['id'], objspatial);
            // Create geometry feature as polygone (rect extent)
-           var feature = new ol.Feature({
-            geometry: new ol.geom.Point(getCenterOfCoordinates(objspatial['coordinates'][0]))
+           let centerPoint;
+
+           if(objspatial['type']==='Point') {
+               centerPoint = objspatial['coordinates'];
+            }
+           else {
+               centerPoint = getCenterOfCoordinates(objspatial['coordinates'][0]);
+            }
+
+            feature = new ol.Feature({
+                geometry: new ol.geom.Point(centerPoint)
             });
             feature.setId(r['id']);
             feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
@@ -585,23 +624,24 @@ function AddDisplayCKANClusterIcon( data )
    // update map
 }
 
-function datasetHasSpatial(data)
+function getDatasetSpatialData(data)
+{   let spatial;
+    if (data["spatial"])
 {
-    if (data["spatial"] != undefined && data["spatial"] !== "")
-    {
-       return true;
+        spatial = data["spatial"];
     }
-    else if ( data['extras'] != undefined)
+    else if ( data['extras'] )
     {
         // slgo + extension spatial schema
         data['extras'].forEach( function(entry)
         {
             if ( entry['key'] == 'spatial')
             {
-                return true;
+                spatial = entry['value'];
             }
         });
     }
+    if(spatial) return JSON.parse(spatial);
     return false;
 }
 
@@ -954,7 +994,7 @@ function generateCompleteDetailsPanel( dataset )
         ret_html += "<span class='details_text'>" + i18nStrings.getUIString("category") + "</span>";
         ret_html += getCategoriesForDataset( dataset);
     }
-    ret_html += "<span class='details_text'>" + i18nStrings.getUIString("dataset_description") + "</span>";
+    ret_html += "<span class='details_text'><strong>" + i18nStrings.getUIString("dataset_description") + "</strong></span>";
     if ( ckan_server.support_multilanguage)
     {
         ret_html += "<p class='details_label'>" + i18nStrings.getTranslation(dataset['notes_translated']) + "</p>";
@@ -967,36 +1007,30 @@ function generateCompleteDetailsPanel( dataset )
     ret_html += '<a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '" class="asset-link" target="_blank" role="button">CKAN</a> ';
     ret_html += getToolForDataset(dataset);
     ret_html += '</div><br />';
-    ret_html += "<p class='details_label'>" + i18nStrings.getUIString("dataset_provider") + "</p><a href='" + ckan_server.getURLForOrganization(dataset['organization']['name']) + "' target='_blank'>";
+    ret_html += "<p class='details_label details_heading'>" + i18nStrings.getUIString("dataset_provider") + "</p><a href='" + ckan_server.getURLForOrganization(dataset['organization']['name']) + "' target='_blank'>";
     ret_html += "<span class=''details_text>" + dataset['organization']['title'] + "</span></a><br />";
     ret_html += "</div>";
     return ret_html;
 }
 
 function generateDetailsPanel( dataset ) //, language, dataset_id, title, description, provider, link_url, prov_url)
-{
-    let ret_html = "<div id='" + dataset["id"] + "'class='asset_details');'>";
-    ret_html += "<span class='details_label'>" + i18nStrings.getUIString("dataset_title") + "</span>";
-    if ( ckan_server.support_multilanguage)
-    {
-        ret_html += "<p class='details_text'>" + i18nStrings.getTranslation(dataset['title_translated']) + "</p>";
-    }
-    else
-    {
-        ret_html += "<p class='details_text'>" + dataset['title'] + "</p>";
-    }
-    ret_html += '<div class="asset-actions">';
-    ret_html += '<span class="details_label">Information:</span>';
-    ret_html += '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="showDatasetDetailDescription(\'' + dataset["id"] + '\')">' + i18nStrings.getUIString("details") + '</a>';
-
+{   let spatial = getDatasetSpatialData(dataset);
+    let ret_html = "<div id='" + dataset["id"] + "'class='asset_details'>";
     // check if geomeetry details available for this dataset
-    if ( datasetHasSpatial(dataset) )
+    if ( spatial && spatial['type'] === 'Polygon')
     {
-        ret_html += '<a href="#" onclick="showInGeometryLayer(\'' + dataset["id"] + '\');");">' + i18nStrings.getUIString("map") + '</a> ';
+        ret_html += '<a href="#" onclick="showInGeometryLayer(\'' + dataset["id"] + '\')" title="' + i18nStrings.getUIString("map") + '"><img class="map-marker" src="/asset/images/map-marker.svg"></a>';
     }
-    // ret_html += '<button type="button" class="button" onclick="selectFeatureOnMap(\'' + dataset["id"] + '\');");">Map</button> ';
+    
+    const title = ckan_server.support_multilanguage ? i18nStrings.getTranslation(dataset['title_translated']) : dataset['title'];
+    ret_html += '<h3 class="details_label">' + '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="showDatasetDetailDescription(\'' + dataset["id"] + '\');">' + title + '</a></h3>'; 
+    
+    // ret_html += '<div class="asset-actions">';
+    // ret_html += '<span class="details_label">Information:</span>';
+    // ret_html += '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="showDatasetDetailDescription(\'' + dataset["id"] + '\');">' + i18nStrings.getUIString("details") + '</a>';
+    // ret_html += '<button type="button" class="button" onclick="selectAndCenterFeatureOnMap(\'' + dataset["id"] + '\');">Map</button> ';
     // ret_html += '<a class="button" data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button">details</a>';
-    ret_html += '</div>';
+    // ret_html += '</div>';
     ret_html += '<div class="collapse" id="' + dataset["id"] + '_collapse' + '">';
     ret_html += "</div>";
     ret_html += "</div>";
@@ -1097,7 +1131,7 @@ function addAndDisplaydataset(data)
             // request first page of dataset
             if ( ckan_server.usejsonp)
             {
-                $.ajax({
+                jQuery.ajax({
                     url: url_ckan,
                     dataType: "text",
                     success: function( data )
@@ -1111,7 +1145,7 @@ function addAndDisplaydataset(data)
             }
             else
             {
-                $.getJSON( url_ckan, addAndDisplaydataset );
+                jQuery.getJSON( url_ckan, addAndDisplaydataset );
             }
         }
         else
@@ -1153,9 +1187,9 @@ function searchAndDisplayDataset(data)
 
     // if result count is bigger than the rows return, call add dataset
     var totaldataset =  parseInt(data["result"]["count"]);
-    if ( totaldataset > ckan_server.resultPageSize )
+    if ( totaldataset > ckan_server.initialPageSize )
     {
-        ckan_server.lastPagedDataIndex = 5;
+        ckan_server.lastPagedDataIndex = ckan_server.initialPageSize;
         displayTotalSearchDetails( totaldataset, ckan_server.lastPagedDataIndex );
         // until the weird jquery jsonp bug is corrected, do it by hand!
         let url_ckan = ckan_server.getURLPaginated( ckan_server.lastPagedDataIndex, ckan_server.resultPageSize);
@@ -1163,7 +1197,7 @@ function searchAndDisplayDataset(data)
         // request first page of dataset
         if ( ckan_server.usejsonp)
         {
-            $.ajax({
+            jQuery.ajax({
                 url: url_ckan,
                 dataType: "text",
                 success: function( data )
@@ -1177,7 +1211,7 @@ function searchAndDisplayDataset(data)
         }
         else
         {
-            $.getJSON( url_ckan, addAndDisplaydataset );
+            jQuery.getJSON( url_ckan, addAndDisplaydataset );
         }
     }
     else
@@ -1194,7 +1228,9 @@ function clearAllDatasets()
     document.getElementById('dataset_desc').innerHTML = "";
 
     // clear map display
-    clusterLayer.setVisible(false);
+    if (clusterLayer !== undefined){
+        clusterLayer.setVisible(false);   
+    }
     vectorLayer.setVisible(false);
     let vectorSource= vectorLayer.getSource();
     vectorSource.clear();
@@ -1225,7 +1261,7 @@ function checkCKANData()
         if ( ckan_server.usejsonp)
         {
             // add header with basic auth if required
-            $.ajax({
+            jQuery.ajax({
                 url: url_ckan,
                 dataType: "text",
                 headers: auth_header,
@@ -1241,7 +1277,7 @@ function checkCKANData()
         }
         else
         {
-            $.ajax({
+            jQuery.ajax({
                 url: url_ckan,
                 dataType: "json",
                 headers: auth_header,
@@ -1275,7 +1311,7 @@ function updateDatasetDetails( datasets )
     // update and open panel
     let itemid = '#' + element['id'] + '_collapse';
     document.getElementById(element['id'] + '_collapse').innerHTML = generateCompleteDetailsPanel(element);
-    $(itemid).collapse("show");
+    jQuery(itemid).collapse("show");
 }
 
 function updateDatasetDetailsFromCache( datasetid )
@@ -1283,29 +1319,42 @@ function updateDatasetDetailsFromCache( datasetid )
     let element = ckan_server.datasetDetails[datasetid];
     // update and open panel
     let itemid = '#' + element['id'] + '_collapse';
-    document.getElementById(element['id'] + '_collapse').innerHTML = generateCompleteDetailsPanel(element);
-    $(itemid).collapse("show");
+    if (document.getElementById(element['id'] + '_collapse')) {
+        document.getElementById(element['id'] + '_collapse').innerHTML = generateCompleteDetailsPanel(element);
+    }
+    jQuery(itemid).collapse("show");
 }
 
-function showDatasetDetailDescription( datasetid )
+function showDatasetDetailDescription( datasetid , goto_description = true, select_point = true, center_point = true)
 /**
  * Shows Dataset Detail Description and adjusts the scroll so that detail panel is visible
- * @param  {[string]} datasetid [element]
+ * @param  {[string]} datasetid
+ * @param  {[bool]} goto_description - scroll to the current description in the right panel if True
+ * @param  {[bool]} select_point - selects corresponding feature (point) on the map
+ * @param  {[bool]} center_point - center corresponding feature (point) on the map
  */
 {
     // collapse other detail panels
-    $('#dataset_desc').find('.collapse').each(function() {
-        if ($(this).attr('id') != datasetid || true) {
-            $(this).collapse('hide');
+    jQuery('#dataset_desc').find('.collapse').each(function() {
+        if (jQuery(this).attr('id') != datasetid) {
+            jQuery(this).collapse('hide');
         }
     });
-    // show details panel
+    // load details panel
     callDatasetDetailDescription(datasetid);
-    // sroll up to this panel
-    $("#"+datasetid).on("shown.bs.collapse", function() {
-        let topPos = $('#dataset_desc').scrollTop() + $("#"+datasetid).position().top;
-        $('#dataset_desc').animate({scrollTop:topPos}, 500);
-    });
+    // scroll up to this panel
+    if (goto_description) {
+        jQuery("#"+datasetid).on("shown.bs.collapse", function() {
+            let topPos = jQuery('#dataset_desc').scrollTop() + jQuery("#"+datasetid).position().top;
+            jQuery('#dataset_desc').animate({scrollTop:topPos}, 500);
+        });
+    }
+    if (select_point) {
+        selectFeatureOnMap(datasetid);
+    }
+    if (center_point) {
+        centerFeatureOnMap(datasetid);
+    }
 }
 
 function callDatasetDetailDescription( datasetid )
@@ -1328,7 +1377,7 @@ function callDatasetDetailDescription( datasetid )
     if ( ckan_server.usejsonp)
     {
         // add header with basic auth if required
-        $.ajax({
+        jQuery.ajax({
             url: url_ckan,
             dataType: "text",
             headers: auth_header,
@@ -1344,7 +1393,7 @@ function callDatasetDetailDescription( datasetid )
     }
     else
     {
-        $.ajax({
+        jQuery.ajax({
             url: url_ckan,
             dataType: "json",
             headers: auth_header,
