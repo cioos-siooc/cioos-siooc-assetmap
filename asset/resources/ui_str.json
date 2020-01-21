@@ -9,7 +9,7 @@
   },
   "dataset_provider": {
     "fr": "Source des données",
-    "en": "Data provider"
+    "en": "Data Contributor"
   },
   "dataset_tools": {
     "fr": "Données",
@@ -38,6 +38,6 @@
   "category": 
   {
     "fr": "Catégorie(s)",
-    "en": "Category(ies)"
+    "en": "Category"
   }
 }
