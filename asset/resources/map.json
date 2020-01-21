@@ -53,7 +53,7 @@
             "cluster_value": 5,
             "circle_radius": 10,
             "text_color": "#fff",
-            "fill_color": "#52a79b",
+            "fill_color": "#e55162",
             "stroke_color": "#fff"
         },
         "maximum":{
