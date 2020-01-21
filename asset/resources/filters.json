@@ -60,18 +60,6 @@
                 "enabled": true
             },
             {
-                "id": "var_seasurfaceheight",
-                "icon":"sea-state.svg",
-                "label":
-                {
-                    "fr":"État de la mer",
-                    "en":"Sea Surface Height"
-                },
-                "ckantext": ["Sea Surface Height"],
-                "eovs": [ "seaSurfaceHeight" ],
-                "enabled": true
-            },
-            {
                 "id": "var_density",
                 "icon":"particulate-matter.svg",
                 "label":
@@ -113,10 +101,22 @@
                 "label":
                 {
                     "fr":"Vitesse du son",
-                    "en":"Speed of sound"
+                    "en":"Speed of Sound"
                 },
-                "ckantext":["Speed of sound"],
+                "ckantext":["Speed of Sound"],
                 "eovs": [ "speedOfSound" ],
+                "enabled": true
+            },
+            {
+                "id": "var_seasurfaceheight",
+                "icon":"sea-state.svg",
+                "label":
+                {
+                    "fr":"État de la mer",
+                    "en":"Sea Surface Height"
+                },
+                "ckantext": ["Sea Surface Height"],
+                "eovs": [ "seaSurfaceHeight" ],
                 "enabled": true
             }
         ]
