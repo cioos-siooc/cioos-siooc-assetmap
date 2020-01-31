@@ -48,6 +48,7 @@ function CKANServer()
     // paging done for filters modified, if differ than lastFilterChange, then not 
     // in sych with current filters
     this.currentFilterQuery = 0;
+    this.hasfilterquery = false;
     
     // result per paging  
     this.resultPageSize = 20;
@@ -1072,18 +1073,24 @@ function addAndDisplaydataset(data)
 {
     // continue paging data until no more is required
     var notdisplayed = true;
+    // query is still relevant ( hasn't changed since the request )
+    if ( ckan_server.currentFilterQuery != ckan_server.lastFilterChange )
+    {
+        return;
+    }
+
     if ( ckan_server.lastPagedDataIndex > ckan_server.slowDownPagingTreshold)
     {
-        AddToDisplayCkanDatasetDetails(data);
-        if ( useClustering )
-        {
-            AddDisplayCKANClusterIcon(data);
-        }
-        else
-        {
-            AddDisplayCKANExtent(data);
-        }
-        notdisplayed = false;
+            AddToDisplayCkanDatasetDetails(data);
+            if ( useClustering )
+            {
+                AddDisplayCKANClusterIcon(data);
+            }
+            else
+            {
+                AddDisplayCKANExtent(data);
+            }
+            notdisplayed = false;
     }
     // make the call before adding the data so server side can compute
     // while client render or after for older machine / large result?
@@ -1123,23 +1130,32 @@ function addAndDisplaydataset(data)
             displayTotalSearchDetails( totaldataset, totaldataset );
         }
     }
-    // was under the treshold for paging slowdown, need to display now
-    if ( notdisplayed )
+    // query still hasn't changed during processing?
+    if ( ckan_server.currentFilterQuery == ckan_server.lastFilterChange )
     {
-        AddToDisplayCkanDatasetDetails(data);
-        if ( useClustering )
+        // was under the treshold for paging slowdown, need to display now
+        if ( notdisplayed )
         {
-            AddDisplayCKANClusterIcon(data);
+            AddToDisplayCkanDatasetDetails(data);
+            if ( useClustering )
+            {
+                AddDisplayCKANClusterIcon(data);
+            }
+            else
+            {
+                AddDisplayCKANExtent(data);
+            }
         }
-        else
-        {
-            AddDisplayCKANExtent(data);
-        }
-    }
+    }   
 }
 
 function searchAndDisplayDataset(data)
 {
+    if ( this.hasfilterquery == false)
+    {
+        // oups, ajax took to long, no more filter, don't display anything
+        return;
+    }
     // start of a new possible pagination, set current to last, even is too fast, it will be updated afterward?
     // No way to identify the request made since no param or user define info can be returned
     ckan_server.currentFilterQuery = ckan_server.lastFilterChange;
@@ -1213,9 +1229,14 @@ function checkCKANData()
 {
     // update the current state of filters ( use to check for parelle paging of data)
     ckan_server.lastFilterChange += 1;
+
+    // remove data from the map and on the list, will be reconstructed with the paginated search
+    clearAllDatasets();
+    this.hasfilterquery = false;
     // verify if filters are active, if not, remove all data and don't access the entire catalogue
     if ( ckan_server.hasActiveFilter() )
     {
+        this.hasfilterquery = true;
         // use CKAN config to write call to package_search
 
         // support jsonp by hand since jquery bug with adding other parameters at then end for nothing ( other than the callback )
@@ -1259,11 +1280,6 @@ function checkCKANData()
         //   console.log("error " + textStatus);
         //   console.log("incoming Text " + jqXHR.responseText);
         //});
-    }
-    else
-    {
-        // remove all info from layers
-        clearAllDatasets();
     }
 }
 

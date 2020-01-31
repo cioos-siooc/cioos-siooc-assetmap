@@ -54,6 +54,7 @@ def call_ckan(path):
     global base_proxy_config
     global base_proxy_auth
     # procy config name
+    print(request.args)
     pathitems = request.path.split('/')
     # default ckan proxy
     proxyconfigname = 'ckan.json'
@@ -65,7 +66,17 @@ def call_ckan(path):
     if proxyconfigname not in base_proxy_config:
         load_proxy_setting(proxyconfigname)
     config = base_proxy_config[proxyconfigname]
-    url = config['api_url'] + '3/action/' + path
+    url = config['api_url'] + '3/action/' + path 
+    firstarg = True
+    for arg in request.args:
+        print(arg)
+        print(request.args.get(arg))
+        if firstarg:
+            url += '?'
+            firstarg = False
+        else:
+            url += '&'
+        url += arg + '=' + request.args.get(arg)
     if proxyconfigname in base_proxy_auth:
         print ( "Proxy with auth for: " + url )
         authconf = base_proxy_auth[proxyconfigname]
