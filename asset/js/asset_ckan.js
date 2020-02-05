@@ -209,7 +209,7 @@ function CKANServer()
     this.getURLParamterForFieldRestriction = function()
     {
         // fl=title_translated,notes_translated,eov,keywords,spatial
-        ret = "fl=id,title_translated,notes_translated,eov,keywords,spatial";
+        ret = "fl=id,title_translated,eov,spatial";
         return ret;
     }
 
@@ -826,55 +826,9 @@ function displayCKANClusterIcon( data )
         }
         ++i;
     }
-    // recreate layer 
-    clusterVectorSource = new ol.source.Vector({
-        features: features
-    });
-
-    var clusterSource = new ol.source.Cluster({
-        distance: clusterStyleConfig["distance"],
-        source: clusterVectorSource
-      });
-
-    var styleCache = {};
-    clusterLayer = new ol.layer.Vector({
-        source: clusterSource,
-        style: function(feature) {
-          let featuresSize = feature.get('features')
-          let curstyle;
-          if ( featuresSize != undefined)
-          {
-            let size = feature.get('features').length;
-            curstyle = styleCache[size];
-            if (!curstyle) {
-                let cfg = getStyleFromClusterConfig(clusterStyleConfig, size);
-                curstyle = new ol.style.Style({
-                image: new ol.style.Circle({
-                    radius: cfg["circle_radius"],
-                    stroke: new ol.style.Stroke({
-                    color: cfg["stroke_color"]
-                    }),
-                    fill: new ol.style.Fill({
-                    color: cfg["fill_color"]
-                    })
-                }),
-                text: new ol.style.Text({
-                    text: size.toString(),
-                    fill: new ol.style.Fill({
-                    color: cfg["text_color"]
-                    })
-                })
-                });
-                styleCache[size] = curstyle;
-            }
-          }
-          return curstyle;
-        }
-      });
-    clusterLayer.setZIndex(10);
-    map.addLayer(clusterLayer);
-    // update map
-
+    // clean cluster sour
+    clusterVectorSource.addFeatures(features);
+    clusterLayer.setVisible(true); 
 }
 
 function getVariableForDatataset(dataset)
@@ -1233,6 +1187,7 @@ function clearAllDatasets()
     // clear map display
     if (clusterLayer !== undefined){
         clusterLayer.setVisible(false);   
+        clusterVectorSource.clear();
     }
     vectorLayer.setVisible(false);
     let vectorSource= vectorLayer.getSource();

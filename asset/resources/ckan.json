@@ -9,7 +9,7 @@
     "usejsonp": true,
     "initial_page_size": 500,
     "page_size": 500,
-    "restrict_json_return": false,
+    "restrict_json_return": true,
     "basic_userd": "",
     "basic_passd": "",
     "support_time": false,
