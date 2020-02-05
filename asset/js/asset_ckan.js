@@ -77,6 +77,7 @@ function CKANServer()
         this.support_multilanguage = false;
         this.usejsonp = false;
         this.resultPageSize = 40;
+        this.initialPageSize = 40;
         this.slowDownPagingTreshold = 300;
         this.restrict_json_return = false;
         this.support_eov = false;
@@ -101,6 +102,7 @@ function CKANServer()
         this.support_multilanguage = config["support_multilanguage"];
         this.usejsonp = config["usejsonp"];
         this.resultPageSize = config["page_size"];
+        this.initialPageSize = config["initial_page_size"];
         this.restrict_json_return = config["restrict_json_return"];
         this.support_eov = config["support_eov"];
         this.use_basic_auth = config["use_basic_auth"];
@@ -421,7 +423,7 @@ function CKANServer()
     this.getCKANData = function ()
     {
         // call proxy with url and variable
-        url = this.getURLPaginated(0, 5);
+        url = this.getURLPaginated(0, this.initialPageSize);
         jQuery.getJSON( url, afficheCKANExtent );
         //$.getJSON( "https://test-catalogue.ogsl.ca/api/3/action/package_search?ext_bbox=-104,17,-18,63&q=" + document.getElementById('searchbox').value, afficheCKANExtent );
     };
@@ -443,6 +445,20 @@ function addCKANExtent(data)
 {
     // add extent to the one already available
     
+}
+
+
+function getCentroidOfSpatial(spatialobj){
+    let center = [0, 0];
+    if ( spatialobj["type"] == "Point" )
+    {
+        center = spatialobj["coordinates"];
+    }
+    else if ( spatialobj["type"] == "Polygon" )
+    {
+        center = getCenterOfCoordinates(spatialobj["coordinates"][0]);
+    }
+    return center;
 }
 
 // adapted from https://stackoverflow.com/questions/9692448/how-can-you-find-the-centroid-of-a-concave-irregular-polygon-in-javascript
@@ -521,7 +537,7 @@ function AddDisplayCKANExtent( data )
             // set id to link to description panel
             feature.set('id', r['id']);
              // if multi polygone, will only see first. base on rectangle for now
-            feature.set('center', getCenterOfCoordinates(objspatial['coordinates'][0]));
+            feature.set('center', getCentroidOfSpatial(objspatial));
             features.push(feature);
         }
         ++i;
@@ -568,12 +584,13 @@ function AddDisplayCKANClusterIcon( data )
            // Create geometry feature as polygone (rect extent)
            let centerPoint;
 
-           if(objspatial['type']==='Point') {
+           centerPoint = getCentroidOfSpatial(objspatial);
+           /* if(objspatial['type']==='Point') {
                centerPoint = objspatial['coordinates'];
             }
            else {
-               centerPoint = getCenterOfCoordinates(objspatial['coordinates'][0]);
-            }
+               centerPoint = getCentroidOfSpatial(objspatial['coordinates'][0]);
+            } */
 
             feature = new ol.Feature({
                 geometry: new ol.geom.Point(centerPoint)
@@ -656,7 +673,7 @@ function displayCKANExtent( data )
             // set id to link to description panel
             feature.set('id', r['id']);
             // if multi polygone, will only see first. base on rectangle for now
-            feature.set('center', getCenterOfCoordinates(objspatial['coordinates'][0]));
+            feature.set('center', getCentroidOfSpatial(objspatial['coordinates'][0]));
             features.push(feature);
         }
         ++i;
@@ -798,7 +815,7 @@ function displayCKANClusterIcon( data )
             // Create geometry feature as polygone (rect extent)
             //new Feature(new Point(coordinates));
             var pointfeature = new ol.Feature({
-                geometry: new ol.geom.Point(getCenterOfCoordinates(objspatial['coordinates'][0]))
+                geometry: new ol.geom.Point(getCentroidOfSpatial(objspatial))
             });
             pointfeature.setId(r['id']);
             pointfeature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
@@ -1242,7 +1259,7 @@ function checkCKANData()
         // support jsonp by hand since jquery bug with adding other parameters at then end for nothing ( other than the callback )
 
         //var datavalue = {"q": "patate", "callback": "jsonpcallback"}
-        let url_ckan = ckan_server.getURLPaginated(0, 5);
+        let url_ckan = ckan_server.getURLPaginated(0, ckan_server.initialPageSize);
         // until the weird jquery jsonp bug is corrected, do it by hand!
         let auth_header = {};
         if ( ckan_server.use_basic_auth)

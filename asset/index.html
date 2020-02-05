@@ -53,6 +53,10 @@
       {
         changeCurrentCKAN("national_ckan.json");
       }
+      else if ( newckan === "atlantic")
+      {
+        changeCurrentCKAN("ckan_atlantic.json");
+      }
     }
 
     function changeTimeFilters()
@@ -110,6 +114,7 @@
       <option value="opencanada">open.canada.ca</option>
       <option value="slgo">SLGO</option>
       <option value="pacific">CIOOS Pacific</option>
+      <option value="atlantic">CIOOS Atlantic</option>
       <option value="ioos">IOOS</option>
       <option value="Nextgeoss">Nextgeoss</option>
     </select><br />
