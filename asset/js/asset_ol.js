@@ -67,6 +67,9 @@ function CreateBackgroundLayerFromConfig( lconfig )
 
 function initMapFromConfig(config)
 {
+
+    addMapSelctionDropdown(config);
+
     vectorSource= new ol.source.Vector({
         features: []
     });
@@ -284,6 +287,7 @@ function initMapFromConfig(config)
             console.log('pointer out of object');
         }
     });
+
 }
 
 function clearGeometryCache()
@@ -401,3 +405,34 @@ function selectAndCenterFeatureOnMap( id )
 }
 
 // Should have code to add dataset to layer here
+
+function addMapSelctionDropdown( config )
+{
+    if ( "backgrouns_layers" in config)
+    {
+        // add the select object and the bottom left of the map div
+        domstr = '<div style="position: relative; left: 0px; bottom: 0px; z-index: 100;">';
+        domstr += '<span style="text-shadow: 1px 1px 2px #FFFFFF;">' + i18nStrings.getUIString("background_map") + '</span>';
+        domstr += '<select id="sel_asset_base_layer" onchange="asset_change_base_layer();">';
+        config["backgrouns_layers"].forEach( function(element)
+            {
+                domstr += '<option value="' + element['name'] + '"';
+                if ( element['name'] === config["start_layer"] )
+                {
+                    domstr += ' selected="selected"'
+                }
+                domstr += '">' + i18nStrings.getTranslation(element["label"]) + '</option>';
+            }
+        );
+        domstr += '</select></div>';
+    // append to the div map
+        document.getElementById('asset_map_container').innerHTML += domstr;
+    }
+    // add the select object and the bottom left of the map div
+}
+
+function asset_change_base_layer()
+{
+    let desired_layer = jQuery( "#sel_asset_base_layer" ).val();
+    changeBackgrounLayer(desired_layer);
+}
