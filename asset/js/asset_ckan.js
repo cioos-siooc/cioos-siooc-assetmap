@@ -28,6 +28,12 @@ function CKANServer()
     // bounding box where datatset need to intersect with
     this.bbox = undefined;
 
+    // custom bounding box for search
+    this.spatialSearch = {
+        customBbox: false,
+        bbox: []
+    };
+
     // Support filter usin min / mac time
     this.support_time = false;
     this.time_minimum = undefined;
@@ -45,13 +51,14 @@ function CKANServer()
     this.lastPagedDataIndex = 0;
     // sequential increment each time filters are modified
     this.lastFilterChange = 0;
-    // paging done for filters modified, if differ than lastFilterChange, then not 
+    // paging done for filters modified, if differ than lastFilterChange, then not
     // in sych with current filters
     this.currentFilterQuery = 0;
+
     this.hasfilterquery = false;
-    
-    // result per paging  
+    // result per paging 
     this.resultPageSize = 20;
+
 
     // size of the first call ( smaller let the total of dataset be known quickly)
     this.initialPageSize = 5;
@@ -82,6 +89,10 @@ function CKANServer()
         this.restrict_json_return = false;
         this.support_eov = false;
         this.bbox = undefined;
+        this.spatialSearch = {
+            customBbox: false,
+            bbox: []
+          };
         this.use_basic_auth = false;
         this.support_vertical = false;
         this.vertical_minimum = undefined;
@@ -127,7 +138,7 @@ function CKANServer()
     };
 
     this.getURLForDataset = function( datasetId ) {
-        ret = this.dataset_url 
+        ret = this.dataset_url
         if (this.add_language_url)
         {
             ret += this.currentLanguage + '/';
@@ -137,7 +148,7 @@ function CKANServer()
     };
 
     this.getURLForResources = function( datasetId ) {
-        ret = this.dataset_url 
+        ret = this.dataset_url
         if (this.add_language_url)
         {
             ret += this.currentLanguage + '/';
@@ -147,7 +158,7 @@ function CKANServer()
     };
 
     this.getURLForOrganization = function( organisationId ) {
-        ret = this.organization_url 
+        ret = this.organization_url
         if (this.add_language_url)
         {
             ret += this.currentLanguage + '/';
@@ -155,6 +166,13 @@ function CKANServer()
         ret += 'organization/' + organisationId;
         return ret;
     };
+
+    this.setCustomBbox = function(bbox) {
+        this.spatialSearch = {
+          customBbox: true,
+          bbox: bbox
+        };
+      };
 
     this.setCurrentLanguage = function(language) {
         this.currentLanguage = language;
@@ -187,7 +205,7 @@ function CKANServer()
             ret_str += "]";
             ret.push(ret_str);
         }
-        // add 
+        // add
         return ret;
     }
 
@@ -256,12 +274,17 @@ function CKANServer()
         return ret_url
     }
 
-    this.getURLParameterForBoundingBox = function()
-    {
-        let ret = "ext_bbox=" //-104,17,-18,63
+    this.getURLParameterForBoundingBox = function (custom) {
+    if (! custom) {
+        let ret = "ext_bbox="; // -104,17,-18,63
         ret += this.bbox[0].toString() + "," + this.bbox[1].toString() + "," + this.bbox[2].toString() + "," + this.bbox[3].toString();
         return ret;
+    } else {
+        let ret = "ext_bbox="; // -104,17,-18,63
+        ret += this.spatialSearch.bbox[0].toString() + "," + this.spatialSearch.bbox[1].toString() + "," + this.spatialSearch.bbox[2].toString() + "," + this.spatialSearch.bbox[3].toString();
+        return ret;
     }
+}
 
 
     this.getURLPaginated = function( startrow, numrow )
@@ -283,14 +306,15 @@ function CKANServer()
         }
 
         ret_url += 'package_search?';
-        if ( this.bbox !== undefined )
-        {
-            ret_url += this.getURLParameterForBoundingBox() + "&";
+        if (this.spatialSearch.customBbox) {
+            ret_url += this.getURLParameterForBoundingBox(true) + "&";
+        } else if (this.bbox !== undefined) {
+            ret_url += this.getURLParameterForBoundingBox(false) + "&";
         }
-        if ( this.restrict_json_return ) 
+        if ( this.restrict_json_return )
         {
             // add fl with desired element to be returned in the JSON
-            // this feature required the latest version of CKAN and that the items desired are 
+            // this feature required the latest version of CKAN and that the items desired are
             ret_url += this.getURLParamterForFieldRestriction() + "&";
         }
 
@@ -348,7 +372,7 @@ function CKANServer()
         if ( startrow !== undefined )
         {
             ret_url += '&start=' + startrow.toString();
-        } 
+        }
         if (this.usejsonp)
         {
             ret_url += '&callback=jsonpcallback'
@@ -373,6 +397,12 @@ function CKANServer()
             }
             ++v;
         }
+
+        if (!ret) {
+            if (this.spatialSearch.customBbox) {
+              ret = true;
+            }
+        }
         return ret;
     };
 
@@ -387,7 +417,7 @@ function CKANServer()
     };
 
 
-    this.getVaraibleIcon = function (name) 
+    this.getVaraibleIcon = function (name)
     {
         //look for viable of name
         ret_thumb = undefined;
@@ -403,7 +433,7 @@ function CKANServer()
             {
                 ret = v["icon"]
             }
-        }); 
+        });
         return ret;
     };
 
@@ -416,7 +446,7 @@ function CKANServer()
             {
                 ret = v;
             }
-        }); 
+        });
         return ret;
     }
 
@@ -430,7 +460,7 @@ function CKANServer()
 
     this.changeLanguage = function ( newlanguage )
     {
-        // clear 
+        // clear
         this.currentLanguage = newlanguage;
     }
 
@@ -444,7 +474,7 @@ function CKANServer()
 function addCKANExtent(data)
 {
     // add extent to the one already available
-    
+
 }
 
 
@@ -542,8 +572,8 @@ function AddDisplayCKANExtent( data )
         }
         ++i;
     }
-    // recreate layer 
-    
+    // recreate layer
+
     //console.log(vectorLayer);
     let cursource = vectorLayer.getSource();
     cursource.addFeatures(features);
@@ -604,8 +634,8 @@ function AddDisplayCKANClusterIcon( data )
        }
        ++i;
    }
-   // recreate layer 
-   
+   // recreate layer
+
    //console.log(vectorLayer);
    //cursource = clusterLayer.getSource();
    clusterVectorSource.addFeatures(features);
@@ -678,7 +708,7 @@ function displayCKANExtent( data )
         }
         ++i;
     }
-    // recreate layer 
+    // recreate layer
     let vectorSource= new ol.source.Vector({
         features: features
     });
@@ -709,7 +739,7 @@ function textColorToRGBA(color)
         {
             result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
             ret = [ parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16), parseInt(result[4], 16)];
-        } 
+        }
     }
     else if ( color.startsWith('rgb('))
     {
@@ -722,7 +752,7 @@ function textColorToRGBA(color)
         // extract 4 numbers between the ( ) seprated by ,
         result = /^rgb\(?([d]{3})([d]{3})([d]{3})([d]{3})$/i.exec(color);
         ret = [ parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16), parseInt(result[4], 16)];
-    } 
+    }
     // hex only 3 letter ( rgb )
     // hex 6 letter ( rgb )
     // hex 8 letter ( rgba )
@@ -734,7 +764,7 @@ function textColorToRGBA(color)
 function lerpColor( color1, color2, lerpvalue)
 {
     // lerp should be between 0 and 1.
-    // color as a 
+    // color as a
     // 0 = only color1
     // 1 = only color2
     // the result should be clamp between 0 and 255
@@ -774,7 +804,7 @@ function getStyleFromClusterConfig( config, nbrElem)
         minweight = 1 - maxweight;
     }
     config['minimum']['circle_radius'] * minweight + config['minimum']['circle_radius'] * maxweight;
-    
+
     ret['text_color'] = rgbaColorToHexRGB(lerpColor(textColorToRGBA(config['minimum']['text_color']), textColorToRGBA(config['maximum']['text_color']), maxweight));
     ret['fill_color'] = rgbaColorToHexRGB(lerpColor(textColorToRGBA(config['minimum']['fill_color']), textColorToRGBA(config['maximum']['fill_color']), maxweight));
     ret['stroke_color'] = rgbaColorToHexRGB(lerpColor(textColorToRGBA(config['minimum']['stroke_color']), textColorToRGBA(config['maximum']['stroke_color']), maxweight));
@@ -826,7 +856,7 @@ function displayCKANClusterIcon( data )
         }
         ++i;
     }
-    // clean cluster sour
+    // clean cluster source
     clusterVectorSource.addFeatures(features);
     clusterLayer.setVisible(true); 
 }
@@ -845,7 +875,7 @@ function getVariableForDatataset(dataset)
             }
         });
     }
-    else    
+    else
     {
         // Use tag to identify variable available. Temporary solution
         if (dataset['keywords'] !== undefined )
@@ -932,7 +962,7 @@ function generateCompleteDetailsPanel( dataset )
     ret_html += '<div class="card card-body">'
     if ( ckan_server.support_eov == true)
     {
-        // add categories from variable 
+        // add categories from variable
         ret_html += "<span class='details_text'>" + i18nStrings.getUIString("category") + "</span>";
         ret_html += getCategoriesForDataset( dataset);
     }
@@ -1141,8 +1171,8 @@ function searchAndDisplayDataset(data)
     {
         displayCKANExtent(data);
     }
-    
-    // if result count is bigger than the rows return, call add dataset 
+
+    // if result count is bigger than the rows return, call add dataset
     var totaldataset =  parseInt(data["result"]["count"]);
     if ( totaldataset > ckan_server.initialPageSize )
     {
@@ -1255,11 +1285,18 @@ function checkCKANData()
     }
 }
 
+function setLocationAndCheck(location){
+    ckan_server.setCustomBbox(
+      location
+    );
+    checkCKANData()
+  }
+
 function updateDatasetDetails( datasets )
 {
     let element = datasets['result'];
     ckan_server.datasetDetails[element['id']] = element;
-    // update and open panel 
+    // update and open panel
     let itemid = '#' + element['id'] + '_collapse';
     document.getElementById(element['id'] + '_collapse').innerHTML = generateCompleteDetailsPanel(element);
     jQuery(itemid).collapse("show");
@@ -1321,7 +1358,7 @@ function callDatasetDetailDescription( datasetid )
     let auth_header = {};
     if ( ckan_server.use_basic_auth)
     {
-        auth_header = { 
+        auth_header = {
             'Authorization': 'Basic ' + btoa(ckan_server.basic_auth_user + ':' + ckan_server.basic_auth_password)
             };
     }
@@ -1352,3 +1389,4 @@ function callDatasetDetailDescription( datasetid )
         });
     }
 }
+
