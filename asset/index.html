@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>CIOOS Dataset map prototype</title>
+  <meta charset="utf-8"/>
   <link rel="stylesheet" href="./css/asset.css" type="text/css">
   <link rel="stylesheet" href="./css/ol.css" type="text/css">
   <link rel="stylesheet" href="./css/style.css" type="text/css">
@@ -16,6 +17,7 @@
   <script src="js/asset_i18n.js"></script>
   <script src="js/asset_ckan.js"></script>
   <script src="js/asset.js"></script>
+  <script src="js/asset_ui.js"></script>
 
   <script>
     // debug scripts, not to be embedded
@@ -91,12 +93,12 @@
   </script>
 </head>
 <body>
-  <div>
-    <div id="asset_map_container" class="map-container">
-         <div id="map" class="map" ></div>
-      
-         <div id="category_panel" class="category-selection"></div>
-        <div id="variable_panel" class="variable-selection tab-content"></div>
+  <div class="outer-map-container">
+    <div class="overlay"></div>
+    <div class="map-container">
+      <div id="map" class="map" style=""></div>
+      <div id="category_panel" class="category-selection"></div>
+      <div id="variable_panel" class="variable-selection tab-content"></div>
       <div id="dataset_desc" class="panel_details"></div>
       <div class="panel_search_info" style="text-align:center" id="dataset_search_stats"></div>
     </div>
