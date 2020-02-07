@@ -1,6 +1,5 @@
+.mypy_cache
+.vscode
 venv/*
 venv*
 auth.json
-
-.mypy_cache
-.vscode

@@ -1,8 +1,8 @@
 {
-    "base_url":"https://pac-dev1.cioos.org/ckan/",
-    "api_url":"https://pac-dev1.cioos.org/ckan/api/",
-    "dataset_url": "https://pac-dev1.cioos.org/ckan/",
-    "organization_url": "https://pac-dev1.cioos.org/ckan/",
+    "base_url":"https://cioosatlantic.ca/ckan/",
+    "api_url":"https://cioosatlantic.ca/ckan/api/",
+    "dataset_url": "https://cioosatlantic.ca/ckan/",
+    "organization_url": "https://cioosatlantic.ca/ckan/",
     "access_url":"/ckan/",
     "add_language_url": true,
     "support_multilanguage": true,
