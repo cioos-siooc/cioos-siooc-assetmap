@@ -1,6 +1,6 @@
 var lg = null;
 var ui_str = null;
-var ckan_server = null;
+var ckan_server = 'pacific';
 var i18nStrings = null;
 var filters = null;
 var mapconfig = null;
@@ -38,8 +38,49 @@ function generateVariableBox( vardata )
     return ret_html;
 }
 
+function generateLocationBox( location )
+{
+    ret_html = "<li>";
+    ret_html += "<input class='variable-checkbox' style='' type='checkbox' id='" + location["id"] + "' ";
+    if ( !location["enabled"])
+    {
+        ret_html += "disabled";
+    }
+    ret_html += " onclick='setLocationAndCheck("+ JSON.stringify(location["extent"]) +");'>";
+    ret_html += "<label for='" + location["id"] + "'>" + i18nStrings.getTranslation(location["label"]) + "</label>";
+    ret_html += "</li>";
+    return ret_html;
+}
 
+function generateLocationsButton(locationData)
+{
+    ret_html = '<a href="#locations_tab" role="tab" onclick="toggleTab(event, this);">';
+    ret_html += "<div class='category_cell_bg'>";
+    ret_html += i18nStrings.getTranslation({
+        "en": "Locations",
+        "fr": "Emplacements"
+    });
+    ret_html += "</div>";
+    ret_html += "</a>";
+    return ret_html;
+}
 
+function generateLocationCategories(locations)
+{
+  // for each variable, create box with label and icon
+  // add has a possible filter in the CKANServer
+  c = 0;
+  CatInnerHtml = generateLocationsButton();
+  VarInnerPanelHTML = '<div id="locations_tab" class="tab-pane" role="tabpanel"><ul class="variable-options">';
+  while (c < locations.length) {
+    place = locations[c];
+    VarInnerPanelHTML += generateLocationBox(place);
+    ++c;
+  }
+  VarInnerPanelHTML += "</ul></div>";
+  document.getElementById("category_panel").innerHTML += CatInnerHtml;
+  document.getElementById("variable_panel").innerHTML += VarInnerPanelHTML;
+}
 
 function generateCategoryButton( catData)
 {
@@ -103,7 +144,7 @@ function generateFilterCategories()
 }
 
 
-// Debug methode, shouldn't be in the final 
+// Debug methode, shouldn't be in the final
 
 function changeCurrentLanguage( newLanguage )
 {
@@ -114,7 +155,7 @@ function changeCurrentLanguage( newLanguage )
     i18nStrings.setBaseLanguage(newLanguage);
     i18nStrings.setCurrentLanguage(newLanguage);
 
-    
+
     // clear map and details
     clearAllDatasets();
 
@@ -122,7 +163,7 @@ function changeCurrentLanguage( newLanguage )
     generateFilterCategories();
 
     //
-    
+
 }
 
 function changeCurrentCKAN( ckan_instance )
@@ -260,4 +301,16 @@ jQuery(document).ready(function () {
         error: function (e) {
         }
     });
+
+    jQuery.ajax({
+        url: wordpresspath + "/asset/resources/locations.json",
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            generateLocationCategories(data);
+        },
+        error: function (e) {
+        }
+    });
+
 });

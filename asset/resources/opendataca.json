@@ -8,6 +8,7 @@
     "support_multilanguage": true,
     "start_bbox": [-118, 36, -40, 63],
     "usejsonp": true,
+    "initial_page_size": 40,
     "page_size": 40,
     "restrict_json_return": false,
     "support_time": false,
