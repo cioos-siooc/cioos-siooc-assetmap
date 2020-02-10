@@ -812,9 +812,23 @@ function getStyleFromClusterConfig( config, nbrElem)
     ret['circle_radius'] = config['minimum']['circle_radius'] * minweight + config['maximum']['circle_radius'] * maxweight;
     return ret;
 }
+// if newCoords exists in existingCoordsArray, return a coordinate that is slightly different
+function moveCoordsSlightlyIfDuplicate(newCoords, existingCoordsArray) {
+                    
+    const [lat, long] = newCoords;
+
+    const numberMatchingCoords = existingCoordsArray.filter(function (coord) { return coord[0] == lat && coord[1] == long; }).length
+    
+    if (numberMatchingCoords > 0) {
+        const movedCoords = [lat, long + numberMatchingCoords * 0.001]
+        return movedCoords;
+    }
+    return newCoords;
+}
 
 function displayCKANClusterIcon( data )
 {
+    const allCoords = [];
     // for each, look for the spatial extra
     let i = 0;
     let results = data['result']['results'];
@@ -845,9 +859,12 @@ function displayCKANClusterIcon( data )
             addGeometryToCache(r['id'], objspatial);
             // Create geometry feature as polygone (rect extent)
             //new Feature(new Point(coordinates));
+            const coordsToAdd = getCentroidOfSpatial(objspatial)
             var pointfeature = new ol.Feature({
-                geometry: new ol.geom.Point(getCentroidOfSpatial(objspatial))
+                
+                geometry: new ol.geom.Point(moveCoordsSlightlyIfDuplicate(coordsToAdd, allCoords))
             });
+            allCoords.push(coordsToAdd)
             pointfeature.setId(r['id']);
             pointfeature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
             // set id to link to description panel
