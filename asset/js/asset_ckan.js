@@ -8,7 +8,7 @@ function CKANServer()
     this.organization_url= '';
     this.varriables = [];
     this.datasetDetails = {};
-    this.wordpresspath = '/wp-content/themes/cioos-siooc-wordpress-theme-master/asset';
+    this.wordpresspath = '/wp-content/themes/cioos-siooc-wordpress-theme-master';
 
     // CKAN inistance name for the proxy
     this.ckan_proxy_name = undefined;
@@ -238,10 +238,7 @@ function CKANServer()
         var ret_url =  this.url;
         if (this.ckan_proxy_name !== undefined)
         {
-            //ret_url += this.ckan_proxy_name + '/';
-            ret_url +='';
-        } else {
-            ret_url +='';
+            ret_url += this.ckan_proxy_name + '/';
         }
         if (this.usejsonp)
         {
@@ -280,10 +277,7 @@ function CKANServer()
         else if (this.ckan_proxy_name !== undefined)
         {
             // since no jsonp and name of proxy define then add proxy info to url
-            // ret_url += this.ckan_proxy_name + '/';
-            ret_url +=  '';
-        }else{
-            ret_url +=  '';
+            ret_url += this.ckan_proxy_name + '/';
         }
 
         ret_url += 'package_search?';
@@ -855,7 +849,7 @@ function getVariableForDatataset(dataset)
             let thumb =  ckan_server.getVariableThumbnail(entry);
             if ( thumb !== undefined )
             {
-                ret_html += "<img src='" + "/asset/images/thumbnails/" + thumb + "'></img>";
+                ret_html += "<img src='" + wordpresspath + "/asset/images/thumbnails/" + thumb + "'></img>";
             }
         });
     }
@@ -871,7 +865,7 @@ function getVariableForDatataset(dataset)
                 let thumb =  ckan_server.getVariableThumbnail(entry);
                 if ( thumb !== undefined )
                 {
-                    ret_html += "<img src='" + "/asset/images/thumbnails/" + thumb + "'></img>";
+                    ret_html += "<img src='" + wordpresspath + "/asset/images/thumbnails/" + thumb + "'></img>";
                 }
             });
         }
@@ -884,7 +878,7 @@ function getVariableForDatataset(dataset)
                 let thumb =  ckan_server.getVariableThumbnail(entry["name"]);
                 if ( thumb !== undefined )
                 {
-                    ret_html += "<img src='" + "/asset/images/thumbnails/" + thumb + "'></img>";
+                    ret_html += "<img src='" + wordpresspath + "/asset/images/thumbnails/" + thumb + "'></img>";
                 }
             });
         }
@@ -975,12 +969,17 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     // check if geomeetry details available for this dataset
     if ( spatial && spatial['type'] === 'Polygon')
     {
-        ret_html += '<a href="#" onclick="showInGeometryLayer(\'' + dataset["id"] + '\')" title="' + i18nStrings.getUIString("map") + '"><img class="map-marker" src="'+ wordpresspath +'images/map-marker.svg"></a>';
+        ret_html += '<a href="#" onclick="showInGeometryLayer(\'' + dataset["id"] + '\')" title="' + i18nStrings.getUIString("map") + '"><img class="map-marker" src="'+ wordpresspath +'"/asset/images/map-marker.svg"></a>';
     }
-    
-    const title = ckan_server.support_multilanguage ? i18nStrings.getTranslation(dataset['title_translated']) : dataset['title'];
-    ret_html += '<h3 class="details_label">' + '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="showDatasetDetailDescription(\'' + dataset["id"] + '\');">' + title + '</a></h3>'; 
-    
+    ret_html += '<h3 class="details_label">' + '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="showDatasetDetailDescription(\'' + dataset["id"] + '\');">' + i18nStrings.getUIString("dataset_title") + '</a></h3>'; 
+    if ( ckan_server.support_multilanguage)
+    {
+        ret_html += "<p class='details_text bottom-0'>" + i18nStrings.getTranslation(dataset['title_translated']) + "</p>"; 
+    }
+    else
+    {
+        ret_html += "<p class='details_text bottom-0'>" + dataset['title'] + "</p>";
+    }
     // ret_html += '<div class="asset-actions">';
     // ret_html += '<span class="details_label">Information:</span>';
     // ret_html += '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="showDatasetDetailDescription(\'' + dataset["id"] + '\');">' + i18nStrings.getUIString("details") + '</a>';

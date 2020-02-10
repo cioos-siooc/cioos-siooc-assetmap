@@ -1,9 +1,7 @@
 version: '3.7'
 
 services:
-  asset_map_iframe:
+  assetmap:
     build: ./
-    container_name: asset_map_iframe
-    image: asset_map_iframe
     ports:
-      - "8009:5000"
+      - "8008:5000"
