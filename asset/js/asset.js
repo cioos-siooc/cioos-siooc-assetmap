@@ -68,17 +68,20 @@ function generateLocationCategories(locations)
 {
   // for each variable, create box with label and icon
   // add has a possible filter in the CKANServer
-  c = 0;
-  CatInnerHtml = generateLocationsButton();
-  VarInnerPanelHTML = '<div id="locations_tab" class="tab-pane" role="tabpanel"><ul class="variable-options">';
-  while (c < locations.length) {
-    place = locations[c];
-    VarInnerPanelHTML += generateLocationBox(place);
-    ++c;
-  }
-  VarInnerPanelHTML += "</ul></div>";
-  document.getElementById("category_panel").innerHTML += CatInnerHtml;
-  document.getElementById("variable_panel").innerHTML += VarInnerPanelHTML;
+  if ( locations['enabled'] === true)
+  {
+    c = 0;
+    CatInnerHtml = generateLocationsButton();
+    VarInnerPanelHTML = '<div id="locations_tab" class="tab-pane" role="tabpanel"><ul class="variable-options">';
+    while (c < locations['locations'].length) {
+        place = locations['locations'][c];
+        VarInnerPanelHTML += generateLocationBox(place);
+        ++c;
+    }
+    VarInnerPanelHTML += "</ul></div>";
+    document.getElementById("category_panel").innerHTML += CatInnerHtml;
+    document.getElementById("variable_panel").innerHTML += VarInnerPanelHTML;
+    }
 }
 
 function generateCategoryButton( catData)
