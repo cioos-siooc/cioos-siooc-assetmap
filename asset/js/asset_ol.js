@@ -216,19 +216,21 @@ function initMapFromConfig(config)
         // if details panel close, open drawer
         // open details of selected feature dataset
         let f = e.selected[0];
-        let scroll_to_description = f['values_']['features'].length > 1 ? false : true; // don't scroll if there are many points in one
-        let center_on_map = true;  // center on the first feature in the collection
-        f['values_']['features'].forEach( function(element)
-            {
-                // call package show and update details panel
-                showDatasetDetailDescription(element['values_']['id'], scroll_to_description, false, center_on_map);
-                center_on_map = false;
-            }
-        );
-        // $('#' + f['values_']['id'] + '_collapse').collapse("show");
-        // document.getElementById(f['values_']['id']).scrollIntoView();
-        // $('#' + f['values_']['id']).scrollIntoView();
-        // hide last selected
+        if(f) {
+            let scroll_to_description = f['values_']['features'].length > 1 ? false : true; // don't scroll if there are many points in one
+            let center_on_map = true;  // center on the first feature in the collection
+            f['values_']['features'].forEach( function(element)
+                {
+                    // call package show and update details panel
+                    showDatasetDetailDescription(element['values_']['id'], scroll_to_description, false, center_on_map);
+                    center_on_map = false;
+                }
+            );
+            // $('#' + f['values_']['id'] + '_collapse').collapse("show");
+            // document.getElementById(f['values_']['id']).scrollIntoView();
+            // $('#' + f['values_']['id']).scrollIntoView();
+            // hide last selected
+        }
     });
 
     var dragBox = new ol.interaction.DragBox({
