@@ -253,6 +253,14 @@ function setVerticalFilters( minVertical, maxVertical )
 jQuery(document).ready(function () {
     ckan_server = new CKANServer();
     i18nStrings = new StringTranslator();
+    let urlParams = new URLSearchParams(window.location.search);
+    curlng = urlParams.get('lg');
+    if ( curlng === 'fr' || curlng == 'en')
+    {
+        i18nStrings.setBaseLanguage(curlng);
+        i18nStrings.setCurrentLanguage(curlng);
+    }
+
     jQuery.ajax({
         url: "/asset/resources/ui_str.json",
         dataType: 'json',
@@ -260,8 +268,6 @@ jQuery(document).ready(function () {
         success: function (data) {
             ui_str = data;
             i18nStrings.setUIStrings(ui_str);
-            i18nStrings.setBaseLanguage("fr");
-            i18nStrings.setCurrentLanguage("fr");
         },
         error: function (e) {
         }
