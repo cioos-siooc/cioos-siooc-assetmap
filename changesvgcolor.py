@@ -28,7 +28,7 @@ if __name__ == '__main__':
                             posfillcolor = dataline.lower().find('.st0{fill:#')
                             if posfillcolor >= 0:
                                 endposfill = dataline.lower().find(';}')
-                                outsvg.write(dataline[:posfillcolor + 10 ] + args.color + dataline[endposfill:] )
+                                outsvg.write(dataline[:posfillcolor + 11 ] + args.color + dataline[endposfill:] )
                             else:
                                 outsvg.write(dataline)
                             dataline = svgtxt.readline()
