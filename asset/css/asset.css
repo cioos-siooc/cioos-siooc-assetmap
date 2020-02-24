@@ -304,6 +304,14 @@ a.button:active  {
   background: #fa7268;
 }
 
+.background_map_div_select
+{
+  position: absolute;
+  bottom: 8px;
+  left: 16px;
+  font-size: 14px;
+  z-index: 100;
+}
 
 .outer-map-container{
   position: relative;

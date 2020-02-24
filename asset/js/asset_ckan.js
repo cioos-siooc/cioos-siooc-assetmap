@@ -28,7 +28,7 @@ function CKANServer()
 
     // bounding box where datatset need to intersect with
     this.bbox = undefined;
-
+    this.support_location = false;
     // custom bounding box for search
     this.spatialSearch = {
         customBbox: false,
@@ -89,6 +89,7 @@ function CKANServer()
         this.slowDownPagingTreshold = 300;
         this.restrict_json_return = false;
         this.support_eov = false;
+        this.support_location = false;
         this.bbox = undefined;
         this.spatialSearch = {
             customBbox: false,
@@ -119,7 +120,12 @@ function CKANServer()
         this.support_eov = config["support_eov"];
         this.use_basic_auth = config["use_basic_auth"];
         this.support_vertical = config["support_vertical"];;
-        this.support_time = config["support_time"];;
+        this.support_time = config["support_time"];
+        this.support_location = false;
+        if ( config["start_bbox"] !== undefined )
+        {
+            this.support_location = config["support_location"];
+        }
         if ( config["start_bbox"] !== undefined )
         {
             if ( config["start_bbox"].length == 4 )
@@ -307,9 +313,17 @@ function CKANServer()
         }
 
         ret_url += 'package_search?';
-        if (this.spatialSearch.customBbox) {
-            ret_url += this.getURLParameterForBoundingBox(true) + "&";
-        } else if (this.bbox !== undefined) {
+        if ( this.support_location )
+        {
+            if (this.spatialSearch.customBbox) {
+                ret_url += this.getURLParameterForBoundingBox(true) + "&";
+            } else if (this.bbox !== undefined) {
+                ret_url += this.getURLParameterForBoundingBox(false) + "&";
+            }
+        }
+        else if ( this.bbox !== undefined )
+        {
+            // should check if a bbox exist
             ret_url += this.getURLParameterForBoundingBox(false) + "&";
         }
         if ( this.restrict_json_return )

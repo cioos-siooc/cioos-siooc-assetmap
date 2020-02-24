@@ -433,7 +433,7 @@ function addMapSelctionDropdown( config )
     if ( "backgrouns_layers" in config)
     {
         // add the select object and the bottom left of the map div
-        domstr = '<div style="position: relative; left: 0px; bottom: 0px; z-index: 100;">';
+        domstr = '<div id="background_map_div_select" class="background_map_div_select">';
         domstr += '<span style="text-shadow: 1px 1px 2px #FFFFFF;">' + i18nStrings.getUIString("background_map") + '</span>';
         domstr += '<select id="sel_asset_base_layer" onchange="asset_change_base_layer();">';
         config["backgrouns_layers"].forEach( function(element)

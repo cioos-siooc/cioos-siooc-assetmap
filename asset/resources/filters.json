@@ -32,7 +32,7 @@
                     "en":"Wind"
                 },
                 "ckantext":["wind"],
-                "eovs": [ "seaSurfaceTemperature", "potentialTemperature", "subSurfaceTemperature" ],
+                "eovs": [ "oceanSurfaceStress" ],
                 "enabled": true
             },
             {
@@ -227,6 +227,31 @@
                 },
                 "ckantext":["Capelin"],
                 "eovs": [ "capelin" ],
+                "enabled": true
+            }
+        ]
+    },
+    {
+        "id": "other",
+        "label":
+        {
+            "fr": "AUTRES",
+            "en": "OTHER"
+        },
+        "icon": "ellipsis_icon-icons.com_72342.svg",
+        "enabled": true,
+        "variables":
+        [
+            {
+                "id": "var_other",
+                "icon":"ellipsis_icon-icons.com_72342.svg",
+                "label":
+                {
+                    "fr":"Autre",
+                    "en":"Other"
+                },
+                "ckantext":["other"],
+                "eovs": [ "other" ],
                 "enabled": true
             }
         ]
