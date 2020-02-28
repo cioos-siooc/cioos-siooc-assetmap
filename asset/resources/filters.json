@@ -144,6 +144,18 @@
                 "eovs": [ "phosphate" ],
                 "enabled": true
             },
+			{
+                "id": "var_nutrients",
+                "icon":"nutrients.svg",
+                "label":
+                {
+                    "fr":"Nutriments",
+                    "en":"Nutrients"
+                },
+                "ckantext":["Nutrients"],
+                "eovs": [ "nutrients" ],
+                "enabled": true
+            },
             {
                 "id": "var_nitrate",
                 "icon":"nutrients.svg",
