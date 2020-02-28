@@ -259,6 +259,7 @@ jQuery(document).ready(function () {
     {
         i18nStrings.setBaseLanguage(curlng);
         i18nStrings.setCurrentLanguage(curlng);
+        ckan_server.setCurrentLanguage(curlng);
     }
 
     jQuery.ajax({
@@ -273,7 +274,6 @@ jQuery(document).ready(function () {
         }
     });
 
-    initMapFromConfig
     jQuery.ajax({
         url: "/asset/resources/map.json",
         dataType: 'json',

@@ -238,13 +238,13 @@
             "fr": "AUTRES",
             "en": "OTHER"
         },
-        "icon": "ellipsis_icon-icons.com_72342.svg",
+        "icon": "eov_other.svg",
         "enabled": true,
         "variables":
         [
             {
                 "id": "var_other",
-                "icon":"ellipsis_icon-icons.com_72342.svg",
+                "icon":"eov_other.svg",
                 "label":
                 {
                     "fr":"Autre",
