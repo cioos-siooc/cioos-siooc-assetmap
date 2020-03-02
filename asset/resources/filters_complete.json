@@ -124,7 +124,7 @@
                 "icon":"sea-surface-stress.svg",
                 "label":
                 {
-                    "fr":"Couleur",
+                    "fr":"Couleur de l'eau",
                     "en":"Ocean color"
                 },
                 "ckantext":["Ocean color"],
@@ -230,7 +230,7 @@
             },
             {
                 "id": "var_silicate",
-                "icon":"nutrients.svg",
+                "icon":"silicate.svg",
                 "label":
                 {
                     "fr":"Silicate",
@@ -245,7 +245,7 @@
                 "icon":"particulate-matter.svg",
                 "label":
                 {
-                    "fr":"Matière particule",
+                    "fr":"Matières particulaires",
                     "en":"Particulte matter"
                 },
                 "ckantext":["particulate Matter "],
@@ -306,7 +306,7 @@
                 "icon":"macroalgal-canopy.svg",
                 "label":
                 {
-                    "fr":"Couvert macroalgues",
+                    "fr":"Macroalgues",
                     "en":"Macroalgal canopy"
                 },
                 "ckantext":["macroalgal canopy"],
