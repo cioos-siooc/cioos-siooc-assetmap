@@ -198,7 +198,13 @@ function initMapFromConfig(config)
     {
         bacground_layers[config['start_layer']].setVisible(true);
     }
-    let maplayers = Object.values(bacground_layers);
+    
+    // still not supported by IE 11
+    // let maplayers = Object.values(bacground_layers);
+    let maplayers = Object.keys(bacground_layers).map(function(e) {
+        return bacground_layers[e]
+      });
+
     maplayers.push(vectorLayer);
     maplayers.push(hoverlayer);
     maplayers.push(clusterLayer);
@@ -217,12 +223,12 @@ function initMapFromConfig(config)
         // open details of selected feature dataset
         let f = e.selected[0];
         if(f) {
-            let scroll_to_description = f['values_']['features'].length > 1 ? false : true; // don't scroll if there are many points in one
-            let center_on_map = true;  // center on the first feature in the collection
+            //let scroll_to_description = f['values_']['features'].length > 1 ? false : true; // don't scroll if there are many points in one
+            let center_on_map = true;  // center on the first feature in the collection and on the description too
             f['values_']['features'].forEach( function(element)
                 {
                     // call package show and update details panel
-                    showDatasetDetailDescription(element['values_']['id'], scroll_to_description, false, center_on_map);
+                    showDatasetDetailDescription(element['values_']['id'], center_on_map, false, center_on_map);
                     center_on_map = false;
                 }
             );
