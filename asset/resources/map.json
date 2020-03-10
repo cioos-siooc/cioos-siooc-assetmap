@@ -2,7 +2,7 @@
     "start_view": {
         "zoom": 4,
         "minZoom": 2,
-        "center": [-68, 48]
+        "center": [-125, 60]
     },
     "backgrouns_layers": [
         {
@@ -50,15 +50,15 @@
             }
         }
     ],
-    "start_layer": "bingarial",
+    "start_layer": "bathy",
     "Polystyle":{
         "Stroke":{
-            "color": "blue",
+            "color": "orange",
             "lineDash": [4],
             "width": 3
         },
         "Fill":{
-            "color": "rgba(0, 0, 255, 0.05)"
+            "color": "rgba(0, 122, 255, 0.05)"
         }
     },
     "icon_cluster": {
@@ -66,16 +66,16 @@
         "minimum":{
             "cluster_value": 5,
             "circle_radius": 10,
-            "text_color": "#101216",
-            "fill_color": "#52a79b",
-            "stroke_color": "#202226"
+            "text_color": "#FFFFFF",
+            "fill_color": "#006e90",
+            "stroke_color": "#FFFFFF"
         },
         "maximum":{
             "cluster_value": 25,
             "circle_radius": 20,
-            "text_color": "#101216",
-            "fill_color": "#fa7268",
-            "stroke_color": "#202226"
+            "text_color": "#FFFFFF",
+            "fill_color": "#002e50",
+            "stroke_color": "#FFFFFF"
         }
     },
     "start_cluster": true 

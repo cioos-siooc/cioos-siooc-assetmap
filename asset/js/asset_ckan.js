@@ -1025,7 +1025,7 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     // check if geomeetry details available for this dataset
     if ( spatial && spatial['type'] === 'Polygon')
     {
-        ret_html += '<a href="#" onclick="showInGeometryLayer(\'' + dataset["id"] + '\')" title="' + i18nStrings.getUIString("map") + '"><img class="map-marker" src=' + wordpresspath + '"/asset/images/map-marker.svg"></a>';
+        ret_html += '<a href="#" onclick="showInGeometryLayer(\'' + dataset["id"] + '\')" title="' + i18nStrings.getUIString("map") + '"><img class="map-marker" src="' + wordpresspath + '/asset/images/map-marker.svg"></a>';
     }
     
     let title = ckan_server.support_multilanguage ? i18nStrings.getTranslation(dataset['title_translated']) : dataset['title'];
