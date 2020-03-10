@@ -1,8 +1,8 @@
 function StringTranslator()
 {
     this.ui_strings = undefined;
-    this.baseLanguage = "fr";
-    this.currentLanguage = "fr";
+    this.baseLanguage = "en";
+    this.currentLanguage = "en";
 
     this.setUIStrings = function(strings){
         this.ui_strings = strings;

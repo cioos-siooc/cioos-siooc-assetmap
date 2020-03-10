@@ -13,7 +13,7 @@ function CKANServer()
     this.ckan_proxy_name = undefined;
 
     // current language to display dataset and UI
-    this.currentLanguage = "fr";
+    this.currentLanguage = "en";
 
     // add current language code in the linked URL to dataset/resource/organization
     // so CKAN display the data ine the desired language
@@ -1025,7 +1025,7 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     // check if geomeetry details available for this dataset
     if ( spatial && spatial['type'] === 'Polygon')
     {
-        ret_html += '<a href="#" onclick="showInGeometryLayer(\'' + dataset["id"] + '\')" title="' + i18nStrings.getUIString("map") + '"><img class="map-marker" src="/asset/images/map-marker.svg"></a>';
+        ret_html += '<a href="#" onclick="showInGeometryLayer(\'' + dataset["id"] + '\')" title="' + i18nStrings.getUIString("map") + '"><img class="map-marker" src=' + wordpresspath + '"/asset/images/map-marker.svg"></a>';
     }
     
     let title = ckan_server.support_multilanguage ? i18nStrings.getTranslation(dataset['title_translated']) : dataset['title'];

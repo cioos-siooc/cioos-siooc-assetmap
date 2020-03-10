@@ -1,367 +1,498 @@
 {
-    "Categories":
-    [{
-        "id": "physic",
-        "label":
-        {
-            "fr": "PHYSIQUE",
-            "en": "PHYSIC"
+  "Categories": [{
+      "id": "physic",
+      "label": {
+        "fr": "PHYSIQUE",
+        "en": "PHYSICS"
+      },
+      "icon": "physics.svg",
+      "enabled": true,
+      "variables": [{
+          "id": "var_temperature",
+          "icon": "temperature.svg",
+          "label": {
+            "fr": "Température",
+            "en": "Temperature"
+          },
+          "ckantext": [
+            "Sea Surface Temperature",
+            "Potential Temperature",
+            "Sub Surface Temperature"
+          ],
+          "eovs": [
+            "seaSurfaceTemperature",
+            "potentialTemperature",
+            "subSurfaceTemperature"
+          ],
+          "enabled": true
         },
-        "icon": "physics.svg",
-        "enabled": true,
-        "variables":
-        [
-            {
-                "id": "var_temperature",
-                "icon":"temperature.svg",
-                "label":
-                {
-                    "fr":"Température",
-                    "en":"Temperature"
-                },
-                "ckantext":["Sea Surface Temperature", "Potential Temperature", "Sub Surface Temperature"],
-                "eovs": [ "seaSurfaceTemperature", "potentialTemperature", "subSurfaceTemperature" ],
-                "enabled": true
-            },
-			{
-                "id": "var_surfaceheight",
-                "icon":"sea-level.svg",
-                "label":
-                {
-                    "fr":"Niveau de l'eau",
-                    "en":"Surface height"
-                },
-                "ckantext":["Sea Surface Height"],
-                "eovs": [ "seaSurfaceHeight" ],
-                "enabled": true
-            },
-            {
-                "id": "var_ice",
-                "icon":"sea-ice.svg",
-                "label":
-                {
-                    "fr":"Glace",
-                    "en":"Ice"
-                },
-                "ckantext":["glace"],
-                "eovs": [ "seaIce" ],
-                "enabled": true
-            },
-            {
-                "id": "var_seastate",
-                "icon":"sea-state.svg",
-                "label":
-                {
-                    "fr":"État de la mer",
-                    "en":"Sea State"
-                },
-                "ckantext": ["Sea State"],
-                "eovs": [ "seaState" ],
-                "enabled": true
-            },
-            {
-                "id": "var_salinity",
-                "icon":"salinity.svg",
-                "label":
-                {
-                    "fr":"Salinité",
-                    "en":"Salinity"
-                },
-                "ckantext":["salinity"],
-                "eovs": [ "seaSurfaceSalinity", "subsurfaceSalinity" ],
-                "enabled": true
-            },
-            {
-                "id": "var_surface_current",
-                "icon":"currents.svg",
-                "label":
-                {
-                    "fr":"Courant",
-                    "en":"Current"
-                },
-                "ckantext":["Current"],
-                "eovs": [ "surfaceCurrents", "subsurfaceCurrents" ],
-                "enabled": true
-            },
-            {
-                "id": "var_oceansound",
-                "icon":"physics.svg",
-                "label":
-                {
-                    "fr":"Acoustique sous-marine",
-                    "en":"Ocean sound"
-                },
-                "ckantext":["Speed of sound"],
-                "eovs": [ "oceanSound" ],
-                "enabled": true
-            },
-            {
-                "id": "var_surfacestress",
-                "icon":"sea-surface-stress.svg",
-                "label":
-                {
-                    "fr":"Stresseurs océanique",
-                    "en":"Ocean surface stress"
-                },
-                "ckantext":["Surface stress"],
-                "eovs": [ "oceanSurfaceStress" ],
-                "enabled": true
-            },
-            {
-                "id": "var_surfaceheatflux",
-                "icon":"ocean-surface-heat-flux.svg",
-                "label":
-                {
-                    "fr":"Flux thermique",
-                    "en":"Surface heat flux"
-                },
-                "ckantext":["Heat flux"],
-                "eovs": [ "oceanSurfaceHeatFlux" ],
-                "enabled": true
-            },
-            {
-                "id": "var_oceancolor",
-                "icon":"sea-surface-stress.svg",
-                "label":
-                {
-                    "fr":"Couleur de l'eau",
-                    "en":"Ocean color"
-                },
-                "ckantext":["Ocean color"],
-                "eovs": [ "oceanColor" ],
-                "enabled": true
-            },
-            {
-                "id": "var_density",
-                "icon":"sea-surface-stress.svg",
-                "label":
-                {
-                    "fr":"Densité",
-                    "en":"Density"
-                },
-                "ckantext":["Density"],
-                "eovs": [ "seawaterDensity", "potentialDensity" ],
-                "enabled": true
-            }
-        ]
+        {
+          "id": "var_surfaceheight",
+          "icon": "sea-level.svg",
+          "label": {
+            "fr": "Niveau de l'eau",
+            "en": "Surface Height"
+          },
+          "ckantext": [
+            "Sea Surface Height"
+          ],
+          "eovs": [
+            "seaSurfaceHeight"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "var_wind",
+          "icon": "physics.svg",
+          "label": {
+            "fr": "Vent",
+            "en": "Wind"
+          },
+          "ckantext": ["wind"],
+          "eovs": ["wind"],
+          "enabled": false,
+          "hidden": true
+        },
+        {
+          "id": "var_ice",
+          "icon": "sea-ice.svg",
+          "label": {
+            "fr": "Glace",
+            "en": "Ice"
+          },
+          "ckantext": [
+            "glace", "Sea Ice"
+          ],
+          "eovs": [
+            "seaIce"
+          ],
+          "enabled": false,
+          "hidden": true
+        },
+        {
+          "id": "var_seastate",
+          "icon": "sea-state.svg",
+          "label": {
+            "fr": "État de la Mer",
+            "en": "Sea State"
+          },
+          "ckantext": [
+            "Sea State"
+          ],
+          "eovs": [
+            "seaState"
+          ],
+          "enabled": false,
+          "hidden": true
+        },
+        {
+          "id": "var_salinity",
+          "icon": "salinity.svg",
+          "label": {
+            "fr": "Salinité",
+            "en": "Salinity"
+          },
+          "ckantext": [
+            "salinity",
+            "Sea Surface Salinity",
+            "Sub surface Salinity"
+          ],
+          "eovs": [
+            "seaSurfaceSalinity",
+            "subSurfaceSalinity"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "var_surface_current",
+          "icon": "currents.svg",
+          "label": {
+            "fr": "Courants",
+            "en": "Currents"
+          },
+          "ckantext": [
+            "Current", "Surface Currents", "Sub Surface Currents"
+          ],
+          "eovs": [
+            "surfaceCurrents",
+            "subSurfaceCurrents"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "var_speedofsound",
+          "icon": "speed-of-sound.svg",
+          "label": {
+            "fr": "Vitesse du Son",
+            "en": "Speed of Sound"
+          },
+          "ckantext": ["Speed of sound"],
+          "eovs": ["speedOfSound"],
+          "enabled": false,
+          "hidden": true
+        },
+        {
+          "id": "var_oceansound",
+          "icon": "physics.svg",
+          "label": {
+            "fr": "Acoustique Sous-Marine",
+            "en": "Ocean Sound"
+          },
+          "ckantext": [
+            "Ocean Sound"
+          ],
+          "eovs": [
+            "oceanSound"
+          ],
+          "enabled": false,
+          "hidden": true
+        },
+        {
+          "id": "var_surfacestress",
+          "icon": "sea-surface-stress.svg",
+          "label": {
+            "fr": "Stresseurs Océanique",
+            "en": "Ocean Surface Stress"
+          },
+          "ckantext": [
+            "Surface stress"
+          ],
+          "eovs": [
+            "oceanSurfaceStress"
+          ],
+          "enabled": false,
+          "hidden": true
+        },
+        {
+          "id": "var_surfaceheatflux",
+          "icon": "ocean-surface-heat-flux.svg",
+          "label": {
+            "fr": "Flux Thermique",
+            "en": "Surface Heat Flux"
+          },
+          "ckantext": [
+            "Heat flux"
+          ],
+          "eovs": [
+            "oceanSurfaceHeatFlux"
+          ],
+          "enabled": false,
+          "hidden": true
+        },
+        {
+          "id": "var_oceancolor",
+          "icon": "sea-surface-stress.svg",
+          "label": {
+            "fr": "Couleur",
+            "en": "Ocean Color"
+          },
+          "ckantext": [
+            "Ocean color"
+          ],
+          "eovs": [
+            "oceanColor"
+          ],
+          "enabled": false,
+          "hidden": true
+        },
+        {
+          "id": "var_density",
+          "icon": "density.svg",
+          "label": {
+            "fr": "Densité",
+            "en": "Density"
+          },
+          "ckantext": [
+            "Density",
+            "Seawater Density",
+            "Potential Density"
+          ],
+          "eovs": [
+            "seawaterDensity",
+            "potentialDensity"
+          ],
+          "enabled": false,
+          "hidden": true
+        }
+      ]
     },
     {
-        "id": "Biogeochemical",
-        "label":
-        {
-            "fr": "BIOGÉOCHIMIE",
-            "en": "BIOGEOCHEMISTRY"
+      "id": "Biogeochemical",
+      "label": {
+        "fr": "BIOGÉOCHIMIE",
+        "en": "BIOGEOCHEMISTRY"
+      },
+      "icon": "biogeochemistry.svg",
+      "enabled": true,
+      "variables": [{
+          "id": "var_oxygen",
+          "icon": "dissolved-oxygen.svg",
+          "label": {
+            "fr": "Oxygène",
+            "en": "Oxygen"
+          },
+          "ckantext": [
+            "Oxygen"
+          ],
+          "eovs": [
+            "oxygen"
+          ],
+          "enabled": true
         },
-        "icon": "biogeochemistry.svg",
-        "enabled": true,
-        "variables":
-        [
-            {
-                "id": "var_oxygen",
-                "icon":"dissolved-oxygen.svg",
-                "label":
-                {
-                    "fr":"Oxygène",
-                    "en":"Oxygen"
-                },
-                "ckantext":["Oxygen"],
-                "eovs": [ "oxygen" ],
-                "enabled": true
-            },
-            {
-                "id": "var_phosphate",
-                "icon":"nutrients.svg",
-                "label":
-                {
-                    "fr":"Phosphate",
-                    "en":"Phosphate"
-                },
-                "ckantext":["Phosphate"],
-                "eovs": [ "phosphate" ],
-                "enabled": true
-            },
-			{
-                "id": "var_nutrients",
-                "icon":"nutrients.svg",
-                "label":
-                {
-                    "fr":"Nutriments",
-                    "en":"Nutrients"
-                },
-                "ckantext":["Nutrients"],
-                "eovs": [ "nutrients" ],
-                "enabled": true
-            },
-            {
-                "id": "var_nitrate",
-                "icon":"nitrate.svg",
-                "label":
-                {
-                    "fr":"Nitrate",
-                    "en":"Nitrate"
-                },
-                "ckantext":["Nitrate"],
-                "eovs": [ "nitrate" ],
-                "enabled": true
-            },
-            {
-                "id": "var_inorgamiccarbon",
-                "icon":"inorganic-carbon.svg",
-                "label":
-                {
-                    "fr":"Carbone inorganique",
-                    "en":"Inorganic Carbon"
-                },
-                "ckantext":["Inorganic Carbon"],
-                "eovs": [ "inorganicCarbon" ],
-                "enabled": true
-            },
-            {
-                "id": "var_dissolvecarbon",
-                "icon":"dissolved-organic-carbon.svg",
-                "label":
-                {
-                    "fr":"Carbone organique dissous",
-                    "en":"Dissolved Organic Carbon"
-                },
-                "ckantext":["Dissolved Organic Carbon"],
-                "eovs": [ "dissolvedOrganicCarbon" ],
-                "enabled": true
-            },
-            {
-                "id": "var_silicate",
-                "icon":"silicate.svg",
-                "label":
-                {
-                    "fr":"Silicate",
-                    "en":"Silicate"
-                },
-                "ckantext":["Silicate"],
-                "eovs": [ "sillicate" ],
-                "enabled": true
-            },
-            {
-                "id": "var_paticule",
-                "icon":"particulate-matter.svg",
-                "label":
-                {
-                    "fr":"Matières particulaires",
-                    "en":"Particulte matter"
-                },
-                "ckantext":["particulate Matter "],
-                "eovs": [ "particulateMatter" ],
-                "enabled": true
-            }
-        ]
+        {
+          "id": "var_phosphate",
+          "icon": "phosphate.svg",
+          "label": {
+            "fr": "Phosphate",
+            "en": "Phosphate"
+          },
+          "ckantext": [
+            "Phosphate"
+          ],
+          "eovs": [
+            "phosphate"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "var_nutrients",
+          "icon": "nutrients.svg",
+          "label": {
+            "fr": "Nutriments",
+            "en": "Nutrients"
+          },
+          "ckantext": [
+            "Nutrients"
+          ],
+          "eovs": [
+            "nutrients"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "var_nitrate",
+          "icon": "nitrate.svg",
+          "label": {
+            "fr": "Nitrate",
+            "en": "Nitrate"
+          },
+          "ckantext": [
+            "Nitrate"
+          ],
+          "eovs": [
+            "nitrate"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "var_inorgamiccarbon",
+          "icon": "inorganic-carbon.svg",
+          "label": {
+            "fr": "Carbone Inorganique",
+            "en": "Inorganic Carbon"
+          },
+          "ckantext": [
+            "Inorganic Carbon"
+          ],
+          "eovs": [
+            "inorganicCarbon"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "var_dissolvecarbon",
+          "icon": "dissolved-organic-carbon.svg",
+          "label": {
+            "fr": "Carbone Organique Dissous",
+            "en": "Dissolved Organic Carbon"
+          },
+          "ckantext": [
+            "Dissolved Organic Carbon"
+          ],
+          "eovs": [
+            "dissolvedOrganicCarbon"
+          ],
+          "enabled": false,
+          "hidden": true
+        },
+        {
+          "id": "var_silicate",
+          "icon": "silicate.svg",
+          "label": {
+            "fr": "Silicate",
+            "en": "Silicate"
+          },
+          "ckantext": [
+            "Silicate"
+          ],
+          "eovs": [
+            "silicate"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "var_paticule",
+          "icon": "particulate-matter.svg",
+          "label": {
+            "fr": "Matière Particule",
+            "en": "Particulte Matter"
+          },
+          "ckantext": [
+            "Particulate Matter"
+          ],
+          "eovs": [
+            "particulateMatter"
+          ],
+          "enabled": false,
+          "hidden": true
+        }
+      ]
     },
     {
-        "id": "biology",
-        "label":
-        {
-            "fr": "BIOLOGIE",
-            "en": "BIOLOGY"
+      "id": "biology",
+      "label": {
+        "fr": "BIOLOGIE",
+        "en": "BIOLOGY"
+      },
+      "icon": "biology-and-ecosystems.svg",
+      "enabled": false,
+      "hidden": true,
+      "variables": [{
+          "id": "var_whale",
+          "icon": "birds-mammals.svg",
+          "label": {
+            "fr": "Baleines",
+            "en": "Whales"
+          },
+          "ckantext": ["Whales"],
+          "eovs": ["whale"],
+          "enabled": false,
+          "hidden": true
+        }, {
+          "id": "var_birdtutrlemamal",
+          "icon": "birds-mammals.svg",
+          "label": {
+            "fr": "Oiseaux, Tortues, et Mammifères",
+            "en": "Birds, Turtles, and Mammals"
+          },
+          "ckantext": [
+            "Bird",
+            "Tutle",
+            "Mammal"
+          ],
+          "eovs": [
+            "marineTurtlesBirdsMammalsAbundanceandDistribution"
+          ],
+          "enabled": false,
+          "hidden": true
         },
-        "icon": "biology-and-ecosystems.svg",
-        "enabled": true,
-        "variables":
-        [
-            {
-                "id": "var_birdtutrlemamal",
-                "icon":"birds-mammals.svg",
-                "label":
-                {
-                    "fr":"Oiseaux, tortues et mammifères",
-                    "en":"Birds, Tutrles and Mammals"
-                },
-                "ckantext":["Bird", "Tutle", "Mammal"],
-                "eovs": [ "marineTurtlesBirdsMammalsAbundanceandDistribution" ],
-                "enabled": true
-            },
-            {
-                "id": "var_fish",
-                "icon":"fish.svg",
-                "label":
-                {
-                    "fr":"Poissons",
-                    "en":"Fishs"
-                },
-                "ckantext":["Fish"],
-                "eovs": [ "fishAbundanceandDistribution" ],
-                "enabled": true
-            },
-            {
-                "id": "var_invertebrate",
-                "icon":"invertebrates.svg",
-                "label":
-                {
-                    "fr":"Invertébrés",
-                    "en":"Invertebrate"
-                },
-                "ckantext":["invertebrate"],
-                "eovs": [ "invertebrateAbundanceandDistribution" ],
-                "enabled": true
-            },
-            {
-                "id": "var_macroalgual_canopy",
-                "icon":"macroalgal-canopy.svg",
-                "label":
-                {
-                    "fr":"Macroalgues",
-                    "en":"Macroalgal canopy"
-                },
-                "ckantext":["macroalgal canopy"],
-                "eovs": [ "macroalgalCanopyCoverandComposition" ],
-                "enabled": true
-            },
-            {
-                "id": "var_phytoplankton",
-                "icon":"phytoplankton.svg",
-                "label":
-                {
-                    "fr":"Phytoplancton",
-                    "en":"Phytoplankton"
-                },
-                "ckantext":["Phytoplankton"],
-                "eovs": [ "phytoplanktonBiomassandDiversity" ],
-                "enabled": true
-            },
-            {
-                "id": "var_seagrasscover",
-                "icon":"seagrass.svg",
-                "label":
-                {
-                    "fr":"Herbiers marins",
-                    "en":"Seagrass"
-                },
-                "ckantext":["Seagrass"],
-                "eovs": [ "seagrassCoverandComposition" ],
-                "enabled": true
-            }
-        ]
+        {
+          "id": "var_fish",
+          "icon": "fish.svg",
+          "label": {
+            "fr": "Poissons",
+            "en": "Fish"
+          },
+          "ckantext": [
+            "Fish"
+          ],
+          "eovs": [
+            "fishAbundanceandDistribution"
+          ],
+          "enabled": false,
+          "hidden": true
+        },
+        {
+          "id": "var_invertebrate",
+          "icon": "invertibrates.svg",
+          "label": {
+            "fr": "Invertébrés",
+            "en": "Invertebrate"
+          },
+          "ckantext": [
+            "invertebrate"
+          ],
+          "eovs": [
+            "invertebrateAbundanceandDistribution"
+          ],
+          "enabled": false,
+          "hidden": true
+        },
+        {
+          "id": "var_macroalgual_canopy",
+          "icon": "macroalgal-canopy.svg",
+          "label": {
+            "fr": "Couvert Macroalgues",
+            "en": "Macroalgal Canopy"
+          },
+          "ckantext": [
+            "macroalgal canopy"
+          ],
+          "eovs": [
+            "macroalgalCanopyCoverandComposition"
+          ],
+          "enabled": false,
+          "hidden": true
+        },
+        {
+          "id": "var_phytoplankton",
+          "icon": "phytoplankton.svg",
+          "label": {
+            "fr": "Phytoplancton",
+            "en": "Phytoplankton"
+          },
+          "ckantext": [
+            "Phytoplankton"
+          ],
+          "eovs": [
+            "phytoplanktonBiomassandDiversity"
+          ],
+          "enabled": false,
+          "hidden": true
+        },
+        {
+          "id": "var_seagrasscover",
+          "icon": "seagrass.svg",
+          "label": {
+            "fr": "Herbiers Marins",
+            "en": "Seagrass"
+          },
+          "ckantext": [
+            "Seagrass"
+          ],
+          "eovs": [
+            "seagrassCoverandComposition"
+          ],
+          "enabled": false,
+          "hidden": true
+        }
+      ]
     },
     {
-        "id": "other",
-        "label":
-        {
-            "fr": "AUTRES",
-            "en": "OTHER"
+      "id": "other",
+      "label": {
+        "fr": "AUTRES",
+        "en": "OTHER"
+      },
+      "icon": "ellipsis_icon-icons.com_72342.svg",
+      "enabled": true,
+      "hidden": false,
+      "variables": [{
+        "id": "var_other",
+        "icon": "ellipsis_icon-icons.com_72342.svg",
+        "label": {
+          "fr": "Autre",
+          "en": "Other"
         },
-        "icon": "eov_other.svg",
-        "enabled": true,
-        "variables":
-        [
-            {
-                "id": "var_other",
-                "icon":"eov_other.svg",
-                "label":
-                {
-                    "fr":"Autre",
-                    "en":"Other"
-                },
-                "ckantext":["other"],
-                "eovs": [ "other" ],
-                "enabled": true
-            }
-        ]
-    }]
+        "ckantext": [
+          "other"
+        ],
+        "eovs": [
+          "other"
+        ],
+        "enabled": false,
+        "hidden": false
+      }]
+    }
+  ]
 }
