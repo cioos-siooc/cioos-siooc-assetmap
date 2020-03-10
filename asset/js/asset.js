@@ -312,7 +312,7 @@ jQuery(document).ready(function () {
     });
 
     $.ajax({
-        url: "/asset/resources/locations.json",
+        url: wordpresspath + "/asset/resources/locations.json",
         dataType: 'json',
         async: false,
         success: function (data) {
