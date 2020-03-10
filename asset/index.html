@@ -18,116 +18,17 @@
   <script src="js/asset_ckan.js"></script>
   <script src="js/asset.js"></script>
   <script src="js/asset_ui.js"></script>
-
-  <script>
-    // debug scripts, not to be embedded
-
-    function callChangeLanguage()
-    {
-      var newl = jQuery( "#language option:selected" ).val();
-      changeCurrentLanguage(newl);
-    }
-
-    function callChangeCKAN()
-    {
-      let newckan = jQuery( "#ckan_instance option:selected" ).val();
-      if ( newckan === "opencanada" )
-      {
-        changeCurrentCKAN("opendataca.json");
-      }
-      else if ( newckan === "slgo" )
-      {
-        changeCurrentCKAN("slgo_ckan.json");
-      }
-      else if ( newckan === "ioos" )
-      {
-        changeCurrentCKAN("ioos_ckan.json");
-      }
-      else if ( newckan === "Nextgeoss" )
-      {
-        changeCurrentCKAN("nextgeoss_ckan.json");
-      }
-      else if ( newckan === "pacific")
-      {
-        changeCurrentCKAN("cioos_pacific_ckan.json");
-      }
-      else if ( newckan === "national")
-      {
-        changeCurrentCKAN("national_ckan.json");
-      }
-      else if ( newckan === "atlantic")
-      {
-        changeCurrentCKAN("ckan_atlantic.json");
-      }
-    }
-
-    function changeTimeFilters()
-    {
-      let minvalue = jQuery( "#debug_date_min" ).val();
-      let maxalue = jQuery( "#debug_date_max" ).val();
-      setTimeFilters(minvalue, maxalue);
-    }
-
-    function clearTimeFilters()
-    {
-      jQuery( "#debug_date_min" ).val('');
-      jQuery( "#debug_date_max" ).val('');
-      setTimeFilters(undefined, undefined);
-    }
-
-    function changeVerticalFilters()
-    {
-      let minvalue = jQuery( "#debug_vertical_min" ).val();
-      let maxalue = jQuery( "#debug_vertical_max" ).val();
-      setVerticalFilters(minvalue, maxalue);
-    }
-
-    function clearVerticalFilters()
-    {
-      jQuery( "#debug_vertical_min" ).val('');
-      jQuery( "#debug_vertical_max" ).val('');
-      setVerticalFilters(undefined, undefined);
-    }
-
-
-  </script>
 </head>
 <body>
   <div class="outer-map-container">
     <div class="overlay"></div>
-    <div class="map-container">
-      <div id="map" class="map" style=""></div>
+    <div class="map-container" id="asset_map_container">
+      <div id="map" class="map" ></div>
       <div id="category_panel" class="category-selection"></div>
       <div id="variable_panel" class="variable-selection tab-content"></div>
       <div id="dataset_desc" class="panel_details"></div>
       <div class="panel_search_info" style="text-align:center" id="dataset_search_stats"></div>
     </div>
-  </div>
-  <div>
-    <h2>Debug Options</h2><br />
-    language: 
-    <select id="language" oninput="callChangeLanguage();">
-      <option value="fr">Francais</option>
-      <option value="en">English</option>
-    </select><br />
-    Ckan backend:
-    <select id="ckan_instance" oninput="callChangeCKAN();">
-      <option value="national">CIOOS National</option>
-      <option value="opencanada">open.canada.ca</option>
-      <option value="slgo">SLGO</option>
-      <option value="pacific">CIOOS Pacific</option>
-      <option value="atlantic">CIOOS Atlantic</option>
-      <option value="ioos">IOOS</option>
-      <option value="Nextgeoss">Nextgeoss</option>
-    </select><br />
-    Minimum time interval: <input type="datetime-local" id="debug_date_min"><br />
-    Maximum time interval: <input type="datetime-local" id="debug_date_max"><br />
-    <button id="bnt_debug_setdate" onclick="changeTimeFilters();">Set Date filters</button>
-    <button id="bnt_debug_cleardate" onclick="clearTimeFilters();">Clear Date filters</button><br />
-    Vertical minimum: <input type="number" id="debug_vertical_min" min="-3000" max="10000"><br />
-    Vertical maximum: <input type="number" id="debug_vertical_max" min="-3000" max="10000"><br />
-    <button id="bnt_debug_setvertical" onclick="changeVerticalFilters();">Set Vertical filters</button>
-    <button id="bnt_debug_clearvertical" onclick="clearVerticalFilters();">Clear Vertical filters</button><br />
   </div>
   <script src="js/asset_ol.js"></script>
 </body>

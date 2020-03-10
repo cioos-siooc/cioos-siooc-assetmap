@@ -18,6 +18,20 @@
             }
         },
         {
+            "name": "bingarial",
+            "type": "Bing",
+            "key": "yourkeyhere",
+            "imagerySet": "Aerial",
+            "attribution": {
+                "fr": "",
+                "en": ""
+            },
+            "label": {
+                "fr": "Bing Arial",
+                "en": "Bing Arial"
+            }
+        },
+        {
             "name": "bathy",
             "type": "wms",
             "server_url": "https://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?",
@@ -36,7 +50,7 @@
             }
         }
     ],
-    "start_layer": "bathy",
+    "start_layer": "bingarial",
     "Polystyle":{
         "Stroke":{
             "color": "blue",
@@ -52,16 +66,16 @@
         "minimum":{
             "cluster_value": 5,
             "circle_radius": 10,
-            "text_color": "#fff",
+            "text_color": "#101216",
             "fill_color": "#52a79b",
-            "stroke_color": "#fff"
+            "stroke_color": "#202226"
         },
         "maximum":{
             "cluster_value": 25,
             "circle_radius": 20,
-            "text_color": "#fff",
+            "text_color": "#101216",
             "fill_color": "#fa7268",
-            "stroke_color": "#fff"
+            "stroke_color": "#202226"
         }
     },
     "start_cluster": true 

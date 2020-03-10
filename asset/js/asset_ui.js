@@ -1,12 +1,18 @@
 // UI generation code
 // details panel
 
-jQuery(document).ready(function($){
-	$('.overlay').click(function(){
-		$(this).removeClass('overlay').addClass('mappy'); 
-	// I need to creatre a mappy class so that the next function has something to target
+jQuery(document).ready(function($) {
+	var x;
+	$('.outer-map-container').click(function() {
+		$('.overlay').removeClass('overlay').addClass('mappy');
 	});
-	$('.map-container').mouseleave(function() {
-		$(".mappy").removeClass('mappy').addClass('overlay');
+	$('.outer-map-container').on('mouseenter', function() {
+		if (x) {
+			clearInterval(x);
+		}
+	}).on('mouseleave', function() {
+		x = setInterval(function() {
+			$('.mappy').addClass('overlay');
+		}, 3000);
 	});
 });

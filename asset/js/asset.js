@@ -69,17 +69,20 @@ function generateLocationCategories(locations)
 {
   // for each variable, create box with label and icon
   // add has a possible filter in the CKANServer
-  c = 0;
-  CatInnerHtml = generateLocationsButton();
-  VarInnerPanelHTML = '<div id="locations_tab" class="tab-pane" role="tabpanel"><ul class="variable-options">';
-  while (c < locations.length) {
-    place = locations[c];
-    VarInnerPanelHTML += generateLocationBox(place);
-    ++c;
-  }
-  VarInnerPanelHTML += "</ul></div>";
-  document.getElementById("category_panel").innerHTML += CatInnerHtml;
-  document.getElementById("variable_panel").innerHTML += VarInnerPanelHTML;
+  if ( locations['enabled'] === true)
+  {
+    c = 0;
+    CatInnerHtml = generateLocationsButton();
+    VarInnerPanelHTML = '<div id="locations_tab" class="tab-pane" role="tabpanel"><ul class="variable-options">';
+    while (c < locations['locations'].length) {
+        place = locations['locations'][c];
+        VarInnerPanelHTML += generateLocationBox(place);
+        ++c;
+    }
+    VarInnerPanelHTML += "</ul></div>";
+    document.getElementById("category_panel").innerHTML += CatInnerHtml;
+    document.getElementById("variable_panel").innerHTML += VarInnerPanelHTML;
+    }
 }
 
 function generateCategoryButton( catData)
@@ -251,6 +254,15 @@ function setVerticalFilters( minVertical, maxVertical )
 jQuery(document).ready(function () {
     ckan_server = new CKANServer();
     i18nStrings = new StringTranslator();
+    let urlParams = new URLSearchParams(window.location.search);
+    curlng = urlParams.get('lg');
+    if ( curlng === 'fr' || curlng == 'en')
+    {
+        i18nStrings.setBaseLanguage(curlng);
+        i18nStrings.setCurrentLanguage(curlng);
+        ckan_server.setCurrentLanguage(curlng);
+    }
+
     jQuery.ajax({
         url: wordpresspath + "/asset/resources/ui_str.json",
         dataType: 'json',
@@ -258,14 +270,11 @@ jQuery(document).ready(function () {
         success: function (data) {
             ui_str = data;
             i18nStrings.setUIStrings(ui_str);
-            i18nStrings.setBaseLanguage("fr");
-            i18nStrings.setCurrentLanguage("fr");
         },
         error: function (e) {
         }
     });
 
-    initMapFromConfig
     jQuery.ajax({
         url: wordpresspath + "/asset/resources/map.json",
         dataType: 'json',

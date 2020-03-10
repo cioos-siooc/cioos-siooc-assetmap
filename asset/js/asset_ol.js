@@ -198,7 +198,13 @@ function initMapFromConfig(config)
     {
         bacground_layers[config['start_layer']].setVisible(true);
     }
-    let maplayers = Object.values(bacground_layers);
+    
+    // still not supported by IE 11
+    // let maplayers = Object.values(bacground_layers);
+    let maplayers = Object.keys(bacground_layers).map(function(e) {
+        return bacground_layers[e]
+      });
+
     maplayers.push(vectorLayer);
     maplayers.push(hoverlayer);
     maplayers.push(clusterLayer);
@@ -216,19 +222,21 @@ function initMapFromConfig(config)
         // if details panel close, open drawer
         // open details of selected feature dataset
         let f = e.selected[0];
-        let scroll_to_description = f['values_']['features'].length > 1 ? false : true; // don't scroll if there are many points in one
-        let center_on_map = true;  // center on the first feature in the collection
-        f['values_']['features'].forEach( function(element)
-            {
-                // call package show and update details panel
-                showDatasetDetailDescription(element['values_']['id'], scroll_to_description, false, center_on_map);
-                center_on_map = false;
-            }
-        );
-        // $('#' + f['values_']['id'] + '_collapse').collapse("show");
-        // document.getElementById(f['values_']['id']).scrollIntoView();
-        // $('#' + f['values_']['id']).scrollIntoView();
-        // hide last selected
+        if(f) {
+            //let scroll_to_description = f['values_']['features'].length > 1 ? false : true; // don't scroll if there are many points in one
+            let center_on_map = true;  // center on the first feature in the collection and on the description too
+            f['values_']['features'].forEach( function(element)
+                {
+                    // call package show and update details panel
+                    showDatasetDetailDescription(element['values_']['id'], center_on_map, false, center_on_map);
+                    center_on_map = false;
+                }
+            );
+            // $('#' + f['values_']['id'] + '_collapse').collapse("show");
+            // document.getElementById(f['values_']['id']).scrollIntoView();
+            // $('#' + f['values_']['id']).scrollIntoView();
+            // hide last selected
+        }
     });
 
     var dragBox = new ol.interaction.DragBox({
@@ -433,7 +441,7 @@ function addMapSelctionDropdown( config )
     if ( "backgrouns_layers" in config)
     {
         // add the select object and the bottom left of the map div
-        domstr = '<div style="position: relative; left: 0px; bottom: 0px; z-index: 100;">';
+        domstr = '<div id="background_map_div_select" class="background_map_div_select">';
         domstr += '<span style="text-shadow: 1px 1px 2px #FFFFFF;">' + i18nStrings.getUIString("background_map") + '</span>';
         domstr += '<select id="sel_asset_base_layer" onchange="asset_change_base_layer();">';
         config["backgrouns_layers"].forEach( function(element)

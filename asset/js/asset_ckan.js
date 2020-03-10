@@ -27,7 +27,7 @@ function CKANServer()
 
     // bounding box where datatset need to intersect with
     this.bbox = undefined;
-
+    this.support_location = false;
     // custom bounding box for search
     this.spatialSearch = {
         customBbox: false,
@@ -88,6 +88,7 @@ function CKANServer()
         this.slowDownPagingTreshold = 300;
         this.restrict_json_return = false;
         this.support_eov = false;
+        this.support_location = false;
         this.bbox = undefined;
         this.spatialSearch = {
             customBbox: false,
@@ -118,7 +119,12 @@ function CKANServer()
         this.support_eov = config["support_eov"];
         this.use_basic_auth = config["use_basic_auth"];
         this.support_vertical = config["support_vertical"];;
-        this.support_time = config["support_time"];;
+        this.support_time = config["support_time"];
+        this.support_location = false;
+        if ( config["start_bbox"] !== undefined )
+        {
+            this.support_location = config["support_location"];
+        }
         if ( config["start_bbox"] !== undefined )
         {
             if ( config["start_bbox"].length == 4 )
@@ -306,9 +312,17 @@ function CKANServer()
         }
 
         ret_url += 'package_search?';
-        if (this.spatialSearch.customBbox) {
-            ret_url += this.getURLParameterForBoundingBox(true) + "&";
-        } else if (this.bbox !== undefined) {
+        if ( this.support_location )
+        {
+            if (this.spatialSearch.customBbox) {
+                ret_url += this.getURLParameterForBoundingBox(true) + "&";
+            } else if (this.bbox !== undefined) {
+                ret_url += this.getURLParameterForBoundingBox(false) + "&";
+            }
+        }
+        else if ( this.bbox !== undefined )
+        {
+            // should check if a bbox exist
             ret_url += this.getURLParameterForBoundingBox(false) + "&";
         }
         if ( this.restrict_json_return )
@@ -442,7 +456,9 @@ function CKANServer()
         let ret = undefined;
         this.varriables.forEach( function(v)
         {
-            if  ( v["eovs"].includes(name) )
+            // unsuported in IE11
+            //if  ( v["eovs"].includes(name) )
+            if ( name.indexOf(v["eovs"]) != -1 )
             {
                 ret = v;
             }
@@ -522,7 +538,7 @@ function getCenterOfCoordinates(pts) {
         y += (p1[1] + p2[1] - 2 * first[1]) * f;
     }
     f = twicearea * 3;
-    const center = [x / f + first[0], y / f + first[1]];
+    var center = [x / f + first[0], y / f + first[1]];
 
     return center;
  }
@@ -811,9 +827,24 @@ function getStyleFromClusterConfig( config, nbrElem)
     ret['circle_radius'] = config['minimum']['circle_radius'] * minweight + config['maximum']['circle_radius'] * maxweight;
     return ret;
 }
+// if newCoords exists in existingCoordsArray, return a coordinate that is slightly different
+function moveCoordsSlightlyIfDuplicate(newCoords, existingCoordsArray) {
+                    
+    let lat = newCoords[0];
+    let long = newCoords[1];
+
+    let numberMatchingCoords = existingCoordsArray.filter(function (coord) { return coord[0] == lat && coord[1] == long; }).length
+    
+    if (numberMatchingCoords > 0) {
+        let movedCoords = [lat, long + numberMatchingCoords * 0.001]
+        return movedCoords;
+    }
+    return newCoords;
+}
 
 function displayCKANClusterIcon( data )
 {
+    let allCoords = [];
     // for each, look for the spatial extra
     let i = 0;
     let results = data['result']['results'];
@@ -844,9 +875,12 @@ function displayCKANClusterIcon( data )
             addGeometryToCache(r['id'], objspatial);
             // Create geometry feature as polygone (rect extent)
             //new Feature(new Point(coordinates));
+            let coordsToAdd = getCentroidOfSpatial(objspatial)
             var pointfeature = new ol.Feature({
-                geometry: new ol.geom.Point(getCentroidOfSpatial(objspatial))
+                
+                geometry: new ol.geom.Point(moveCoordsSlightlyIfDuplicate(coordsToAdd, allCoords))
             });
+            allCoords.push(coordsToAdd)
             pointfeature.setId(r['id']);
             pointfeature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
             // set id to link to description panel
@@ -994,7 +1028,7 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
         ret_html += '<a href="#" onclick="showInGeometryLayer(\'' + dataset["id"] + '\')" title="' + i18nStrings.getUIString("map") + '"><img class="map-marker" src="/asset/images/map-marker.svg"></a>';
     }
     
-    const title = ckan_server.support_multilanguage ? i18nStrings.getTranslation(dataset['title_translated']) : dataset['title'];
+    let title = ckan_server.support_multilanguage ? i18nStrings.getTranslation(dataset['title_translated']) : dataset['title'];
     ret_html += '<h3 class="details_label">' + '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="showDatasetDetailDescription(\'' + dataset["id"] + '\');">' + title + '</a></h3>'; 
     
     // ret_html += '<div class="asset-actions">';
@@ -1313,7 +1347,9 @@ function updateDatasetDetailsFromCache( datasetid )
     jQuery(itemid).collapse("show");
 }
 
-function showDatasetDetailDescription( datasetid , goto_description = true, select_point = true, center_point = true)
+// sadly default parameter assignation not suported by IE 11
+//function showDatasetDetailDescription( datasetid , goto_description = true, select_point = true, center_point = true)
+function showDatasetDetailDescription( datasetid , goto_description, select_point, center_point)
 /**
  * Shows Dataset Detail Description and adjusts the scroll so that detail panel is visible
  * @param  {[string]} datasetid
@@ -1322,6 +1358,20 @@ function showDatasetDetailDescription( datasetid , goto_description = true, sele
  * @param  {[bool]} center_point - center corresponding feature (point) on the map
  */
 {
+
+    // trick to set parameter by default
+    if ( goto_description == undefined)
+    {
+        goto_description = true;
+    }
+    if ( select_point == undefined)
+    {
+        select_point = true;
+    }
+    if ( center_point == undefined)
+    {
+        center_point = true;
+    }
     // collapse other detail panels
     jQuery('#dataset_desc').find('.collapse').each(function() {
         if (jQuery(this).attr('id') != datasetid) {
