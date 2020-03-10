@@ -3,13 +3,13 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#51A79A;}
+	.st0{fill:#006E90;}
 	.st1{fill:#FFFFFF;}
 </style>
-<path class="st0" d="M100,3.3c-4.5,2.1-6.3,6.5-13.4,6.5c-9.4,0-9.4-7.6-18.8-7.6c-9.4,0-9.4,7.6-18.8,7.6s-9.4-7.6-18.8-7.6
-	c-9.4,0-9.4,7.6-18.8,7.6c-5.9,0-8.1-2.9-11.2-5.2V100H100V3.3z"/>
+<path class="st0" d="M100,3.3c-4.5,2.1-6.3,6.5-13.4,6.5c-9.4,0-9.4-7.6-18.8-7.6S58.4,9.8,49,9.8s-9.4-7.6-18.8-7.6
+	s-9.4,7.6-18.8,7.6c-5.9,0-8.1-2.9-11.2-5.2V100H100V3.3z"/>
 <g>
-	<path class="st1" d="M63.5,67.9h-5.2L45.1,46.8v21.1h-5.2V38.2h5.2l13.3,21.2V38.2h5.1V67.9z"/>
+	<path class="st1" d="M63.5,67.9h-5.2L45.1,46.8v21.1h-5.2V38.2h5.2l13.3,21.2V38.2h5.1C63.5,38.2,63.5,67.9,63.5,67.9z"/>
 </g>
 <circle class="st1" cx="87.2" cy="41.6" r="3.7"/>
 <circle class="st1" cx="20.9" cy="26.8" r="3.7"/>
