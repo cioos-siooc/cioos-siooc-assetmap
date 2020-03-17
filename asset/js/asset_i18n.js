@@ -18,7 +18,7 @@ function StringTranslator()
     };
 
     this.getUIString = function(id) {
-        ret_str = "i18n_error";
+        let ret_str = "i18n_error";
         if ( this.ui_strings[id][this.currentLanguage] !== undefined )
         {
             ret_str = this.ui_strings[id][this.currentLanguage];
@@ -32,7 +32,7 @@ function StringTranslator()
     
 
     this.getTranslation = function(i18nStrings){
-        ret_str = "i18n_error";
+        let ret_str = "i18n_error";
         if ( i18nStrings[this.currentLanguage] !== undefined )
         {
             ret_str = i18nStrings[this.currentLanguage];
@@ -44,3 +44,6 @@ function StringTranslator()
         return ret_str;
     };
 }
+const i18nStrings = new StringTranslator();
+
+export default i18nStrings;

@@ -7,97 +7,7 @@
   <link rel="stylesheet" href="./css/ol.css" type="text/css">
   <link rel="stylesheet" href="./css/style.css" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,900|Quicksand:400,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
-  <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
-  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-  <script src="js/asset_i18n.js"></script>
-  <script src="js/asset_ckan.js"></script>
-  <script src="js/asset.js"></script>
-  <script src="js/asset_ui.js"></script>
-
-  <script>
-    // debug scripts, not to be embedded
-
-    function callChangeLanguage()
-    {
-      var newl = jQuery( "#language option:selected" ).val();
-      changeCurrentLanguage(newl);
-    }
-
-    function callChangeCKAN()
-    {
-      let newckan = jQuery( "#ckan_instance option:selected" ).val();
-      if ( newckan === "opencanada" )
-      {
-        changeCurrentCKAN("opendataca.json");
-      }
-      else if ( newckan === "slgo" )
-      {
-        changeCurrentCKAN("slgo_ckan.json");
-      }
-      else if ( newckan === "ioos" )
-      {
-        changeCurrentCKAN("ioos_ckan.json");
-      }
-      else if ( newckan === "Nextgeoss" )
-      {
-        changeCurrentCKAN("nextgeoss_ckan.json");
-      }
-      else if ( newckan === "pacific")
-      {
-        changeCurrentCKAN("cioos_pacific_ckan.json");
-      }
-      else if ( newckan === "national")
-      {
-        changeCurrentCKAN("national_ckan.json");
-      }
-      else if ( newckan === "atlantic")
-      {
-        changeCurrentCKAN("cioos_atlantic_ckan.json");
-      }
-    }
-
-    function changeTimeFilters()
-    {
-      let minvalue = jQuery( "#debug_date_min" ).val();
-      let maxalue = jQuery( "#debug_date_max" ).val();
-      setTimeFilters(minvalue, maxalue);
-    }
-
-    function clearTimeFilters()
-    {
-      jQuery( "#debug_date_min" ).val('');
-      jQuery( "#debug_date_max" ).val('');
-      setTimeFilters(undefined, undefined);
-    }
-
-    function changeVerticalFilters()
-    {
-      let minvalue = jQuery( "#debug_vertical_min" ).val();
-      let maxalue = jQuery( "#debug_vertical_max" ).val();
-      setVerticalFilters(minvalue, maxalue);
-    }
-
-    function clearVerticalFilters()
-    {
-      jQuery( "#debug_vertical_min" ).val('');
-      jQuery( "#debug_vertical_max" ).val('');
-      setVerticalFilters(undefined, undefined);
-    }
-    $(document).ready(function () {
-  callChangeLanguage();
-  callChangeCKAN();
-  $("div#category_panel > a#physic_link").click();
-  $("input#var_temperature").click();
-  $("input#var_seasurfaceheight").click();
-    });
-
-
-  </script>
+  
 </head>
 <body>
   <div class="outer-map-container">
@@ -110,16 +20,16 @@
       <div class="panel_search_info" style="text-align:center" id="dataset_search_stats"></div>
     </div>
   </div>
-  <div style="display: none;">
+  <div>
     <h2>Debug Options</h2><br />
     language: 
-    <select id="language" oninput="callChangeLanguage();">
+    <select id="language" oninput="AssetMap.callChangeLanguage();">
       <!-- Set one of these as selected="selected" to load with page. -->
       <option value="fr">Francais</option>
       <option value="en" selected="selected">English</option>
     </select><br />
     Ckan backend:
-    <select id="ckan_instance" oninput="callChangeCKAN();">
+    <select id="ckan_instance" oninput="AssetMap.callChangeCKAN();">
       <!-- Set one of these as selected="selected" to load with page. -->
       <option value="opencanada">open.canada.ca</option>
       <option value="national">CIOOS National</option>
@@ -131,13 +41,40 @@
     </select><br />
     Minimum time interval: <input type="datetime-local" id="debug_date_min"><br />
     Maximum time interval: <input type="datetime-local" id="debug_date_max"><br />
-    <button id="bnt_debug_setdate" onclick="changeTimeFilters();">Set Date filters</button>
-    <button id="bnt_debug_cleardate" onclick="clearTimeFilters();">Clear Date filters</button><br />
-    Vertical minimum: <input type="number" id="debug_vertical_min" min="-3000" max="10000"><br />
-    Vertical maximum: <input type="number" id="debug_vertical_max" min="-3000" max="10000"><br />
-    <button id="bnt_debug_setvertical" onclick="changeVerticalFilters();">Set Vertical filters</button>
-    <button id="bnt_debug_clearvertical" onclick="clearVerticalFilters();">Clear Vertical filters</button><br />
+    <button id="bnt_debug_setdate" onclick="AssetMap.changeTimeFilters();">Set Date filters</button>
+    <button id="bnt_debug_cleardate" onclick="AssetMap.clearTimeFilters();">Clear Date filters</button><br />
+    Vertical minimum: <input type="number" id="AssetMap.debug_vertical_min" min="-3000" max="10000"><br />
+    Vertical maximum: <input type="number" id="AssetMap.debug_vertical_max" min="-3000" max="10000"><br />
+    <button id="bnt_debug_setvertical" onclick="AssetMap.changeVerticalFilters();">Set Vertical filters</button>
+    <button id="bnt_debug_clearvertical" onclick="AssetMap.clearVerticalFilters();">Clear Vertical filters</button><br />
   </div>
-  <script src="js/asset_ol.js"></script>
+  <script src="js/dist/bundle.js"></script>
+      <script>
+        var $ = AssetMap.jQuery;
+        $(function() {
+           AssetMap.buildMap({
+            "base_url": "https://cnckan.cioos.ca/",
+            "api_url": "https://cnckan.cioos.ca/api/",
+            "dataset_url": "https://cnckan.cioos.ca/",
+            "organization_url": "https://cnckan.cioos.ca/",
+            "access_url": "https://cnckan.cioos.ca/api/",
+            "add_language_url": true,
+            "support_multilanguage": true,
+            "usejsonp": true,
+            "initial_page_size": 500,
+            "page_size": 500,
+            "restrict_json_return": true,
+            "support_time": false,
+            "support_vertical": false,
+            "support_eov": true,
+            "use_basic_auth": false
+          });
+
+          jQuery("div#category_panel > a#physic_link").click();
+          jQuery("input#var_temperature").click();
+          jQuery("input#var_seasurfaceheight").click();
+
+        });
+          </script>
 </body>
 </html>

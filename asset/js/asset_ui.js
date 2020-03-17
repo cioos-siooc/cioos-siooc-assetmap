@@ -1,18 +1,24 @@
 // UI generation code
 // details panel
+import jQuery from "jquery";
+window.jQuery = jQuery;
 
-jQuery(document).ready(function($) {
+function generateUI(){
 	var x;
-	$('.outer-map-container').click(function() {
-		$('.overlay').removeClass('overlay').addClass('mappy');
+	jQuery('.outer-map-container').click(function() {
+		jQuery('.overlay').removeClass('overlay').addClass('mappy');
 	});
-	$('.outer-map-container').on('mouseenter', function() {
+	jQuery('.outer-map-container').on('mouseenter', function() {
 		if (x) {
 			clearInterval(x);
 		}
 	}).on('mouseleave', function() {
 		x = setInterval(function() {
-			$('.mappy').addClass('overlay');
+			jQuery('.mappy').addClass('overlay');
 		}, 3000);
 	});
-});
+
+
+}
+
+export default generateUI;

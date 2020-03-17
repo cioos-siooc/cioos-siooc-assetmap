@@ -1,3 +1,23 @@
+import * as ol from "ol";
+import * as condition from "ol/events/condition";
+import * as interaction from "ol/interaction";
+import * as proj from "ol/proj";
+import * as source from 'ol/source';
+import * as extent from 'ol/extent';
+import * as geom from 'ol/geom';
+import * as layer from "ol/layer"
+import * as style from 'ol/style';
+
+
+import jQuery from "jquery";
+window.jQuery = jQuery;
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/js/dist/collapse';
+
+import {getStyleFromClusterConfig, checkCKANData, showDatasetDetailDescription} from "./asset_ckan"
+import i18nStrings from "./asset_i18n"
+import {ckan_server} from "./asset"
 
 var vectorsource = null;
 var vectorLayer = null;
@@ -16,7 +36,7 @@ var selectClick = null;
 var selectPointerMove = null;
 var map = null;
 var useClustering = false;
-
+let startview;
 // list of possible layers as background indexed by name from config
 var bacground_layers = {};
 
@@ -31,17 +51,17 @@ function CreateBackgroundLayerFromConfig( lconfig )
     // switch type
     if ( lconfig['type'] === "OpenStreetMap")
     {
-        ret = new  ol.layer.Tile({
+        ret = new layer.Tile({
             visible: false,
-            source: new ol.source.OSM()
+            source: new source.OSM()
         })
     }
     else if ( lconfig['type'] === "Bing")
     {
-        ret = new ol.layer.Tile({
+        ret = new layer.Tile({
             visible: false,
             preload: Infinity,
-            source: new ol.source.BingMaps({
+            source: new source.BingMaps({
               key: lconfig['key'],
               imagerySet: lconfig['imagerySet']
               // use maxZoom 19 to see stretched tiles instead of the BingMaps
@@ -52,9 +72,9 @@ function CreateBackgroundLayerFromConfig( lconfig )
     }
     else if ( lconfig['type'] === "wms")
     {
-        ret = new ol.layer.Tile({
+        ret = new layer.Tile({
             visible: false,
-            source: new ol.source.TileWMS({
+            source: new source.TileWMS({
               url: lconfig['server_url'],
               params: {'LAYERS': lconfig['layer_name'], 'TILED': true},
               serverType: lconfig['serverType'],
@@ -70,27 +90,27 @@ function initMapFromConfig(config)
 
     addMapSelctionDropdown(config);
 
-    vectorSource= new ol.source.Vector({
+    let vectorSource= new source.Vector({
         features: []
     });
 
-    hoverSource = new ol.source.Vector({
+    hoverSource = new source.Vector({
         features: []
     });
 
-    polyStyle =  new ol.style.Style({
-        stroke: new ol.style.Stroke(
+    let polyStyle =  new style.Style({
+        stroke: new style.Stroke(
             config["Polystyle"]["Stroke"]),
-        fill: new ol.style.Fill(
+        fill: new style.Fill(
             config["Polystyle"]["Fill"])
     });
 
-    vectorLayer = new ol.layer.Vector({
+    vectorLayer = new layer.Vector({
         source: vectorSource,
         style: polyStyle
     });
 
-    hoverlayer= new ol.layer.Vector({
+    hoverlayer= new layer.Vector({
         source: hoverSource,
         style: polyStyle
     });
@@ -103,16 +123,16 @@ function initMapFromConfig(config)
 
 
      // create layer if null
-    clusterVectorSource = new ol.source.Vector({
+    clusterVectorSource = new source.Vector({
     });
 
-    clusterSource = new ol.source.Cluster({
+    clusterSource = new source.Cluster({
         distance: clusterStyleConfig["distance"],
         source: clusterVectorSource
       });
 
     clusterStyleCache = {};
-    clusterLayer = new ol.layer.Vector({
+    clusterLayer = new layer.Vector({
         source: clusterSource,
         style: function(feature) {
           let featuresSize = feature.get('features')
@@ -123,19 +143,19 @@ function initMapFromConfig(config)
             curstyle = clusterStyleCache[size];
             if (!curstyle) {
                 let cfg = getStyleFromClusterConfig(clusterStyleConfig, size);
-                curstyle = new ol.style.Style({
-                image: new ol.style.Circle({
+                curstyle = new style.Style({
+                image: new style.Circle({
                     radius: cfg["circle_radius"],
-                    stroke: new ol.style.Stroke({
+                    stroke: new style.Stroke({
                     color: cfg["stroke_color"]
                     }),
-                    fill: new ol.style.Fill({
+                    fill: new style.Fill({
                     color: cfg["fill_color"]
                     })
                 }),
-                text: new ol.style.Text({
+                text: new style.Text({
                     text: size.toString(),
-                    fill: new ol.style.Fill({
+                    fill: new style.Fill({
                     color: cfg["text_color"]
                     })
                 })
@@ -146,26 +166,26 @@ function initMapFromConfig(config)
           return curstyle;
         }
       });
-    clusterLayer.setZIndex(10);
+    // clusterLayer.setZIndex(10);
     // update map
 
-    selectClick = new ol.interaction.Select({
-        condition: ol.events.condition.click
+    selectClick = new interaction.Select({
+        condition: condition.click
     });
 
-    selectDoubleCLick = new ol.interaction.Select({
-        condition: ol.events.condition.doubleClick
+    selectDoubleCLick = new interaction.Select({
+        condition: condition.doubleClick
     });
 
 
-    selectPointerMove = new ol.interaction.Select({
-        condition: ol.events.condition.pointerMove
+    selectPointerMove = new interaction.Select({
+        condition: condition.pointerMove
       });
 
     startview = new ol.View(
         config["start_view"]);
     // transform center from WGS84 lat/long
-    startview.setCenter( ol.proj.transform(config["start_view"]["center"], 'EPSG:4326', 'EPSG:3857'));
+    startview.setCenter( proj.transform(config["start_view"]["center"], 'EPSG:4326', 'EPSG:3857'));
 
     if ( "backgrouns_layers" in config)
     {
@@ -182,9 +202,9 @@ function initMapFromConfig(config)
     if ( Object.keys(bacground_layers).length == 0)
     {
         // if no background layer defined, add default OpenStreetMap
-        bacground_layers['default'] = new  ol.layer.Tile({
+        bacground_layers['default'] = new layer.Tile({
             visible: false,
-            source: new ol.source.OSM()
+            source: new source.OSM()
         });
     }
 
@@ -239,8 +259,8 @@ function initMapFromConfig(config)
         }
     });
 
-    var dragBox = new ol.interaction.DragBox({
-        condition: ol.events.condition.platformModifierKeyOnly
+    var dragBox = new interaction.DragBox({
+        condition: condition.platformModifierKeyOnly
       });
 
     map.addInteraction(dragBox);
@@ -281,7 +301,7 @@ function initMapFromConfig(config)
                         coords.push(element['values_']['geometry']['flatCoordinates']);
                     }
                 );
-                let newBound = ol.extent.boundingExtent(coords);
+                let newBound = extent.boundingExtent(coords);
                 map.getView().fit(newBound, { duration: 1000 });
             }
             else
@@ -362,7 +382,7 @@ function showInGeometryLayer( id )
 
     // create vector geometry object and set properties
     var feature = new ol.Feature({
-        geometry: new ol.geom.Polygon(datasetGeometryCache[id]['coordinates'])
+        geometry: new geom.Polygon(datasetGeometryCache[id]['coordinates'])
     });
     feature.setId(id);
     feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
@@ -389,7 +409,7 @@ function getFeaturePointById ( id )
  */
 {
     // get feature from vector layer
-    f = vectorLayer.getSource().getFeatureById(id);
+    let f = vectorLayer.getSource().getFeatureById(id);
     if (!f) {
         f = clusterVectorSource.getFeatureById(id);
     }
@@ -402,7 +422,7 @@ function selectFeatureOnMap( id )
  * @param  {[string]} datasetid [element]
  */
 {
-    f = getFeaturePointById(id);
+    let f = getFeaturePointById(id);
 
     if (f) {
         selectClick.getFeatures().clear();
@@ -416,12 +436,12 @@ function centerFeatureOnMap( id )
  * @param  {[string]} datasetid [element]
  */
 {
-    f = getFeaturePointById(id);
+    let f = getFeaturePointById(id);
 
     if (f) {
         // center view on feature
         var point = f.getGeometry();
-        center = point.getCoordinates();
+        let center = point.getCoordinates();
         var size = map.getSize();
 //        startview.centerOn(point.getCoordinates(), size, [500, 500]);
         startview.animate( {center: point.getCoordinates()} );
@@ -434,6 +454,8 @@ function selectAndCenterFeatureOnMap( id )
     centerFeatureOnMap(id);
 }
 
+window.asset_change_base_layer=asset_change_base_layer;
+
 // Should have code to add dataset to layer here
 
 function addMapSelctionDropdown( config )
@@ -441,7 +463,7 @@ function addMapSelctionDropdown( config )
     if ( "backgrouns_layers" in config)
     {
         // add the select object and the bottom left of the map div
-        domstr = '<div id="background_map_div_select" class="background_map_div_select">';
+        let domstr = '<div id="background_map_div_select" class="background_map_div_select">';
         domstr += '<span style="text-shadow: 1px 1px 2px #FFFFFF;">' + i18nStrings.getUIString("background_map") + '</span>';
         domstr += '<select id="sel_asset_base_layer" onchange="asset_change_base_layer();">';
         config["backgrouns_layers"].forEach( function(element)
@@ -466,3 +488,5 @@ function asset_change_base_layer()
     let desired_layer = jQuery( "#sel_asset_base_layer" ).val();
     changeBackgrounLayer(desired_layer);
 }
+
+export {addGeometryToCache, clusterVectorSource, vectorLayer, clusterLayer, useClustering, selectFeatureOnMap, initMapFromConfig, centerFeatureOnMap} 

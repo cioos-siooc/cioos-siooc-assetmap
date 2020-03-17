@@ -1,9 +1,16 @@
-var lg = null;
-var ui_str = null;
-var ckan_server = null;
-var i18nStrings = null;
-var filters = null;
-var mapconfig = null;
+import filters from "../resources/filters.json";
+import {CKANServer, clearAllDatasets, checkCKANData} from "./asset_ckan";
+import i18nStrings from "./asset_i18n";
+import jQuery from "jquery";
+
+window.jQuery = jQuery;
+
+// export for others scripts to use
+window.jQuery = jQuery;
+window.toggleTab =  toggleTab
+
+var ckan_server = new CKANServer();
+
 
 function displayDatasetSummary( )
 {
@@ -21,11 +28,11 @@ function getSelectedVariable()
 {
 
 }
-
+window.checkCKANData=checkCKANData;
 
 function generateVariableBox( vardata )
 {
-    ret_html = "<li>";
+    let ret_html = "<li>";
     ret_html += "<input class='variable-checkbox' style='' type='checkbox' id='" + vardata["id"] + "' ";
     if ( !vardata["enabled"])
     {
@@ -39,7 +46,7 @@ function generateVariableBox( vardata )
 
 function generateLocationBox( location )
 {
-    ret_html = "<li>";
+    let ret_html = "<li>";
     ret_html += "<input class='variable-checkbox' style='' type='checkbox' id='" + location["id"] + "' ";
     if ( !location["enabled"])
     {
@@ -53,7 +60,7 @@ function generateLocationBox( location )
 
 function generateLocationsButton(locationData)
 {
-    ret_html = '<a href="#locations_tab" role="tab" onclick="toggleTab(event, this);">';
+    let ret_html = '<a href="#locations_tab" role="tab" onclick="toggleTab(event, this);">';
     ret_html += "<div class='category_cell_bg'>";
     ret_html += i18nStrings.getTranslation({
         "en": "Locations",
@@ -70,11 +77,11 @@ function generateLocationCategories(locations)
   // add has a possible filter in the CKANServer
   if ( locations['enabled'] === true)
   {
-    c = 0;
-    CatInnerHtml = generateLocationsButton();
-    VarInnerPanelHTML = '<div id="locations_tab" class="tab-pane" role="tabpanel"><ul class="variable-options">';
+    let c = 0;
+    let CatInnerHtml = generateLocationsButton();
+    let VarInnerPanelHTML = '<div id="locations_tab" class="tab-pane" role="tabpanel"><ul class="variable-options">';
     while (c < locations['locations'].length) {
-        place = locations['locations'][c];
+        let place = locations['locations'][c];
         VarInnerPanelHTML += generateLocationBox(place);
         ++c;
     }
@@ -85,8 +92,10 @@ function generateLocationCategories(locations)
 }
 
 function generateCategoryButton( catData)
-{
-    ret_html = '<a href="#' + category["id"] + '_tab' + '" role="tab" onclick="toggleTab(event, this);">';
+{ //  category["id"] is it supposed to be catData["id"] ?
+    
+    // let ret_html = '<a href="#' + category["id"] + '_tab' + '" role="tab" onclick="toggleTab(event, this);">';
+    let ret_html = '<a href="#' + catData["id"] + '_tab' + '" role="tab" onclick="toggleTab(event, this);">';
     ret_html += "<div class='category_cell_bg'>";
     ret_html += "<div class='category-icon'><img src='/asset/images/icons/" + catData["icon"] + "' onclick=''></div>";
     ret_html += i18nStrings.getTranslation(catData["label"]);
@@ -121,15 +130,15 @@ function generateFilterCategories()
 {
     // for each variable, create box with label and icon
     // add has a possible filter in the CKANServer
-    c = 0;
-    VarInnerHtml = "";
-    CatInnerHtml = "";
+    let c = 0;
+    let VarInnerHtml = "";
+    let CatInnerHtml = "";
     while( c < filters["Categories"].length )
     {
-        category = filters["Categories"][c];
+        let category = filters["Categories"][c];
         CatInnerHtml += generateCategoryButton(category);
-        VarInnerPanelHTML = '<div id=' + category["id"] + '_tab' + ' class="tab-pane" role="tabpanel"><ul class="variable-options">';
-        v = 0;
+        let VarInnerPanelHTML = '<div id=' + category["id"] + '_tab' + ' class="tab-pane" role="tabpanel"><ul class="variable-options">';
+        let v = 0;
         while( v < category["variables"].length)
         {
             VarInnerPanelHTML += generateVariableBox(category["variables"][v]);
@@ -248,77 +257,4 @@ function setVerticalFilters( minVertical, maxVertical )
 }
 
 
-
-
-jQuery(document).ready(function () {
-    ckan_server = new CKANServer();
-    i18nStrings = new StringTranslator();
-    let urlParams = new URLSearchParams(window.location.search);
-    curlng = urlParams.get('lg');
-    if ( curlng === 'fr' || curlng == 'en')
-    {
-        i18nStrings.setBaseLanguage(curlng);
-        i18nStrings.setCurrentLanguage(curlng);
-        ckan_server.setCurrentLanguage(curlng);
-    }
-
-    jQuery.ajax({
-        url: "/asset/resources/ui_str.json",
-        dataType: 'json',
-        async: false,
-        success: function (data) {
-            ui_str = data;
-            i18nStrings.setUIStrings(ui_str);
-        },
-        error: function (e) {
-        }
-    });
-
-    jQuery.ajax({
-        url: "/asset/resources/map.json",
-        dataType: 'json',
-        async: false,
-        success: function (data) {
-            initMapFromConfig(data);
-            // init ckan server from data
-        },
-        error: function (e) {
-        }
-    });
-
-    jQuery.ajax({
-        url: "/asset/resources/ckan.json",
-        dataType: 'json',
-        async: false,
-        success: function (data) {
-            ckan_server.loadConfig(data);
-            // init ckan server from data
-        },
-        error: function (e) {
-        }
-    });
-
-    jQuery.ajax({
-        url: "/asset/resources/filters.json",
-        dataType: 'json',
-        async: false,
-        success: function (data) {
-            filters = data;
-            generateFilterCategories();
-        },
-        error: function (e) {
-        }
-    });
-
-    $.ajax({
-        url: "/asset/resources/locations.json",
-        dataType: 'json',
-        async: false,
-        success: function (data) {
-            generateLocationCategories(data);
-        },
-        error: function (e) {
-        }
-    });
-
-});
+export {ckan_server, setVerticalFilters, setTimeFilters, changeCurrentLanguage, changeCurrentCKAN, generateLocationCategories, generateFilterCategories}

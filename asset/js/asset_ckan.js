@@ -1,4 +1,24 @@
 
+import 'ol/ol.css';
+import * as ol from "ol"
+import * as geom from 'ol/geom';
+import * as source from 'ol/source';
+
+import jQuery from "jquery";
+window.jQuery = jQuery;
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/js/dist/collapse';
+
+import {centerFeatureOnMap, selectFeatureOnMap, addGeometryToCache, clusterVectorSource, vectorLayer, clusterLayer, useClustering} from "./asset_ol"
+
+import i18nStrings from "./asset_i18n"
+
+import {ckan_server} from "./asset"
+
+const afficheCKANExtent = "?";
+
+// find where to get ckan_server
 
 function CKANServer()
 {
@@ -135,7 +155,7 @@ function CKANServer()
     };
 
     this.getHomeCatalogURL = function() {
-        ret = this.homeUrl;
+        let ret = this.homeUrl;
         if (this.add_language_url)
         {
             ret += this.currentLanguage;
@@ -144,7 +164,7 @@ function CKANServer()
     };
 
     this.getURLForDataset = function( datasetId ) {
-        ret = this.dataset_url
+        let ret = this.dataset_url
         if (this.add_language_url)
         {
             ret += this.currentLanguage + '/';
@@ -154,7 +174,7 @@ function CKANServer()
     };
 
     this.getURLForResources = function( datasetId ) {
-        ret = this.dataset_url
+        let ret = this.dataset_url
         if (this.add_language_url)
         {
             ret += this.currentLanguage + '/';
@@ -164,7 +184,7 @@ function CKANServer()
     };
 
     this.getURLForOrganization = function( organisationId ) {
-        ret = this.organization_url
+        let ret = this.organization_url
         if (this.add_language_url)
         {
             ret += this.currentLanguage + '/';
@@ -233,13 +253,13 @@ function CKANServer()
     this.getURLParamterForFieldRestriction = function()
     {
         // fl=title_translated,notes_translated,eov,keywords,spatial
-        ret = "fl=id,title_translated,eov,spatial";
+        let ret = "fl=id,title_translated,eov,spatial";
         return ret;
     }
 
     this.addVariableToURLFilter = function( variable )
     {
-        ret = variable["ckantext"].join();
+        let ret = variable["ckantext"].join();
         return ret;
     }
 
@@ -336,8 +356,8 @@ function CKANServer()
         while( v < this.varriables.length)
         {
             // get element for variable
-            varData = this.varriables[v];
-            varItem = document.getElementById(varData["id"]);
+            let varData = this.varriables[v];
+            let varItem = document.getElementById(varData["id"]);
             // if checked, add text to the filter
             if ( varItem.checked )
             {
@@ -397,13 +417,13 @@ function CKANServer()
     };
 
     this.hasActiveFilter = function () {
-        v=0;
-        ret = false;
+        let v=0;
+        let ret = false;
         while( v < this.varriables.length)
         {
             // get element for variable
-            varData = this.varriables[v];
-            varItem = document.getElementById(varData["id"]);
+            let varData = this.varriables[v];
+            let varItem = document.getElementById(varData["id"]);
             // if checked, add text to the filter
             if ( varItem.checked )
             {
@@ -434,7 +454,7 @@ function CKANServer()
     this.getVaraibleIcon = function (name)
     {
         //look for viable of name
-        ret_thumb = undefined;
+        let ret_thumb = undefined;
         return ret_thumb;
     };
 
@@ -469,7 +489,7 @@ function CKANServer()
     this.getCKANData = function ()
     {
         // call proxy with url and variable
-        url = this.getURLPaginated(0, this.initialPageSize);
+        let url = this.getURLPaginated(0, this.initialPageSize);
         jQuery.getJSON( url, afficheCKANExtent );
         //$.getJSON( "https://test-catalogue.ogsl.ca/api/3/action/package_search?ext_bbox=-104,17,-18,63&q=" + document.getElementById('searchbox').value, afficheCKANExtent );
     };
@@ -576,7 +596,8 @@ function AddDisplayCKANExtent( data )
             // Create geometry feature as polygone (rect extent)
             addGeometryToCache(r['id'], objspatial);
             var feature = new ol.Feature({
-                geometry: new ol.geom.Polygon(objspatial['coordinates'])
+                
+                geometry: new geom.Polygon(objspatial['coordinates'])
             });
             feature.setId(r['id']);
             feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
@@ -638,8 +659,8 @@ function AddDisplayCKANClusterIcon( data )
                centerPoint = getCentroidOfSpatial(objspatial['coordinates'][0]);
             } */
 
-            feature = new ol.Feature({
-                geometry: new ol.geom.Point(centerPoint)
+            const feature = new ol.Feature({
+                geometry: new geom.Point(centerPoint)
             });
             feature.setId(r['id']);
             feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
@@ -712,7 +733,7 @@ function displayCKANExtent( data )
             addGeometryToCache(r['id'], objspatial);
             // Create geometry feature as polygone (rect extent)
             var feature = new ol.Feature({
-                geometry: new ol.geom.Polygon(objspatial['coordinates'])
+                geometry: new geom.Polygon(objspatial['coordinates'])
             });
             feature.setId(r['id']);
             feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
@@ -725,7 +746,7 @@ function displayCKANExtent( data )
         ++i;
     }
     // recreate layer
-    let vectorSource= new ol.source.Vector({
+    let vectorSource= new source.Vector({
         features: features
     });
     vectorSource.clear();
@@ -784,7 +805,7 @@ function lerpColor( color1, color2, lerpvalue)
     // 0 = only color1
     // 1 = only color2
     // the result should be clamp between 0 and 255
-    col1mult = 1 - lerpvalue;
+    let col1mult = 1 - lerpvalue;
     let ret = [ Math.round((color1[0] * col1mult) + (color2[0] * lerpvalue)),
     Math.round((color1[1] * col1mult) + (color2[1] * lerpvalue)),
     Math.round((color1[2] * col1mult) + (color2[2] * lerpvalue)),
@@ -878,7 +899,7 @@ function displayCKANClusterIcon( data )
             let coordsToAdd = getCentroidOfSpatial(objspatial)
             var pointfeature = new ol.Feature({
                 
-                geometry: new ol.geom.Point(moveCoordsSlightlyIfDuplicate(coordsToAdd, allCoords))
+                geometry: new geom.Point(moveCoordsSlightlyIfDuplicate(coordsToAdd, allCoords))
             });
             allCoords.push(coordsToAdd)
             pointfeature.setId(r['id']);
@@ -1019,6 +1040,8 @@ function generateCompleteDetailsPanel( dataset )
     return ret_html;
 }
 
+window.showDatasetDetailDescription=showDatasetDetailDescription;
+
 function generateDetailsPanel( dataset ) //, language, dataset_id, title, description, provider, link_url, prov_url)
 {   let spatial = getDatasetSpatialData(dataset);
     let ret_html = "<div id='" + dataset["id"] + "'class='asset_details'>";
@@ -1132,7 +1155,7 @@ function addAndDisplaydataset(data)
     if ( ckan_server.currentFilterQuery == ckan_server.lastFilterChange )
     {
         // verify if paging is stil required
-        totaldataset =  parseInt(data["result"]["count"]);
+        let totaldataset =  parseInt(data["result"]["count"]);
         if ( ckan_server.lastPagedDataIndex < totaldataset)
         {
             // continue paging
@@ -1186,7 +1209,7 @@ function addAndDisplaydataset(data)
 
 function searchAndDisplayDataset(data)
 {
-    if ( this.hasfilterquery == false)
+    if ( ckan_server.hasfilterquery == false)
     {
         // oups, ajax took to long, no more filter, don't display anything
         return;
@@ -1268,11 +1291,11 @@ function checkCKANData()
 
     // remove data from the map and on the list, will be reconstructed with the paginated search
     clearAllDatasets();
-    this.hasfilterquery = false;
+    ckan_server.hasfilterquery = false;
     // verify if filters are active, if not, remove all data and don't access the entire catalogue
     if ( ckan_server.hasActiveFilter() )
     {
-        this.hasfilterquery = true;
+        ckan_server.hasfilterquery = true;
         // use CKAN config to write call to package_search
 
         // support jsonp by hand since jquery bug with adding other parameters at then end for nothing ( other than the callback )
@@ -1440,3 +1463,4 @@ function callDatasetDetailDescription( datasetid )
     }
 }
 
+export {CKANServer, clearAllDatasets, checkCKANData, showDatasetDetailDescription, getStyleFromClusterConfig}
