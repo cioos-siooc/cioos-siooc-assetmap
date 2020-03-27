@@ -932,11 +932,17 @@ function getToolForDataset(dataset)
     return ret_html;
 }
 
+//var global_variable = null;
+//function console_function(data) {
+//    var local_variable = data;
+//    global_variable = local_variable;
+//   console.log(local_variable);
+//}
+
 function generateCompleteDetailsPanel( dataset )
 {
     // Add variable, description and tool accessà
     let ret_html = '';
-
     ret_html += '<div class="card card-body">'
     if ( ckan_server.support_eov == true)
     {
@@ -970,10 +976,10 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     {
         ret_html += '<a href="#" onclick="showInGeometryLayer(\'' + dataset["id"] + '\')" title="' + i18nStrings.getUIString("map") + '"><img class="map-marker" src="/assetmap/asset/images/map-marker.svg"></a>';
     }
-
+    
     const title = ckan_server.support_multilanguage ? i18nStrings.getTranslation(dataset['title_translated']) : dataset['title'];
     ret_html += '<h3 class="details_label">' + '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="showDatasetDetailDescription(\'' + dataset["id"] + '\');">' + title + '</a></h3>'; 
-
+    
     ret_html += '<div class="collapse" id="' + dataset["id"] + '_collapse' + '">';
     ret_html += "</div>";
     ret_html += "</div>";
