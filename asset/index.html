@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="./css/asset.css" type="text/css">
   <link rel="stylesheet" href="./css/ol.css" type="text/css">
   <link rel="stylesheet" href="./css/style.css" type="text/css">
+  <link rel="stylesheet" href="./css/asset_custom.css" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,900|Quicksand:400,700&display=swap" rel="stylesheet">
 
 
@@ -26,21 +27,24 @@
         var $ = AssetMap.jQuery
         $(function() {
            AssetMap.buildMap({
-            "base_url": "https://cnckan.cioos.ca/",
-            "api_url": "https://cnckan.cioos.ca/api/",
-            "dataset_url": "https://cnckan.cioos.ca/",
-            "organization_url": "https://cnckan.cioos.ca/",
-            "access_url": "https://cnckan.cioos.ca/api/",
+            "base_url":"https://catalogue.cioospacific.ca/ckan/",
+            "api_url":"https://catalogue.cioospacific.ca/ckan/api/3/",
+            "dataset_url": "https://catalogue.cioospacific.ca/ckan/",
+            "organization_url": "https://catalogue.cioospacific.ca/ckan/",
+            "access_url":"https://catalogue.cioospacific.ca/api/",
             "add_language_url": true,
             "support_multilanguage": true,
             "usejsonp": true,
-            "initial_page_size": 500,
-            "page_size": 500,
+            "initial_page_size": 40,
+            "page_size": 40,
             "restrict_json_return": true,
+            "basic_userd": "",
+            "basic_passd": "",
             "support_time": false,
             "support_vertical": false,
             "support_eov": true,
-            "use_basic_auth": false
+            "use_basic_auth": false,
+            "page_size": 10000
           });
         });
           </script>
