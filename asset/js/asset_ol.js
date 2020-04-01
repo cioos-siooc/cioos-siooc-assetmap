@@ -88,7 +88,7 @@ function CreateBackgroundLayerFromConfig( lconfig )
 function initMapFromConfig(config)
 {
 
-    addMapSelctionDropdown(config);
+    // addMapSelctionDropdown(config);
 
     let vectorSource= new source.Vector({
         features: []
@@ -458,30 +458,30 @@ window.asset_change_base_layer=asset_change_base_layer;
 
 // Should have code to add dataset to layer here
 
-function addMapSelctionDropdown( config )
-{
-    if ( "backgrouns_layers" in config)
-    {
-        // add the select object and the bottom left of the map div
-        let domstr = '<div id="background_map_div_select" class="background_map_div_select">';
-        domstr += '<span style="text-shadow: 1px 1px 2px #FFFFFF;">' + i18nStrings.getUIString("background_map") + '</span>';
-        domstr += '<select id="sel_asset_base_layer" onchange="asset_change_base_layer();">';
-        config["backgrouns_layers"].forEach( function(element)
-            {
-                domstr += '<option value="' + element['name'] + '"';
-                if ( element['name'] === config["start_layer"] )
-                {
-                    domstr += ' selected="selected"'
-                }
-                domstr += '">' + i18nStrings.getTranslation(element["label"]) + '</option>';
-            }
-        );
-        domstr += '</select></div>';
-    // append to the div map
-        document.getElementById('asset_map_container').innerHTML += domstr;
-    }
-    // add the select object and the bottom left of the map div
-}
+// function addMapSelctionDropdown( config )
+// {
+//     if ( "backgrouns_layers" in config)
+//     {
+//         // add the select object and the bottom left of the map div
+//         let domstr = '<div id="background_map_div_select" class="background_map_div_select">';
+//         domstr += '<span style="text-shadow: 1px 1px 2px #FFFFFF;">' + i18nStrings.getUIString("background_map") + '</span>';
+//         domstr += '<select id="sel_asset_base_layer" onchange="asset_change_base_layer();">';
+//         config["backgrouns_layers"].forEach( function(element)
+//             {
+//                 domstr += '<option value="' + element['name'] + '"';
+//                 if ( element['name'] === config["start_layer"] )
+//                 {
+//                     domstr += ' selected="selected"'
+//                 }
+//                 domstr += '">' + i18nStrings.getTranslation(element["label"]) + '</option>';
+//             }
+//         );
+//         domstr += '</select></div>';
+//     // append to the div map
+//         document.getElementById('asset_map_container').innerHTML += domstr;
+//     }
+//     // add the select object and the bottom left of the map div
+// }
 
 function asset_change_base_layer()
 {

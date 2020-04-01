@@ -5,32 +5,7 @@
         "center": [-125, 49]
     },
     "backgrouns_layers": [
-        {
-            "name": "osm",
-            "type": "OpenStreetMap",
-            "attribution": {
-                "fr": "",
-                "en": ""
-            },
-            "label": {
-                "fr": "Open Street Map",
-                "en": "Open Street Map"
-            }
-        },
-        {
-            "name": "bingarial",
-            "type": "Bing",
-            "key": "yourkeyhere",
-            "imagerySet": "Aerial",
-            "attribution": {
-                "fr": "",
-                "en": ""
-            },
-            "label": {
-                "fr": "Bing Arial",
-                "en": "Bing Arial"
-            }
-        },
+
         {
             "name": "bathy",
             "type": "wms",
@@ -50,7 +25,7 @@
             }
         }
     ],
-    "start_layer": "bingarial",
+    "start_layer": "bathy",
     "Polystyle":{
         "Stroke":{
             "color": "blue",

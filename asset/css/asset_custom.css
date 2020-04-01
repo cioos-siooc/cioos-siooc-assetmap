@@ -1,0 +1,59 @@
+.map-container {
+	width: 1140px;
+}
+
+.overlay {
+	background: rgba(0, 110, 144, .4);
+	width: 1140px;
+	height: 720px;
+	margin-left: calc(-1 * (1140px - 100%) / 2) !important;
+	background-image: none;
+}
+
+.category-selection .category_cell_bg {
+	color: rgba(0, 110, 144, 1);
+}
+
+.category-selection a:hover .category_cell_bg {
+	background: rgba(0, 110, 144, 1);
+}
+
+.variable-selection {
+	width: 720px;
+}
+
+ul.variable-options {
+	margin: 0;
+}
+
+ul.variable-options li label:hover {
+	background: rgba(0, 110, 144, 1);
+}
+
+ul.variable-options li input[type="checkbox"]:checked+label {
+	background-color: rgba(0, 110, 144, 1);
+}
+
+ul.variable-options li input[type="checkbox"]:focus+label {
+	border-color: rgba(0, 110, 144, 0.5);
+}
+
+.panel_details {
+	left: 740px;
+}
+
+.panel_search_info {
+	left: 740px;
+}
+
+.asset_details .map-marker {
+	color: rgba(0, 110, 144, 1) !important;
+}
+
+.background_map_div_select {
+	position: absolute;
+	bottom: 8px;
+	left: 16px;
+	font-size: 14px;
+	z-index: 100;
+}
