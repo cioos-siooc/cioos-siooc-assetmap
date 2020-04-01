@@ -93,5 +93,4 @@ if __name__ == '__main__':
     load_proxy_setting('ckan.json')
     # if file exists, load auth.json. This should be available by installation and not by default
     load_auth_config()
-    # app.run(host='0.0.0.0')  #, debug=True)
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0')  #, debug=True)
