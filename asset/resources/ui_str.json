@@ -38,6 +38,11 @@
   "category": 
   {
     "fr": "Catégorie(s)",
-    "en": "Category"
+    "en": "Category(ies)"
+  },
+  "background_map": 
+  {
+    "fr": "Fond de carte ",
+    "en": "Background map "
   }
 }

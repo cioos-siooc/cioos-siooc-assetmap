@@ -13,8 +13,22 @@
                 "en": ""
             },
             "label": {
+                "fr": "Open Street Map",
+                "en": "Open Street Map"
+            }
+        },
+        {
+            "name": "bingarial",
+            "type": "Bing",
+            "key": "yourkeyhere",
+            "imagerySet": "Aerial",
+            "attribution": {
                 "fr": "",
                 "en": ""
+            },
+            "label": {
+                "fr": "Bing Arial",
+                "en": "Bing Arial"
             }
         },
         {
@@ -31,12 +45,12 @@
                 "en": ""
             },
             "label": {
-                "fr": "",
-                "en": ""
+                "fr": "Gebco Bathymétrie",
+                "en": "Gebco Bathymetri"
             }
         }
     ],
-    "start_layer": "bathy",
+    "start_layer": "bingarial",
     "Polystyle":{
         "Stroke":{
             "color": "blue",
@@ -59,9 +73,9 @@
         "maximum":{
             "cluster_value": 25,
             "circle_radius": 20,
-            "text_color": "#fff",
+            "text_color": "#101216",
             "fill_color": "#fa7268",
-            "stroke_color": "#fff"
+            "stroke_color": "#202226"
         }
     },
     "start_cluster": true 

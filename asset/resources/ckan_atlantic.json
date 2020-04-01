@@ -1,0 +1,19 @@
+{
+    "base_url":"https://cioosatlantic.ca/ckan/",
+    "api_url":"https://cioosatlantic.ca/ckan/api/",
+    "dataset_url": "https://cioosatlantic.ca/ckan/",
+    "organization_url": "https://cioosatlantic.ca/ckan/",
+    "access_url":"/ckan/",
+    "add_language_url": true,
+    "support_multilanguage": true,
+    "usejsonp": false,
+    "initial_page_size": 40,
+    "page_size": 40,
+    "restrict_json_return": true,
+    "basic_userd": "",
+    "basic_passd": "",
+    "support_time": false,
+    "support_vertical": false,
+    "support_eov": true,
+    "use_basic_auth": false
+}

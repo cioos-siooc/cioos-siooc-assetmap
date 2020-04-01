@@ -18,6 +18,19 @@ Colours
   height: 720px;
   font-family: 'Montserrat', sans-serif;
 }
+.overlay {
+  background: rgba(33, 138, 157, .4);
+  position: absolute;
+  width: 1280px;
+  height: 720px;
+  z-index: 99999999;
+  margin-left: calc(-1 * (1280px - 100%) / 2) !important;
+  background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/44969/34230.svg);
+  content:"View map";
+background-size: 100px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat; 
+}
 .map {
   z-index: 1;
   position: absolute;
@@ -291,3 +304,17 @@ a.button:active  {
   filter: drop-shadow(0 3px 3px #c8ccd0);
   background: #fa7268;
 }
+
+.background_map_div_select
+{
+  position: absolute;
+  bottom: 8px;
+  left: 16px;
+  font-size: 14px;
+  z-index: 100;
+}
+
+.outer-map-container{
+  position: relative;
+}
+
