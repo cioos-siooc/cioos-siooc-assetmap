@@ -27,9 +27,9 @@ Colours
   margin-left: calc(-1 * (1280px - 100%) / 2) !important;
   background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/44969/34230.svg);
   content:"View map";
-background-size: 100px;
+  background-size: 100px;
   background-position: 50% 50%;
-  background-repeat: no-repeat; 
+  background-repeat: no-repeat;
 }
 .map {
   z-index: 1;
@@ -89,7 +89,7 @@ background-size: 100px;
   position: absolute;
   left: 42px;
   top: 120px;
-  width: 720px;
+  width: 600px;
   height: auto;
 }
 ul.variable-options {
