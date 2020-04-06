@@ -5,7 +5,7 @@
         "label":
         {
             "fr": "PHYSIQUE",
-            "en": "PHYSIC"
+            "en": "PHYSICS"
         },
         "icon": "physics.svg",
         "enabled": true,
@@ -88,11 +88,11 @@
                 "icon":"physics.svg",
                 "label":
                 {
-                    "fr":"Acoustique sous-marine",
-                    "en":"Ocean sound"
+                    "fr":"Vitesse du son",
+                    "en":"Speed of Sound"
                 },
-                "ckantext":["Speed of sound"],
-                "eovs": [ "oceanSound" ],
+                "ckantext":["Speed of Sound"],
+                "eovs": [ "speedOfSound" ],
                 "enabled": true
             },
             {
@@ -140,7 +140,19 @@
                     "en":"Density"
                 },
                 "ckantext":["Density"],
-                "eovs": [ "seawaterDensity", "potentialDensity" ],
+                "eovs": [ "seawaterDensity", "potentialDensity" ]
+                "enabled": true
+            },
+            {
+                "id": "var_seasurfaceheight",
+                "icon":"sea-state.svg",
+                "label":
+                {
+                    "fr":"État de la mer",
+                    "en":"Sea Surface Height"
+                },
+                "ckantext": ["Sea Surface Height"],
+                "eovs": [ "seaSurfaceHeight" ],
                 "enabled": true
             }
         ]

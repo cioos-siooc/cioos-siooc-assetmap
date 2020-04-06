@@ -9,7 +9,7 @@
   },
   "dataset_provider": {
     "fr": "Source des données",
-    "en": "Data provider"
+    "en": "Data Contributor"
   },
   "dataset_tools": {
     "fr": "Données",
@@ -43,6 +43,6 @@
   "background_map": 
   {
     "fr": "Fond de carte ",
-    "en": "Bcakground map "
+    "en": "Background map "
   }
 }

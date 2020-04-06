@@ -32,7 +32,7 @@ function generateVariableBox( vardata )
         ret_html += "disabled";
     }
     ret_html += " onclick='checkCKANData();'>";
-    ret_html += "<label for='" + vardata["id"] + "'>" + "<img src='/asset/images/icons/" + vardata["icon"] + "' />" + "<em>" + i18nStrings.getTranslation(vardata["label"]) + "</em>" + "</label>";
+    ret_html += "<label for='" + vardata["id"] + "'>" + "<img src='/assetmap/asset/images/icons/" + vardata["icon"] + "' />" + "<em>" + i18nStrings.getTranslation(vardata["label"]) + "</em>" + "</label>";
     ret_html += "</li>";
     return ret_html;
 }
@@ -86,9 +86,9 @@ function generateLocationCategories(locations)
 
 function generateCategoryButton( catData)
 {
-    ret_html = '<a href="#' + category["id"] + '_tab' + '" role="tab" onclick="toggleTab(event, this);">';
+    ret_html = '<a id="' + category["id"] + '_link" href="#' + category["id"] + '_tab' + '" role="tab" onclick="toggleTab(event, this);">';
     ret_html += "<div class='category_cell_bg'>";
-    ret_html += "<div class='category-icon'><img src='/asset/images/icons/" + catData["icon"] + "' onclick=''></div>";
+    ret_html += "<div class='category-icon'><img src='/assetmap/asset/images/icons/" + catData["icon"] + "' onclick=''></div>";
     ret_html += i18nStrings.getTranslation(catData["label"]);
     ret_html += "</div>";
     ret_html += "</a>";
@@ -174,7 +174,7 @@ function changeCurrentCKAN( ckan_instance )
     ckan_server.ckan_proxy_name = ckan_instance.substring(0, ckan_instance.length - 5)
     // reload ckan option
     jQuery.ajax({
-        url: "/asset/resources/" + ckan_instance,
+        url: "/assetmap/asset/resources/" + ckan_instance,
         dataType: 'json',
         async: false,
         success: function (data) {
@@ -263,7 +263,7 @@ jQuery(document).ready(function () {
     }
 
     jQuery.ajax({
-        url: "/asset/resources/ui_str.json",
+        url: "/assetmap/asset/resources/ui_str.json",
         dataType: 'json',
         async: false,
         success: function (data) {
@@ -275,7 +275,7 @@ jQuery(document).ready(function () {
     });
 
     jQuery.ajax({
-        url: "/asset/resources/map.json",
+        url: "/assetmap/asset/resources/map.json",
         dataType: 'json',
         async: false,
         success: function (data) {
@@ -287,7 +287,7 @@ jQuery(document).ready(function () {
     });
 
     jQuery.ajax({
-        url: "/asset/resources/ckan.json",
+        url: "/assetmap/asset/resources/ckan.json",
         dataType: 'json',
         async: false,
         success: function (data) {
@@ -299,7 +299,7 @@ jQuery(document).ready(function () {
     });
 
     jQuery.ajax({
-        url: "/asset/resources/filters.json",
+        url: "/assetmap/asset/resources/filters.json",
         dataType: 'json',
         async: false,
         success: function (data) {

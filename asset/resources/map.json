@@ -1,8 +1,8 @@
 {
     "start_view": {
-        "zoom": 4,
+        "zoom": 5,
         "minZoom": 2,
-        "center": [-68, 48]
+        "center": [-54, 52]
     },
     "backgrouns_layers": [
         {
@@ -66,9 +66,9 @@
         "minimum":{
             "cluster_value": 5,
             "circle_radius": 10,
-            "text_color": "#101216",
-            "fill_color": "#52a79b",
-            "stroke_color": "#202226"
+            "text_color": "#fff",
+            "fill_color": "#e55162",
+            "stroke_color": "#fff"
         },
         "maximum":{
             "cluster_value": 25,
