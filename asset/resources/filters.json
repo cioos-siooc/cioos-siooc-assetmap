@@ -88,10 +88,10 @@
                 "icon":"physics.svg",
                 "label":
                 {
-                    "fr":"Acoustique sous-marine",
-                    "en":"Ocean sound"
+                    "fr":"Vitesse du son",
+                    "en":"Speed of Sound"
                 },
-                "ckantext":["Speed of sound"],
+                "ckantext":["Speed of Sound"],
                 "eovs": [ "oceanSound" ],
                 "enabled": true
             },
