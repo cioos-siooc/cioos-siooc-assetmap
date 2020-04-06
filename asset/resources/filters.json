@@ -246,7 +246,7 @@
                 "label":
                 {
                     "fr":"Matières particulaires",
-                    "en":"Particulte matter"
+                    "en":"Particulate matter"
                 },
                 "ckantext":["particulate Matter "],
                 "eovs": [ "particulateMatter" ],
