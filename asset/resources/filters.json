@@ -266,14 +266,14 @@
         "variables":
         [
             {
-                "id": "var_birdtutrlemamal",
+                "id": "var_birdturtlemammal",
                 "icon":"birds-mammals.svg",
                 "label":
                 {
                     "fr":"Oiseaux, tortues et mammifères",
-                    "en":"Birds, Tutrles and Mammals"
+                    "en":"Birds, Turtles and Mammals"
                 },
-                "ckantext":["Bird", "Tutle", "Mammal"],
+                "ckantext":["Bird", "Turtle", "Mammal"],
                 "eovs": [ "marineTurtlesBirdsMammalsAbundanceandDistribution" ],
                 "enabled": true
             },
