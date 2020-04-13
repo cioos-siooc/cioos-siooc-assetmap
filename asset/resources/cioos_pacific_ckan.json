@@ -1,8 +1,8 @@
     {
-    "base_url":"https://catalogue.cioospacific.ca/ckan/",
-    "api_url":"https://catalogue.cioospacific.ca/ckan/api/3/",
-    "dataset_url": "https://catalogue.cioospacific.ca/ckan/",
-    "organization_url": "https://catalogue.cioospacific.ca/ckan/",
+    "base_url":"https://catalogue.cioospacific.ca/",
+    "api_url":"https://catalogue.cioospacific.ca/api/3/",
+    "dataset_url": "https://catalogue.cioospacific.ca/",
+    "organization_url": "https://catalogue.cioospacific.ca/",
     "access_url":"https://catalogue.cioospacific.ca/api/",
     "add_language_url": true,
     "support_multilanguage": true,
