@@ -23,7 +23,7 @@
                 "eovs": [ "seaSurfaceTemperature", "potentialTemperature", "subSurfaceTemperature" ],
                 "enabled": true
             },
-			{
+	    {
                 "id": "var_surfaceheight",
                 "icon":"sea-level.svg",
                 "label":
@@ -34,6 +34,18 @@
                 "ckantext":["Sea Surface Height"],
                 "eovs": [ "seaSurfaceHeight" ],
                 "enabled": true
+            },
+            {
+                "id": "var_wind",
+                "icon": "physics.svg",
+                "label": {
+                "fr": "Vent",
+                "en": "Wind"
+                },
+                "ckantext": ["wind"],
+                "eovs": ["wind"],
+                "enabled": false,
+                "hidden": true
             },
             {
                 "id": "var_salinity",
