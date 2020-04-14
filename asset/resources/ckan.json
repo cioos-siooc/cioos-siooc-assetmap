@@ -3,7 +3,7 @@
     "api_url":"https://catalogue.cioospacific.ca/api/3/",
     "dataset_url": "https://catalogue.cioospacific.ca/",
     "organization_url": "https://catalogue.cioospacific.ca/",
-    "access_url":"https://catalogue.cioospacific.ca/api/3/",
+    "access_url":"https://catalogue.cioospacific.ca/api/",
     "add_language_url": true,
     "support_multilanguage": true,
     "usejsonp": true,
