@@ -52,7 +52,6 @@ Example of the configuration to use open.canada.ca catalog
     "base_url":"http://open.canada.ca/",
     "dataset_url": "http://open.canada.ca/data/",
     "organization_url": "http://open.canada.ca/data/",
-    "access_url":"/ckan/",
     "add_language_url": true,
     "start_bbox": [-118, 36, -40, 63],
     "page_size": 40,
