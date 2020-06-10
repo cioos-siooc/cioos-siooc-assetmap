@@ -1,9 +1,15 @@
-var lg = null;
-var ui_str = null;
-var ckan_server = null;
-var i18nStrings = null;
-var filters = null;
-var mapconfig = null;
+import filters from "../resources/filters.json";
+import {clearAllDatasets, checkCKANData} from "./asset_ckan";
+import {ckan_server} from "./asset_entry";
+import i18nStrings from "./asset_i18n";
+import jQuery from "jquery";
+
+window.jQuery = jQuery;
+
+// export for others scripts to use
+window.jQuery = jQuery;
+window.toggleTab =  toggleTab
+
 
 function displayDatasetSummary( )
 {
@@ -21,25 +27,25 @@ function getSelectedVariable()
 {
 
 }
-
+window.checkCKANData=checkCKANData;
 
 function generateVariableBox( vardata )
 {
-    ret_html = "<li>";
+    let ret_html = "<li>";
     ret_html += "<input class='variable-checkbox' style='' type='checkbox' id='" + vardata["id"] + "' ";
     if ( !vardata["enabled"])
     {
         ret_html += "disabled";
     }
     ret_html += " onclick='checkCKANData();'>";
-    ret_html += "<label for='" + vardata["id"] + "'>" + "<img src='/asset/images/icons/" + vardata["icon"] + "' />" + "<em>" + i18nStrings.getTranslation(vardata["label"]) + "</em>" + "</label>";
+    ret_html += "<label for='" + vardata["id"] + "'>" + "<img src='images/icons/" + vardata["icon"] + "' />" + "<em>" + i18nStrings.getTranslation(vardata["label"]) + "</em>" + "</label>";
     ret_html += "</li>";
     return ret_html;
 }
 
 function generateLocationBox( location )
 {
-    ret_html = "<li>";
+    let ret_html = "<li>";
     ret_html += "<input class='variable-checkbox' style='' type='checkbox' id='" + location["id"] + "' ";
     if ( !location["enabled"])
     {
@@ -53,7 +59,7 @@ function generateLocationBox( location )
 
 function generateLocationsButton(locationData)
 {
-    ret_html = '<a href="#locations_tab" role="tab" onclick="toggleTab(event, this);">';
+    let ret_html = '<a href="#locations_tab" role="tab" onclick="toggleTab(event, this);">';
     ret_html += "<div class='category_cell_bg'>";
     ret_html += i18nStrings.getTranslation({
         "en": "Locations",
@@ -70,11 +76,11 @@ function generateLocationCategories(locations)
   // add has a possible filter in the CKANServer
   if ( locations['enabled'] === true)
   {
-    c = 0;
-    CatInnerHtml = generateLocationsButton();
-    VarInnerPanelHTML = '<div id="locations_tab" class="tab-pane" role="tabpanel"><ul class="variable-options">';
+    let c = 0;
+    let CatInnerHtml = generateLocationsButton();
+    let VarInnerPanelHTML = '<div id="locations_tab" class="tab-pane" role="tabpanel"><ul class="variable-options">';
     while (c < locations['locations'].length) {
-        place = locations['locations'][c];
+        let place = locations['locations'][c];
         VarInnerPanelHTML += generateLocationBox(place);
         ++c;
     }
@@ -85,10 +91,12 @@ function generateLocationCategories(locations)
 }
 
 function generateCategoryButton( catData)
-{
-    ret_html = '<a href="#' + category["id"] + '_tab' + '" role="tab" onclick="toggleTab(event, this);">';
+{ //  category["id"] is it supposed to be catData["id"] ?
+    
+    // let ret_html = '<a href="#' + category["id"] + '_tab' + '" role="tab" onclick="toggleTab(event, this);">';
+    let ret_html = '<a href="#' + catData["id"] + '_tab' + '" role="tab" onclick="toggleTab(event, this);">';
     ret_html += "<div class='category_cell_bg'>";
-    ret_html += "<div class='category-icon'><img src='/asset/images/icons/" + catData["icon"] + "' onclick=''></div>";
+    ret_html += "<div class='category-icon'><img src='images/icons/" + catData["icon"] + "' onclick=''></div>";
     ret_html += i18nStrings.getTranslation(catData["label"]);
     ret_html += "</div>";
     ret_html += "</a>";
@@ -121,15 +129,15 @@ function generateFilterCategories()
 {
     // for each variable, create box with label and icon
     // add has a possible filter in the CKANServer
-    c = 0;
-    VarInnerHtml = "";
-    CatInnerHtml = "";
+    let c = 0;
+    let VarInnerHtml = "";
+    let CatInnerHtml = "";
     while( c < filters["Categories"].length )
     {
-        category = filters["Categories"][c];
+        let category = filters["Categories"][c];
         CatInnerHtml += generateCategoryButton(category);
-        VarInnerPanelHTML = '<div id=' + category["id"] + '_tab' + ' class="tab-pane" role="tabpanel"><ul class="variable-options">';
-        v = 0;
+        let VarInnerPanelHTML = '<div id=' + category["id"] + '_tab' + ' class="tab-pane" role="tabpanel"><ul class="variable-options">';
+        let v = 0;
         while( v < category["variables"].length)
         {
             VarInnerPanelHTML += generateVariableBox(category["variables"][v]);
@@ -157,52 +165,12 @@ function changeCurrentLanguage( newLanguage )
     i18nStrings.setBaseLanguage(newLanguage);
     i18nStrings.setCurrentLanguage(newLanguage);
 
-
     // clear map and details
     clearAllDatasets();
 
     // reload filters
     generateFilterCategories();
-
-    //
-
-}
-
-function changeCurrentCKAN( ckan_instance )
-{
-
-    ckan_server.ckan_proxy_name = ckan_instance.substring(0, ckan_instance.length - 5)
-    // reload ckan option
-    jQuery.ajax({
-        url: "/asset/resources/" + ckan_instance,
-        dataType: 'json',
-        async: false,
-        success: function (data) {
-            ckan_server.loadConfig(data);
-            ckan_server.setCurrentLanguage(i18nStrings.baseLanguage);
-            clearAllDatasets();
-        },
-        error: function (e) {
-        }
-    });
-
-    jQuery.ajax({
-        url: "/reload/" + ckan_instance,
-        dataType: 'text',
-        async: false,
-        success: function (data) {
-            console.log("Proxy reloaded");
-        },
-        error: function (e) {
-        }
-    });
-
-}
-
-function setBasicUserPassword( username, password)
-{
-    // set user and password to the current CKAN server
-    ckan_server.setBasicAuthInfo(username, password);
+    
 }
 
 function setTimeFilters( minDate, maxDate )
@@ -248,77 +216,4 @@ function setVerticalFilters( minVertical, maxVertical )
 }
 
 
-
-
-jQuery(document).ready(function () {
-    ckan_server = new CKANServer();
-    i18nStrings = new StringTranslator();
-    let urlParams = new URLSearchParams(window.location.search);
-    curlng = urlParams.get('lg');
-    if ( curlng === 'fr' || curlng == 'en')
-    {
-        i18nStrings.setBaseLanguage(curlng);
-        i18nStrings.setCurrentLanguage(curlng);
-        ckan_server.setCurrentLanguage(curlng);
-    }
-
-    jQuery.ajax({
-        url: "/asset/resources/ui_str.json",
-        dataType: 'json',
-        async: false,
-        success: function (data) {
-            ui_str = data;
-            i18nStrings.setUIStrings(ui_str);
-        },
-        error: function (e) {
-        }
-    });
-
-    jQuery.ajax({
-        url: "/asset/resources/map.json",
-        dataType: 'json',
-        async: false,
-        success: function (data) {
-            initMapFromConfig(data);
-            // init ckan server from data
-        },
-        error: function (e) {
-        }
-    });
-
-    jQuery.ajax({
-        url: "/asset/resources/ckan.json",
-        dataType: 'json',
-        async: false,
-        success: function (data) {
-            ckan_server.loadConfig(data);
-            // init ckan server from data
-        },
-        error: function (e) {
-        }
-    });
-
-    jQuery.ajax({
-        url: "/asset/resources/filters.json",
-        dataType: 'json',
-        async: false,
-        success: function (data) {
-            filters = data;
-            generateFilterCategories();
-        },
-        error: function (e) {
-        }
-    });
-
-    $.ajax({
-        url: "/asset/resources/locations.json",
-        dataType: 'json',
-        async: false,
-        success: function (data) {
-            generateLocationCategories(data);
-        },
-        error: function (e) {
-        }
-    });
-
-});
+export {ckan_server, setVerticalFilters, setTimeFilters, changeCurrentLanguage, generateLocationCategories, generateFilterCategories}

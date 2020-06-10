@@ -7,17 +7,8 @@
   <link rel="stylesheet" href="./css/ol.css" type="text/css">
   <link rel="stylesheet" href="./css/style.css" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,900|Quicksand:400,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
-  <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
-  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-  <script src="js/asset_i18n.js"></script>
-  <script src="js/asset_ckan.js"></script>
-  <script src="js/asset.js"></script>
-  <script src="js/asset_ui.js"></script>
+
 </head>
 <body>
   <div class="outer-map-container">
@@ -30,6 +21,29 @@
       <div class="panel_search_info" style="text-align:center" id="dataset_search_stats"></div>
     </div>
   </div>
-  <script src="js/asset_ol.js"></script>
+    <script src="bundle.js"></script>
+      <script>
+        var $ = AssetMap.jQuery
+        $(function() {
+           AssetMap.buildMap({
+            "base_url": "https://cnckan.cioos.ca/",
+            "api_url": "https://cnckan.cioos.ca/api/",
+            "dataset_url": "https://cnckan.cioos.ca/",
+            "organization_url": "https://cnckan.cioos.ca/",
+            "access_url": "https://cnckan.cioos.ca/api/3/action/",
+            "add_language_url": true,
+            "support_multilanguage": true,
+            "initial_page_size": 500,
+            "page_size": 500,
+            "restrict_json_return": true,
+            "support_time": false,
+            "support_vertical": false,
+            "support_eov": true,
+            "use_basic_auth": false,
+            "proxy_url":"http://localhost:8080"
+          });
+        });
+          </script>
+
 </body>
 </html>

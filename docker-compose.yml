@@ -1,7 +1,0 @@
-version: '3.7'
-
-services:
-  assetmap:
-    build: ./
-    ports:
-      - "8008:5000"

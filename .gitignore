@@ -3,3 +3,4 @@
 venv/*
 venv*
 auth.json
+node_modules
