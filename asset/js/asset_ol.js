@@ -442,9 +442,11 @@ function centerFeatureOnMap( id )
         // center view on feature
         var point = f.getGeometry();
         let center = point.getCoordinates();
-        var size = map.getSize();
-//        startview.centerOn(point.getCoordinates(), size, [500, 500]);
-        startview.animate( {center: point.getCoordinates()} );
+        
+        // if the object is a polygon there can be many coordinates which 
+        // is causing the map to dissappear
+        if(center.length == 2)
+            startview.animate( {center} );
     }
 }
 
