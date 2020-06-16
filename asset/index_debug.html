@@ -25,15 +25,16 @@
   </div>
   <div>
     <h2>Debug Options</h2><br />
-    <p>To change language, add ?lg=fr to URL</p>
+    <p>To change language, add ?lg=fr or ?lg=en to the URL</p>
   
     Ckan backend (refresh to do it again):
     <select id="ckan_instance" onchange="changeCKAN()">
       <!-- Set one of these as selected="selected" to load with page. -->
+      <option selected disabled>Select one</option>
       <option value="opendataca">open.canada.ca</option>
       <option value="national_ckan">CIOOS National</option>
       <option value="slgo_ckan">SLGO</option>
-      <option value="cioos_pacific_ckan" selected="selected">CIOOS Pacific</option>
+      <option value="cioos_pacific_ckan">CIOOS Pacific</option>
       <option value="ckan_atlantic">CIOOS Atlantic</option>
     </select><br />
     Minimum time interval: <input type="datetime-local" id="debug_date_min"><br />
