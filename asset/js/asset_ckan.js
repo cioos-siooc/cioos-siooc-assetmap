@@ -1,5 +1,4 @@
 
-import 'ol/ol.css';
 import * as ol from "ol"
 import * as geom from 'ol/geom';
 import * as source from 'ol/source';
@@ -18,6 +17,7 @@ import {ckan_server} from "./asset_entry"
 window.jQuery = jQuery;
 window.showDatasetDetailDescription=showDatasetDetailDescription;
 window.showInGeometryLayer=showInGeometryLayer;
+
 
 // find where to get ckan_server
 const removeTrailingSlash=str=>str ? str.replace(/\/$/, "") : "";
@@ -74,6 +74,8 @@ function CKANServer(config)
     this.use_basic_auth = config["use_basic_auth"];
     this.basic_auth_user = config["basic_userd"];
     this.basic_auth_password = config["basic_passd"];
+
+    this.imagesDir = config['images_path'] || 'images';
 
     this.url=removeTrailingSlash(config["api_url"])+'/3/action/';
 
@@ -856,7 +858,7 @@ function getVariableForDatataset(dataset)
             let thumb =  ckan_server.getVariableThumbnail(entry);
             if ( thumb !== undefined )
             {
-                ret_html += "<img src='" + "images/thumbnails/" + thumb + "'></img>";
+                ret_html += "<img src='" + `${ckan_server.imagesDir}/thumbnails/` + thumb + "'></img>";
             }
         });
     }
@@ -872,7 +874,7 @@ function getVariableForDatataset(dataset)
                 let thumb =  ckan_server.getVariableThumbnail(entry);
                 if ( thumb !== undefined )
                 {
-                    ret_html += "<img src='" + "images/thumbnails/" + thumb + "'></img>";
+                    ret_html += "<img src='" + `${ckan_server.imagesDir}/thumbnails/` + thumb + "'></img>";
                 }
             });
         }
@@ -885,7 +887,7 @@ function getVariableForDatataset(dataset)
                 let thumb =  ckan_server.getVariableThumbnail(entry["name"]);
                 if ( thumb !== undefined )
                 {
-                    ret_html += "<img src='" + "images/thumbnails/" + thumb + "'></img>";
+                    ret_html += "<img src='" + `${ckan_server.imagesDir}/thumbnails/` + thumb + "'></img>";
                 }
             });
         }
@@ -976,7 +978,7 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     // check if geomeetry details available for this dataset
     if ( spatial && spatial['type'] === 'Polygon')
     {
-        ret_html += '<a href="#" onclick="showInGeometryLayer(\'' + dataset["id"] + '\')" title="' + i18nStrings.getUIString("map") + '"><img class="map-marker" src="images/map-marker.svg"></a>';
+        ret_html += '<a href="#" onclick="showInGeometryLayer(\'' + dataset["id"] + '\')" title="' + i18nStrings.getUIString("map") + `"><img class="map-marker" src="${ckan_server.imagesDir}/map-marker.svg"></a>`;
     }
     
     let title = ckan_server.support_multilanguage ? i18nStrings.getTranslation(dataset['title_translated']) : dataset['title'];

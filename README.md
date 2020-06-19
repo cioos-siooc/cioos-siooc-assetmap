@@ -19,7 +19,8 @@ Uses a node based CORS proxy
 
 ## Running (Production)
  - See `index.html` for an example
- - You will need to include the folders `css`,`dist`,`images`, and `resources`
+ - You will need to make availabel the folders `css` and `images` and the file `bundle.js`. You don't need any other files.
+ - use `images_path` to set the path to the images directory on your site
  - If you make changes, run `npm run build` to generate a new `dist/bundle.js`
 
 ## CORS Proxy
