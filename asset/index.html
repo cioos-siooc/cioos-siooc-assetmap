@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CIOOS Dataset map prototype</title>
+  <link rel="icon" href="images/favicons/favicon-16x16.png">
+  <link rel="shortcut icon" href="images/favicons/favicon.ico">
+  <title>CIOOS Assetmap</title>
   <meta charset="utf-8"/>
   <link rel="stylesheet" href="./css/asset.css" type="text/css">
   <link rel="stylesheet" href="./css/ol.css" type="text/css">
@@ -11,25 +13,33 @@
 
 </head>
 <body>
-  <div class="outer-map-container">
-    <div class="overlay"></div>
-    <div class="map-container" id="asset_map_container">
-      <div id="map" class="map" ></div>
-      <div id="category_panel" class="category-selection"></div>
-      <div id="variable_panel" class="variable-selection tab-content"></div>
+  <div class="map-container" id="asset_map_container">
+    <div id="containerHeader">
+      <div id="header">
+        <a id="headerImg">
+          <img id="headerimgsrc" src="images/siooc_banner_fr-1.png" width="392" height="41">
+        </a>
+        <a id="headerTranslation" href="">EN</a>
+      </div>
+    </div>
+    <div id="map" class="map" ></div>
+    <div id="category_panel" class="category-selection"></div>
+    <div id="variable_panel" class="variable-selection tab-content"></div>
+    <div id="sidebar-right">
       <div id="dataset_desc" class="panel_details"></div>
       <div class="panel_search_info" style="text-align:center" id="dataset_search_stats"></div>
     </div>
+
   </div>
     <script src="bundle.js"></script>
       <script>
         var $ = AssetMap.jQuery
         $(function() {
            AssetMap.buildMap({
-            "base_url": "https://cnckan.cioos.ca/",
-            "api_url": "https://cnckan.cioos.ca/api/",
-            "dataset_url": "https://cnckan.cioos.ca/",
-            "organization_url": "https://cnckan.cioos.ca/",
+            "base_url": "https://catalogue.cioos.ca/",
+            "api_url": "https://catalogue.cioos.ca/api/",
+            "dataset_url": "https://catalogue.cioos.ca/",
+            "organization_url": "https://catalogue.cioos.ca/",
             "add_language_url": true,
             "support_multilanguage": true,
             "initial_page_size": 500,
@@ -39,7 +49,6 @@
             "support_vertical": false,
             "support_eov": true,
             "use_basic_auth": false,
-            "proxy_url":"http://localhost:8080",
             "images_path":"images"
           });
         });

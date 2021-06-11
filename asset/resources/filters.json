@@ -21,7 +21,8 @@
                 },
                 "ckantext":["Sea Surface Temperature", "Potential Temperature", "Sub Surface Temperature"],
                 "eovs": [ "seaSurfaceTemperature", "potentialTemperature", "subSurfaceTemperature" ],
-                "enabled": true
+                "enabled": true,
+                "default": true
             },
 			{
                 "id": "var_surfaceheight",
@@ -33,7 +34,8 @@
                 },
                 "ckantext":["Sea Surface Height"],
                 "eovs": [ "seaSurfaceHeight" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             },
             {
                 "id": "var_ice",
@@ -45,7 +47,8 @@
                 },
                 "ckantext":["glace"],
                 "eovs": [ "seaIce" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             },
             {
                 "id": "var_seastate",
@@ -57,7 +60,8 @@
                 },
                 "ckantext": ["Sea State"],
                 "eovs": [ "seaState" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             },
             {
                 "id": "var_salinity",
@@ -69,7 +73,8 @@
                 },
                 "ckantext":["salinity"],
                 "eovs": [ "seaSurfaceSalinity", "subsurfaceSalinity" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             },
             {
                 "id": "var_surface_current",
@@ -81,7 +86,8 @@
                 },
                 "ckantext":["Current"],
                 "eovs": [ "surfaceCurrents", "subsurfaceCurrents" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             },
             {
                 "id": "var_oceansound",
@@ -93,7 +99,8 @@
                 },
                 "ckantext":["Speed of sound"],
                 "eovs": [ "oceanSound" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             },
             {
                 "id": "var_surfacestress",
@@ -105,7 +112,8 @@
                 },
                 "ckantext":["Surface stress"],
                 "eovs": [ "oceanSurfaceStress" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             },
             {
                 "id": "var_surfaceheatflux",
@@ -117,7 +125,8 @@
                 },
                 "ckantext":["Heat flux"],
                 "eovs": [ "oceanSurfaceHeatFlux" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             },
             {
                 "id": "var_oceancolor",
@@ -129,7 +138,8 @@
                 },
                 "ckantext":["Ocean color"],
                 "eovs": [ "oceanColor" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             },
             {
                 "id": "var_density",
@@ -141,7 +151,8 @@
                 },
                 "ckantext":["Density"],
                 "eovs": [ "seawaterDensity", "potentialDensity" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             }
         ]
     },
@@ -166,7 +177,8 @@
                 },
                 "ckantext":["Oxygen"],
                 "eovs": [ "oxygen" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             },
             {
                 "id": "var_phosphate",
@@ -178,7 +190,8 @@
                 },
                 "ckantext":["Phosphate"],
                 "eovs": [ "phosphate" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             },
 			{
                 "id": "var_nutrients",
@@ -190,7 +203,8 @@
                 },
                 "ckantext":["Nutrients"],
                 "eovs": [ "nutrients" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             },
             {
                 "id": "var_nitrate",
@@ -202,7 +216,8 @@
                 },
                 "ckantext":["Nitrate"],
                 "eovs": [ "nitrate" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             },
             {
                 "id": "var_inorgamiccarbon",
@@ -214,7 +229,8 @@
                 },
                 "ckantext":["Inorganic Carbon"],
                 "eovs": [ "inorganicCarbon" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             },
             {
                 "id": "var_dissolvecarbon",
@@ -226,7 +242,8 @@
                 },
                 "ckantext":["Dissolved Organic Carbon"],
                 "eovs": [ "dissolvedOrganicCarbon" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             },
             {
                 "id": "var_silicate",
@@ -238,7 +255,8 @@
                 },
                 "ckantext":["Silicate"],
                 "eovs": [ "sillicate" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             },
             {
                 "id": "var_paticule",
@@ -250,7 +268,8 @@
                 },
                 "ckantext":["particulate Matter "],
                 "eovs": [ "particulateMatter" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             }
         ]
     },
@@ -275,7 +294,8 @@
                 },
                 "ckantext":["Bird", "Tutle", "Mammal"],
                 "eovs": [ "marineTurtlesBirdsMammalsAbundanceandDistribution" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             },
             {
                 "id": "var_fish",
@@ -287,7 +307,8 @@
                 },
                 "ckantext":["Fish"],
                 "eovs": [ "fishAbundanceandDistribution" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             },
             {
                 "id": "var_invertebrate",
@@ -299,7 +320,8 @@
                 },
                 "ckantext":["invertebrate"],
                 "eovs": [ "invertebrateAbundanceandDistribution" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             },
             {
                 "id": "var_macroalgual_canopy",
@@ -311,7 +333,8 @@
                 },
                 "ckantext":["macroalgal canopy"],
                 "eovs": [ "macroalgalCanopyCoverandComposition" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             },
             {
                 "id": "var_phytoplankton",
@@ -323,7 +346,8 @@
                 },
                 "ckantext":["Phytoplankton"],
                 "eovs": [ "phytoplanktonBiomassandDiversity" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             },
             {
                 "id": "var_seagrasscover",
@@ -335,7 +359,8 @@
                 },
                 "ckantext":["Seagrass"],
                 "eovs": [ "seagrassCoverandComposition" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             }
         ]
     },
@@ -360,7 +385,8 @@
                 },
                 "ckantext":["other"],
                 "eovs": [ "other" ],
-                "enabled": true
+                "enabled": true,
+                "default": false
             }
         ]
     }]

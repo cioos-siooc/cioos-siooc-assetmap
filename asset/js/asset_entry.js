@@ -3,6 +3,7 @@ import jQuery from "jquery";
 window.jQuery = jQuery;
 
 import {
+  updateHeaderLanguage,
   changeCurrentLanguage,
   setTimeFilters,
   setVerticalFilters,
@@ -25,11 +26,27 @@ function buildMap(ckanServerOptions) {
 
   let urlParams = new URLSearchParams(window.location.search);
   let curlng = urlParams.get("lg");
-  if (curlng === "fr" || curlng == "en") {
-    i18nStrings.setBaseLanguage(curlng);
-    i18nStrings.setCurrentLanguage(curlng);
-    ckan_server.setCurrentLanguage(curlng);
+  if ( !(curlng === 'fr') && !(curlng === 'en'))
+  {
+      let userLang = navigator.language || navigator.userLanguage; 
+      if ( userLang.includes('fr') )
+      {
+          curlng = "fr";
+      }
+      else if ( userLang.includes('en') )
+      {
+          curlng = "en";
+      }
+      else
+      {
+          // unknown
+          curlng = "en";
+      }
   }
+  i18nStrings.setBaseLanguage(curlng);
+  i18nStrings.setCurrentLanguage(curlng);
+  ckan_server.setCurrentLanguage(curlng);
+  updateHeaderLanguage(curlng);
   
   i18nStrings.setUIStrings(uiStrJSON);
   initMapFromConfig(mapJSON);

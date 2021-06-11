@@ -10,26 +10,72 @@ Colours
 
 */
 
-/* Main map */
-.map-container {
-  position: relative;
+/* Header */
+#containerHeader {
+  z-index: 999;
+  background-color: #52a79b;
+  position: absolute;
+  width: 100%;
+}
+
+#header {
+  display: block;
+  height: 100%;
+  max-width: 1140px;
   margin: 0 auto;
-  width: 1280px;
-  height: 720px;
-  font-family: 'Montserrat', sans-serif;
+}
+
+#headerImg {
+  height: 45px;
+}
+
+#headerTranslation {
+  line-height: 45px;
+  height: 45px;
+  padding: 0px 10px 0px 10px;
+  vertical-align: baseline;
+  width: auto;
+  display: block;
+  color: #fff;
+  text-transform: none;
+  text-decoration: none;
+  text-align: left;
+  text-decoration: none;
+  background: rgba(0, 0, 0, 0);
+  border: 0;
+  border-radius: 0;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: normal;
+  outline: none;
+  float: right;
+}
+
+#headerImg,
+#headerTranslation {
+  display: inline-block;
+}
+
+/* Main map */
+.ol-zoom {
+  top: 52px !important;
+}
+
+.map-container {
+  font-family: "Montserrat", sans-serif;
 }
 .overlay {
-  background: rgba(33, 138, 157, .4);
+  background: rgba(33, 138, 157, 0.4);
   position: absolute;
-  width: 1280px;
+  width: 1120px;
   height: 720px;
   z-index: 99999999;
-  margin-left: calc(-1 * (1280px - 100%) / 2) !important;
+  margin-left: calc(-1 * (1120px - 100%) / 2) !important;
   background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/44969/34230.svg);
-  content:"View map";
-background-size: 100px;
+  content: "View map";
+  background-size: 100px;
   background-position: 50% 50%;
-  background-repeat: no-repeat; 
+  background-repeat: no-repeat;
 }
 .map {
   z-index: 1;
@@ -43,7 +89,7 @@ background-size: 100px;
   z-index: 2;
   position: absolute;
   left: 42px;
-  top: 10px;
+  top: 52px;
   width: auto;
   height: auto;
 }
@@ -61,6 +107,22 @@ background-size: 100px;
   font-size: 12px;
   font-weight: 700;
 }
+
+.category_cell_bg_highlited {
+  background: rgba(82, 167, 155, 1);
+  color: #fff;
+  display: inline-block;
+  width: 150px;
+  height: auto;
+  margin-right: 5px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+  font-size: 12px;
+  font-weight: 700;
+}
+
 .category-selection a {
   color: #ffffff;
 }
@@ -88,8 +150,8 @@ background-size: 100px;
   z-index: 2;
   position: absolute;
   left: 42px;
-  top: 120px;
-  width: 796px;
+  top: 162px;
+  width: 678px;
   height: auto;
 }
 ul.variable-options {
@@ -110,7 +172,6 @@ ul.variable-options li label {
   padding: 10px 20px;
   font-weight: 700;
   font-size: 12px;
-
 }
 ul.variable-options li label img {
   width: auto;
@@ -152,16 +213,25 @@ ul.variable-options li input[type="checkbox"]:focus + label {
 }
 
 /* Details in the information panel */
+#sidebar-right {
+  z-index: 2;
+  position: absolute;
+  right: 0px;
+  top: 42px;
+  width: 400px;
+  height: 720px;
+  height: -o-calc(100% - 42px); /* opera */
+  height: -webkit-calc(100% - 42px); /* google, safari */
+  height: -moz-calc(100% - 42px); /* firefox */
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
 .panel_details {
   overflow-y: auto;
   background-color: #e8eef1;
-  z-index: 2;
-  position: absolute;
-  left: 880px;
-  top: 0px;
   width: 400px;
-  height: 620px;
-  position: relative;
+  height: 100%;
 }
 .asset_details {
   background: #fff;
@@ -169,7 +239,7 @@ ul.variable-options li input[type="checkbox"]:focus + label {
   border-radius: 3px;
   margin: 16px;
   text-align: left;
-  white-space:normal;
+  white-space: normal;
 }
 .asset_details .map-marker {
   height: 20px;
@@ -238,7 +308,8 @@ ul.variable-options li input[type="checkbox"]:focus + label {
   border-bottom-color: #52a79b;
   text-decoration: none;
 }
-.asset-data-links {}
+.asset-data-links {
+}
 .asset-data-links span {
   margin-right: 5px;
   font-weight: 700;
@@ -246,17 +317,13 @@ ul.variable-options li input[type="checkbox"]:focus + label {
 h4.details_label {
   margin-top: 16px;
   font-weight: 700;
-  font-family: 'Quicksand', sans-serif;
+  font-family: "Quicksand", sans-serif;
   font-size: 16px;
 }
 
 /* Panel search information summary */
 .panel_search_info {
   background-color: rgba(64, 64, 65, 0.9);
-  z-index: 2;
-  position: absolute;
-  left: 880px;
-  top: 620px;
   width: 400px;
   height: 100px;
   text-align: center;
@@ -297,15 +364,14 @@ a.button:focus {
 .button:hover,
 .button:active,
 a.button:hover,
-a.button:active  {
+a.button:active {
   color: #fff;
   text-decoration: none;
   filter: drop-shadow(0 3px 3px #c8ccd0);
   background: #fa7268;
 }
 
-.background_map_div_select
-{
+.background_map_div_select {
   position: absolute;
   bottom: 8px;
   left: 16px;
@@ -313,7 +379,6 @@ a.button:active  {
   z-index: 100;
 }
 
-.outer-map-container{
+.outer-map-container {
   position: relative;
 }
-
