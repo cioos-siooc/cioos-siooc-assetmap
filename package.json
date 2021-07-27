@@ -1,0 +1,51 @@
+{
+  "name": "cioos-siooc-assetmap",
+  "version": "1.0.0",
+  "description": "CIOOS asset map",
+  "main": "webpack.config.js",
+  "browserslist": [
+    "IE 11"
+  ],
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack-dev-server --mode development --hot"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cioos-siooc/cioos-siooc-assetmap.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cioos-siooc/cioos-siooc-assetmap/issues"
+  },
+  "homepage": "https://github.com/cioos-siooc/cioos-siooc-assetmap#readme",
+  "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
+    "babel-loader": "^8.1.0",
+    "bootstrap": "^4.5.0",
+    "cors-anywhere": "^0.4.3",
+    "css-loader": "^3.5.3",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "file-loader": "^6.0.0",
+    "jquery": "^3.5.1",
+    "ol": "^5.3.3",
+    "prettier": "^1.19.1",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.43.0",
+    "webpack-babel-multi-target-plugin": "^2.5.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.10.2"
+  }
+}

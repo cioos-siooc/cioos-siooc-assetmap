@@ -1,19 +1,33 @@
 
+import * as ol from "ol"
+import * as geom from 'ol/geom';
+import * as source from 'ol/source';
 
-function CKANServer()
+import jQuery from "jquery";
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/js/dist/collapse';
+
+import {centerFeatureOnMap, selectFeatureOnMap, addGeometryToCache, clusterVectorSource, vectorLayer, clusterLayer, useClustering, showInGeometryLayer} from "./asset_ol"
+
+import i18nStrings from "./asset_i18n"
+
+import {ckan_server} from "./asset_entry"
+
+window.jQuery = jQuery;
+window.showDatasetDetailDescription=showDatasetDetailDescription;
+window.showInGeometryLayer=showInGeometryLayer;
+
+
+// find where to get ckan_server
+const removeTrailingSlash=str=>str ? str.replace(/\/$/, "") : "";
+
+function CKANServer(config)
 {
-    this.url = 'ckan';
-    this.homeURl  = '';
-    this.dataset_url = '';
-    this.organization_url= '';
     this.varriables = [];
-    this.datasetDetails = {};
-
-    // CKAN inistance name for the proxy
-    this.ckan_proxy_name = undefined;
-
-    // current language to display dataset and UI
-    this.currentLanguage = "fr";
+    this.datasetDetails = {};    // current language to display dataset and UI
+    this.currentLanguage = config["language"] || "fr";
+    this.backgrouns_layers = config["background_layer"] || "osm";
 
     // add current language code in the linked URL to dataset/resource/organization
     // so CKAN display the data ine the desired language
@@ -22,12 +36,10 @@ function CKANServer()
     // The server support translated elements
     this.support_multilanguage = false;
 
-    // use eov tag for the search and not q= only
     this.support_eov = false;
 
     // bounding box where datatset need to intersect with
     this.bbox = undefined;
-    this.support_location = false;
     // custom bounding box for search
     this.spatialSearch = {
         customBbox: false,
@@ -35,107 +47,85 @@ function CKANServer()
     };
 
     // Support filter usin min / mac time
-    this.support_time = false;
     this.time_minimum = undefined;
     this.time_maximum = undefined;
 
-    // Support filter in the vertical dimension. ex: min -100 max - 25
     this.support_vertical = false;
     this.vertical_minimum = undefined;
     this.vertical_maximum = undefined;
 
-    // call api via JSONP ( other site and not using proxy )
-    this.usejsonp = true;
-
     // index of the last item receive by paging ( next page start here)
     this.lastPagedDataIndex = 0;
+
     // sequential increment each time filters are modified
     this.lastFilterChange = 0;
+
     // paging done for filters modified, if differ than lastFilterChange, then not
     // in sych with current filters
     this.currentFilterQuery = 0;
 
-    this.hasfilterquery = false;
     // result per paging 
     this.resultPageSize = 20;
-
-
-    // size of the first call ( smaller let the total of dataset be known quickly)
-    this.initialPageSize = 5;
     
     // rapid paging of data until x dataset receive then change for update before paging 
     this.slowDownPagingTreshold = 300;
 
-    // use fl in the query to limit the number of element return un the JSON
-    this.restrict_json_return = false;
-
     // basic auth support
-    this.use_basic_auth = false;
-    this.basic_auth_user = '';
-    this.basic_auth_password = '';
+    this.use_basic_auth = config["use_basic_auth"];
+    this.basic_auth_user = config["basic_userd"];
+    this.basic_auth_password = config["basic_passd"];
 
-    this.reset = function()
-    {
-        this.url = '';
-        this.homeUrl = '';
-        this.dataset_url = '';
-        this.organization_url = '';
-        this.add_language_url = false;
-        this.support_multilanguage = false;
-        this.usejsonp = false;
-        this.resultPageSize = 40;
-        this.initialPageSize = 40;
-        this.slowDownPagingTreshold = 300;
-        this.restrict_json_return = false;
-        this.support_eov = false;
-        this.support_location = false;
-        this.bbox = undefined;
-        this.spatialSearch = {
-            customBbox: false,
-            bbox: []
-          };
-        this.use_basic_auth = false;
-        this.support_vertical = false;
-        this.vertical_minimum = undefined;
-        this.vertical_maximum = undefined;
-        this.support_time = false;
-        this.time_minimum = undefined;
-        this.time_maximum = undefined;
-        this.datasetDetails = {};
+    this.imagesDir = config['images_path'] || 'images';
+
+    this.url=removeTrailingSlash(config["api_url"])+'/3/action/';
+
+    if(config['proxy_url']){
+        this.url=removeTrailingSlash(config['proxy_url'])+'/'+this.url
     }
 
-    this.loadConfig= function (config) {
-        this.reset();
-        this.url = config["access_url"];
-        this.homeUrl = config["base_url"];
-        this.dataset_url = config["dataset_url"];
-        this.organization_url = config["organization_url"];
-        this.add_language_url = config["add_language_url"];
-        this.support_multilanguage = config["support_multilanguage"];
-        this.usejsonp = config["usejsonp"];
-        this.resultPageSize = config["page_size"];
-        this.initialPageSize = config["initial_page_size"];
-        this.restrict_json_return = config["restrict_json_return"];
-        this.support_eov = config["support_eov"];
-        this.use_basic_auth = config["use_basic_auth"];
-        this.support_vertical = config["support_vertical"];;
-        this.support_time = config["support_time"];
-        this.support_location = false;
-        if ( config["start_bbox"] !== undefined )
-        {
-            this.support_location = config["support_location"];
-        }
-        if ( config["start_bbox"] !== undefined )
-        {
-            if ( config["start_bbox"].length == 4 )
-            {
-                this.bbox = config["start_bbox"]
-            }
-        }
-    };
+    this.homeUrl = config["base_url"];
+    this.dataset_url = config["dataset_url"];
+    this.organization_url = config["organization_url"];
 
+    // add current language code in the linked URL to dataset/resource/organization
+    // so CKAN display the data ine the desired language
+    this.add_language_url = config["add_language_url"];
+
+    // The server support translated elements
+    this.support_multilanguage = config["support_multilanguage"];
+
+    // result per paging
+    this.resultPageSize = config["page_size"];
+
+    // size of the first call ( smaller let the total of dataset be known quickly)
+    this.initialPageSize = config["initial_page_size"] || 5;
+
+    // use fl in the query to limit the number of element return un the JSON
+    this.restrict_json_return = config["restrict_json_return"];
+
+    // use eov tag for the search and not q= only
+    this.support_eov = config["support_eov"] || false;
+    this.use_basic_auth = config["use_basic_auth"] || false;
+
+    // Support filter in the vertical dimension. ex: min -100 max - 25
+    this.support_vertical = config["support_vertical"];;
+
+    // Support filter usin min / mac time
+    this.support_time = config["support_time"] || false;
+    this.support_location = false;
+    if ( config["start_bbox"] !== undefined )
+    {
+        this.support_location = config["support_location"];
+    }
+    if ( config["start_bbox"] !== undefined )
+    {
+        if ( config["start_bbox"].length == 4 )
+        {
+            this.bbox = config["start_bbox"]
+        }
+    }
     this.getHomeCatalogURL = function() {
-        ret = this.homeUrl;
+        let ret = this.homeUrl;
         if (this.add_language_url)
         {
             ret += this.currentLanguage;
@@ -144,7 +134,7 @@ function CKANServer()
     };
 
     this.getURLForDataset = function( datasetId ) {
-        ret = this.dataset_url
+        let ret = this.dataset_url
         if (this.add_language_url)
         {
             ret += this.currentLanguage + '/';
@@ -154,7 +144,7 @@ function CKANServer()
     };
 
     this.getURLForResources = function( datasetId ) {
-        ret = this.dataset_url
+        let ret = this.dataset_url
         if (this.add_language_url)
         {
             ret += this.currentLanguage + '/';
@@ -164,7 +154,7 @@ function CKANServer()
     };
 
     this.getURLForOrganization = function( organisationId ) {
-        ret = this.organization_url
+        let ret = this.organization_url
         if (this.add_language_url)
         {
             ret += this.currentLanguage + '/';
@@ -233,13 +223,13 @@ function CKANServer()
     this.getURLParamterForFieldRestriction = function()
     {
         // fl=title_translated,notes_translated,eov,keywords,spatial
-        ret = "fl=id,title_translated,eov,spatial";
+        let ret = "fl=id,title_translated,eov,spatial";
         return ret;
     }
 
     this.addVariableToURLFilter = function( variable )
     {
-        ret = variable["ckantext"].join();
+        let ret = variable["ckantext"].join();
         return ret;
     }
 
@@ -261,23 +251,7 @@ function CKANServer()
 
     this.getDatasetShowURL = function( id )
     {
-        var ret_url =  this.url;
-        if (this.ckan_proxy_name !== undefined)
-        {
-            ret_url += this.ckan_proxy_name + '/';
-        }
-        if (this.usejsonp)
-        {
-            // add the package search
-            ret_url += '3/action/';
-        }
-        ret_url += 'package_show?';
-        ret_url += 'id=' + id;
-        if (this.usejsonp)
-        {
-            ret_url += '&callback=jsonpcallback'
-        }
-        return ret_url
+        return `${this.url}/package_show?id=${id}`
     }
 
     this.getURLParameterForBoundingBox = function (custom) {
@@ -299,17 +273,6 @@ function CKANServer()
         let query_elems = [];
         let filtered_query_elems = [];
         let eovs_query = [];
-
-        if (this.usejsonp == true)
-        {
-            // add the package search
-            ret_url += '3/action/';
-        }
-        else if (this.ckan_proxy_name !== undefined)
-        {
-            // since no jsonp and name of proxy define then add proxy info to url
-            ret_url += this.ckan_proxy_name + '/';
-        }
 
         ret_url += 'package_search?';
         if ( this.support_location )
@@ -336,8 +299,8 @@ function CKANServer()
         while( v < this.varriables.length)
         {
             // get element for variable
-            varData = this.varriables[v];
-            varItem = document.getElementById(varData["id"]);
+            let varData = this.varriables[v];
+            let varItem = document.getElementById(varData["id"]);
             // if checked, add text to the filter
             if ( varItem.checked )
             {
@@ -387,23 +350,20 @@ function CKANServer()
         {
             ret_url += '&start=' + startrow.toString();
         }
-        if (this.usejsonp)
-        {
-            ret_url += '&callback=jsonpcallback'
-        }
+
         // bbox
         console.log(ret_url);
         return ret_url;
     };
 
     this.hasActiveFilter = function () {
-        v=0;
-        ret = false;
+        let v=0;
+        let ret = false;
         while( v < this.varriables.length)
         {
             // get element for variable
-            varData = this.varriables[v];
-            varItem = document.getElementById(varData["id"]);
+            let varData = this.varriables[v];
+            let varItem = document.getElementById(varData["id"]);
             // if checked, add text to the filter
             if ( varItem.checked )
             {
@@ -434,7 +394,7 @@ function CKANServer()
     this.getVaraibleIcon = function (name)
     {
         //look for viable of name
-        ret_thumb = undefined;
+        let ret_thumb = undefined;
         return ret_thumb;
     };
 
@@ -465,14 +425,6 @@ function CKANServer()
         });
         return ret;
     }
-
-    this.getCKANData = function ()
-    {
-        // call proxy with url and variable
-        url = this.getURLPaginated(0, this.initialPageSize);
-        jQuery.getJSON( url, afficheCKANExtent );
-        //$.getJSON( "https://test-catalogue.ogsl.ca/api/3/action/package_search?ext_bbox=-104,17,-18,63&q=" + document.getElementById('searchbox').value, afficheCKANExtent );
-    };
 
     this.changeLanguage = function ( newlanguage )
     {
@@ -576,7 +528,8 @@ function AddDisplayCKANExtent( data )
             // Create geometry feature as polygone (rect extent)
             addGeometryToCache(r['id'], objspatial);
             var feature = new ol.Feature({
-                geometry: new ol.geom.Polygon(objspatial['coordinates'])
+
+                geometry: new geom.Polygon(objspatial['coordinates'])
             });
             feature.setId(r['id']);
             feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
@@ -638,8 +591,8 @@ function AddDisplayCKANClusterIcon( data )
                centerPoint = getCentroidOfSpatial(objspatial['coordinates'][0]);
             } */
 
-            feature = new ol.Feature({
-                geometry: new ol.geom.Point(centerPoint)
+            const feature = new ol.Feature({
+                geometry: new geom.Point(centerPoint)
             });
             feature.setId(r['id']);
             feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
@@ -712,7 +665,7 @@ function displayCKANExtent( data )
             addGeometryToCache(r['id'], objspatial);
             // Create geometry feature as polygone (rect extent)
             var feature = new ol.Feature({
-                geometry: new ol.geom.Polygon(objspatial['coordinates'])
+                geometry: new geom.Polygon(objspatial['coordinates'])
             });
             feature.setId(r['id']);
             feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
@@ -725,7 +678,7 @@ function displayCKANExtent( data )
         ++i;
     }
     // recreate layer
-    let vectorSource= new ol.source.Vector({
+    let vectorSource= new source.Vector({
         features: features
     });
     vectorSource.clear();
@@ -784,7 +737,7 @@ function lerpColor( color1, color2, lerpvalue)
     // 0 = only color1
     // 1 = only color2
     // the result should be clamp between 0 and 255
-    col1mult = 1 - lerpvalue;
+    let col1mult = 1 - lerpvalue;
     let ret = [ Math.round((color1[0] * col1mult) + (color2[0] * lerpvalue)),
     Math.round((color1[1] * col1mult) + (color2[1] * lerpvalue)),
     Math.round((color1[2] * col1mult) + (color2[2] * lerpvalue)),
@@ -878,7 +831,7 @@ function displayCKANClusterIcon( data )
             let coordsToAdd = getCentroidOfSpatial(objspatial)
             var pointfeature = new ol.Feature({
                 
-                geometry: new ol.geom.Point(moveCoordsSlightlyIfDuplicate(coordsToAdd, allCoords))
+                geometry: new geom.Point(moveCoordsSlightlyIfDuplicate(coordsToAdd, allCoords))
             });
             allCoords.push(coordsToAdd)
             pointfeature.setId(r['id']);
@@ -905,7 +858,7 @@ function getVariableForDatataset(dataset)
             let thumb =  ckan_server.getVariableThumbnail(entry);
             if ( thumb !== undefined )
             {
-                ret_html += "<img src='" + "/assetmap/asset/images/thumbnails/" + thumb + "'></img>";
+                ret_html += "<img src='" + `${ckan_server.imagesDir}/thumbnails/` + thumb + "'></img>";
             }
         });
     }
@@ -921,7 +874,7 @@ function getVariableForDatataset(dataset)
                 let thumb =  ckan_server.getVariableThumbnail(entry);
                 if ( thumb !== undefined )
                 {
-                    ret_html += "<img src='" + "/assetmap/asset/images/thumbnails/" + thumb + "'></img>";
+                    ret_html += "<img src='" + `${ckan_server.imagesDir}/thumbnails/` + thumb + "'></img>";
                 }
             });
         }
@@ -934,7 +887,7 @@ function getVariableForDatataset(dataset)
                 let thumb =  ckan_server.getVariableThumbnail(entry["name"]);
                 if ( thumb !== undefined )
                 {
-                    ret_html += "<img src='" + "/assetmap/asset/images/thumbnails/" + thumb + "'></img>";
+                    ret_html += "<img src='" + `${ckan_server.imagesDir}/thumbnails/` + thumb + "'></img>";
                 }
             });
         }
@@ -989,13 +942,6 @@ function getToolForDataset(dataset)
     return ret_html;
 }
 
-//var global_variable = null;
-//function console_function(data) {
-//    var local_variable = data;
-//    global_variable = local_variable;
-//   console.log(local_variable);
-//}
-
 function generateCompleteDetailsPanel( dataset )
 {
     // Add variable, description and tool accessà
@@ -1031,12 +977,18 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     // check if geomeetry details available for this dataset
     if ( spatial && spatial['type'] === 'Polygon')
     {
-        ret_html += '<a href="#" onclick="showInGeometryLayer(\'' + dataset["id"] + '\')" title="' + i18nStrings.getUIString("map") + '"><img class="map-marker" src="/assetmap/asset/images/map-marker.svg"></a>';
+        ret_html += '<a href="#" onclick="showInGeometryLayer(\'' + dataset["id"] + '\')" title="' + i18nStrings.getUIString("map") + `"><img class="map-marker" src="${ckan_server.imagesDir}/map-marker.svg"></a>`;
     }
     
     let title = ckan_server.support_multilanguage ? i18nStrings.getTranslation(dataset['title_translated']) : dataset['title'];
     ret_html += '<h3 class="details_label">' + '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="showDatasetDetailDescription(\'' + dataset["id"] + '\');">' + title + '</a></h3>'; 
-
+    
+    // ret_html += '<div class="asset-actions">';
+    // ret_html += '<span class="details_label">Information:</span>';
+    // ret_html += '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="showDatasetDetailDescription(\'' + dataset["id"] + '\');">' + i18nStrings.getUIString("details") + '</a>';
+    // ret_html += '<button type="button" class="button" onclick="selectAndCenterFeatureOnMap(\'' + dataset["id"] + '\');">Map</button> ';
+    // ret_html += '<a class="button" data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button">details</a>';
+    // ret_html += '</div>';
     ret_html += '<div class="collapse" id="' + dataset["id"] + '_collapse' + '">';
     ret_html += "</div>";
     ret_html += "</div>";
@@ -1132,33 +1084,17 @@ function addAndDisplaydataset(data)
     if ( ckan_server.currentFilterQuery == ckan_server.lastFilterChange )
     {
         // verify if paging is stil required
-        totaldataset =  parseInt(data["result"]["count"]);
+        let totaldataset =  parseInt(data["result"]["count"]);
         if ( ckan_server.lastPagedDataIndex < totaldataset)
         {
             // continue paging
             displayTotalSearchDetails( data["result"]["count"], ckan_server.lastPagedDataIndex );
-            // until the weird jquery jsonp bug is corrected, do it by hand!
+
             let url_ckan = ckan_server.getURLPaginated( ckan_server.lastPagedDataIndex, ckan_server.resultPageSize);
             ckan_server.lastPagedDataIndex += ckan_server.resultPageSize;
             // request first page of dataset
-            if ( ckan_server.usejsonp)
-            {
-                jQuery.ajax({
-                    url: url_ckan,
-                    dataType: "text",
-                    success: function( data )
-                    {
-                        // still ugly JSONP hack!!
-                        let endofstr = data.length - 16;
-                        let resjson = data.substr(14, endofstr );
-                        addAndDisplaydataset( JSON.parse(resjson));
-                    }
-                });
-            }
-            else
-            {
-                jQuery.getJSON( url_ckan, addAndDisplaydataset );
-            }
+
+            fetchCKAN( url_ckan).then(addAndDisplaydataset);
         }
         else
         {
@@ -1186,7 +1122,7 @@ function addAndDisplaydataset(data)
 
 function searchAndDisplayDataset(data)
 {
-    if ( this.hasfilterquery == false)
+    if ( ckan_server.hasfilterquery == false)
     {
         // oups, ajax took to long, no more filter, don't display anything
         return;
@@ -1212,28 +1148,12 @@ function searchAndDisplayDataset(data)
     {
         ckan_server.lastPagedDataIndex = ckan_server.initialPageSize;
         displayTotalSearchDetails( totaldataset, ckan_server.lastPagedDataIndex );
-        // until the weird jquery jsonp bug is corrected, do it by hand!
+
         let url_ckan = ckan_server.getURLPaginated( ckan_server.lastPagedDataIndex, ckan_server.resultPageSize);
         ckan_server.lastPagedDataIndex += ckan_server.resultPageSize;
         // request first page of dataset
-        if ( ckan_server.usejsonp)
-        {
-            jQuery.ajax({
-                url: url_ckan,
-                dataType: "text",
-                success: function( data )
-                {
-                    // ugly JSONP hack!
-                    let endofstr = data.length - 16;
-                    let resjson = data.substr(14, endofstr );
-                    addAndDisplaydataset( JSON.parse(resjson));
-                }
-            });
-        }
-        else
-        {
-            jQuery.getJSON( url_ckan, addAndDisplaydataset );
-        }
+
+        fetchCKAN( url_ckan).then( addAndDisplaydataset );
     }
     else
     {
@@ -1268,54 +1188,16 @@ function checkCKANData()
 
     // remove data from the map and on the list, will be reconstructed with the paginated search
     clearAllDatasets();
-    this.hasfilterquery = false;
+    ckan_server.hasfilterquery = false;
     // verify if filters are active, if not, remove all data and don't access the entire catalogue
     if ( ckan_server.hasActiveFilter() )
     {
-        this.hasfilterquery = true;
+        ckan_server.hasfilterquery = true;
         // use CKAN config to write call to package_search
 
-        // support jsonp by hand since jquery bug with adding other parameters at then end for nothing ( other than the callback )
-
-        //var datavalue = {"q": "patate", "callback": "jsonpcallback"}
         let url_ckan = ckan_server.getURLPaginated(0, ckan_server.initialPageSize);
-        // until the weird jquery jsonp bug is corrected, do it by hand!
-        let auth_header = {};
-        if ( ckan_server.use_basic_auth)
-        {
-            auth_header = { 'Authorization': 'Basic ' + btoa(ckan_server.basic_auth_user + ':' + ckan_server.basic_auth_password) };
-        }
-        if ( ckan_server.usejsonp)
-        {
-            // add header with basic auth if required
-            jQuery.ajax({
-                url: url_ckan,
-                dataType: "text",
-                headers: auth_header,
-                success: function( data )
-                {
-                    let endofstr = data.length - 16;
-                    let resjson = data.substr(14, endofstr );
-                    //console.log(resjson);
-                    searchAndDisplayDataset( JSON.parse(resjson));
-                    //console.log(data);
-                }
-            });
-        }
-        else
-        {
-            jQuery.ajax({
-                url: url_ckan,
-                dataType: "json",
-                headers: auth_header,
-                success: searchAndDisplayDataset
-            });
-        }
-        // request first page of dataset
-        // $.getJSON( url_ckan, searchAndDisplayDataset ).fail(function(jqXHR, textStatus, errorThrown) {
-        //   console.log("error " + textStatus);
-        //   console.log("incoming Text " + jqXHR.responseText);
-        //});
+
+        fetchCKAN(url_ckan).then(searchAndDisplayDataset)
     }
 }
 
@@ -1395,6 +1277,22 @@ function showDatasetDetailDescription( datasetid , goto_description, select_poin
     }
 }
 
+function fetchCKAN(url){
+    let config={};
+
+    if ( ckan_server.use_basic_auth)
+    {
+        config = { headers:{'Authorization': 'Basic ' + btoa(ckan_server.basic_auth_user + ':' + ckan_server.basic_auth_password)} };
+    }
+
+    return fetch(url,config).then(res=>{
+        if(res.ok){
+            return res.json();
+        }
+        throw new Error(`Fetch failed with error ${res.status} ${res.statusText}`)
+    })
+}
+
 function callDatasetDetailDescription( datasetid )
 {
     // check cache, if not, make call
@@ -1405,37 +1303,8 @@ function callDatasetDetailDescription( datasetid )
         return;
     }
     let url_ckan = ckan_server.getDatasetShowURL(datasetid);
-    let auth_header = {};
-    if ( ckan_server.use_basic_auth)
-    {
-        auth_header = {
-            'Authorization': 'Basic ' + btoa(ckan_server.basic_auth_user + ':' + ckan_server.basic_auth_password)
-            };
-    }
-    if ( ckan_server.usejsonp)
-    {
-        // add header with basic auth if required
-        jQuery.ajax({
-            url: url_ckan,
-            dataType: "text",
-            headers: auth_header,
-            success: function( data )
-            {
-                let endofstr = data.length - 16;
-                let resjson = data.substr(14, endofstr );
-                //console.log(resjson);
-		 updateDatasetDetails( JSON.parse(resjson));
-                //console.log(data);
-            }
-        });
-    }
-    else
-    {
-        jQuery.ajax({
-            url: url_ckan,
-            dataType: "json",
-            headers: auth_header,
-            success: updateDatasetDetails
-        });
-    }
+
+    fetchCKAN(url_ckan).then(updateDatasetDetails);
 }
+
+export {CKANServer, clearAllDatasets, checkCKANData, showDatasetDetailDescription, getStyleFromClusterConfig}

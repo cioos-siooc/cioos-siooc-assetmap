@@ -4,43 +4,42 @@ Containt basic html and javascript to be embedded in a HTML page.
 
 This isn't the final project nor the Wordpress plugin.
 
-Use Flask to enable a simple proxy to test CKAN API access and serve static file.
+Uses a node based CORS proxy
 
-# Installation
+## Installation
 
-Tested with python 3.7 on windows 10
-
-* Create virtual environment for the project
-    * python -m venv path/to/project/venv
-* activate environment
-    * path/to/project/venv/Script/activate
-* install dependencies
-    * pip install -r requirements.txt
-* Execute Flask server
-    * python main.py
+ - Install [NodeJS](https://nodejs.org/en/download/)
+ - `cd` to this directory
+ - `npm install`
     
-# Docker installation
+## Running (Development)
+ - Start the CORS proxy if required, `node corsproxy.js`. This is for development only
+ - In a separate terminal, `npm start`, this will start the development server which will
+   webpack your JS when you save as well as reload the page.
 
-```
-­> git clone <project_url>
-> cd <root_of_project>
-> docker-compose up
-```
+## Running (Production)
+ - See `index.html` for an example
+ - You will need to make availabel the folders `css` and `images` and the file `bundle.js`. You don't need any other files.
+ - use `images_path` to set the path to the images directory on your site
+ - If you make changes, run `npm run build` to generate a new `dist/bundle.js`
 
-# Configuration files
+## CORS Proxy
+ - If you are using the CORS proxy, setup `proxy_url` as so:
+    - `"proxy_url":"http://localhost:8080",`
+
+## Configuration files
 
 ## ckan.json
  
 Link to the CKAN instance:
 
+* proxy_url : URL of CORS proxy server, eg, `http://localhost:8080`
 * base_url : Homepage of the CKAN instance to redirect user to.
 * api_url : API URL to access the desired CKAN instance. This is use by the proxy server.
 * dataset_url : url to follow to direct a user to the dataset page of the ckan instance.
 * organization_url : url to follow to direct a user to the organization page of the ckan instance.
-* access_url : url to use to access the API. /ckan/ is the default proxy.
 * add_language_url : Boolean to enable the desired language to be displayed by CKAN. The language code is added after url be before the id.
 * start_bbox: Initial bounding box to restrict search to.
-* usejsonp: Contact the CKAN API directly via JSONP ( remove the requirement of a proxy )
 * page_size: Maximum number of dataset returned per call the to API.
 * restrict_json_return: Use "fl" in the package search call to limit the item serialized per dataset. Only supported in the latest version of CKAN and require special consideration with Solr configurations.
 * support_time: Can use minimum and maximum time interval in search criteria (in development)
@@ -52,13 +51,10 @@ Example of the configuration to use open.canada.ca catalog
 ```
 {
     "base_url":"http://open.canada.ca/",
-    "api_url":"http://open.canada.ca/data/api/",
     "dataset_url": "http://open.canada.ca/data/",
     "organization_url": "http://open.canada.ca/data/",
-    "access_url":"/ckan/",
     "add_language_url": true,
     "start_bbox": [-118, 36, -40, 63],
-    "usejsonp": true,
     "page_size": 40,
     "restrict_json_return": false,
     "support_time": false,
@@ -251,31 +247,6 @@ Variables needs to be clearly identified in the CKAN schema. The asset map could
 ## tools
 
 The interface need to show the user a link to the available tools to display, manipulate or download the specific dataset. Ther need to be a way to identified or compute the link based on the information in the CKAN schema. This could be as resources to the dataset or specific item. Fo example, if the dataset in accessible via ERDAPP, the url need to be available or the base ERDDAP url availbale in a configuration and using the id or other info, retwrite the URL. 
-
-
-# Python Proxy
-
-During development, you can use the python Flask project as the static file server and as proxy.
-
-## Proxy auth.json
-
-if a file auth.json is available at the root of the project, the proxy will try to load the file and check for authorization information for a specific proxy setting. The default setting is for ckan.json. Only Basic HTTP Auth is supported. The file auth.json is ignore by git and need to be created when you deploy the proxy. 
-
-Ex:  
-```
-{
-    "ckan.json": {
-        "type": "Basic",
-        "username": "your_username_for_default",
-        "password": "your_password_for_default"
-    },
-    "cioos_pacific_ckan.json": {
-        "type": "Basic",
-        "username": "your_username_for_cioos_pacific",
-        "password": "your_password_for_cioos_pacific"
-    }
-}
-```
 
 # References
 
