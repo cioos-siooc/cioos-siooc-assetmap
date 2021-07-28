@@ -37,7 +37,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "file-loader": "^6.0.0",
     "jquery": "^3.5.1",
-    "ol": "^5.3.3",
+    "ol": "^6.6.1",
     "prettier": "^1.19.1",
     "style-loader": "^1.2.1",
     "webpack": "^4.43.0",

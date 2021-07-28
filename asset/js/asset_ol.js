@@ -15,7 +15,7 @@ window.jQuery = jQuery;
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/js/dist/collapse';
 
-import {getStyleFromClusterConfig, checkCKANData, showDatasetDetailDescription} from "./asset_ckan"
+import {getStyleFromClusterConfig, checkCKANData, showDatasetDetailDescription, DisplayDatasetPanelFromList} from "./asset_ckan"
 import i18nStrings from "./asset_i18n"
 import {ckan_server} from "./asset"
 
@@ -34,6 +34,7 @@ var clusterStyleConfig = {};
 var selectDoubleCLick = null;
 var selectClick = null;
 var selectPointerMove = null;
+var mapclick = null;
 var map = null;
 var useClustering = false;
 let startview;
@@ -235,29 +236,51 @@ function initMapFromConfig(config)
         view: startview
     });
 
-    map.addInteraction(selectClick);
-    map.addInteraction(selectDoubleCLick);
-    map.addInteraction(selectPointerMove);
-    selectClick.on('select', function(e) {
-        // if details panel close, open drawer
-        // open details of selected feature dataset
-        let f = e.selected[0];
-        if(f) {
-            //let scroll_to_description = f['values_']['features'].length > 1 ? false : true; // don't scroll if there are many points in one
-            let center_on_map = true;  // center on the first feature in the collection and on the description too
-            f['values_']['features'].forEach( function(element)
+
+    map.on('click', function (evt) {
+        clearGeometryLayer();
+        let clickonsomething = false;
+        map.forEachFeatureAtPixel(evt.pixel, function(feature,layer) {
+            let idlist = [];
+            feature["values_"]["features"].forEach( function(element)
                 {
-                    // call package show and update details panel
-                    showDatasetDetailDescription(element['values_']['id'], center_on_map, false, center_on_map);
-                    center_on_map = false;
+                    //console.log(element["values_"]["id"]);
+                    idlist.push(element["values_"]["id"]);
+                    clickonsomething = true;
                 }
             );
-            // $('#' + f['values_']['id'] + '_collapse').collapse("show");
-            // document.getElementById(f['values_']['id']).scrollIntoView();
-            // $('#' + f['values_']['id']).scrollIntoView();
-            // hide last selected
+            DisplayDatasetPanelFromList(idlist);
+        });
+        if ( clickonsomething == false)
+        {
+            // display all dataset in the current request
+            DisplayDatasetPanelFromList(ckan_server.currentrequestsids);
         }
     });
+
+    //map.addInteraction(selectClick);
+    //map.addInteraction(selectDoubleCLick);
+    //map.addInteraction(selectPointerMove);
+    // selectClick.on('select', function(e) {
+    //     // if details panel close, open drawer
+    //     // open details of selected feature dataset
+    //     let f = e.selected[0];
+    //     if(f) {
+    //         //let scroll_to_description = f['values_']['features'].length > 1 ? false : true; // don't scroll if there are many points in one
+    //         let center_on_map = true;  // center on the first feature in the collection and on the description too
+    //         f['values_']['features'].forEach( function(element)
+    //             {
+    //                 // call package show and update details panel
+    //                 showDatasetDetailDescription(element['values_']['id'], center_on_map, false, center_on_map);
+    //                 center_on_map = false;
+    //             }
+    //         );
+    //         // $('#' + f['values_']['id'] + '_collapse').collapse("show");
+    //         // document.getElementById(f['values_']['id']).scrollIntoView();
+    //         // $('#' + f['values_']['id']).scrollIntoView();
+    //         // hide last selected
+    //     }
+    // });
 
     var dragBox = new interaction.DragBox({
         condition: condition.platformModifierKeyOnly
@@ -281,62 +304,62 @@ function initMapFromConfig(config)
         checkCKANData()
       });
 
-    selectDoubleCLick.on('select', function(e) {
-        // if details panel close, open drawer
-        // open details of selected feature dataset
-        let f = e.selected[0];
-        if ( f !== undefined )
-        {
-            // if is cluster
-            // calculate extent
-            // animate zoom to extent
-            // if only one feature in cluster, than show entire geom et go to description
-            if ( 'features' in f['values_'])
-            {
-                let coords = [];
+    // selectDoubleCLick.on('select', function(e) {
+    //     // if details panel close, open drawer
+    //     // open details of selected feature dataset
+    //     let f = e.selected[0];
+    //     if ( f !== undefined )
+    //     {
+    //         // if is cluster
+    //         // calculate extent
+    //         // animate zoom to extent
+    //         // if only one feature in cluster, than show entire geom et go to description
+    //         if ( 'features' in f['values_'])
+    //         {
+    //             let coords = [];
 
-                f['values_']['features'].forEach( function(element)
-                    {
-                        // call package show and update details panel
-                        coords.push(element['values_']['geometry']['flatCoordinates']);
-                    }
-                );
-                let newBound = extent.boundingExtent(coords);
-                map.getView().fit(newBound, { duration: 1000 });
-            }
-            else
-            {
-                // is not, this a specific region or dataset
-                console.log('specific feature');
-                console.log(f['values_']['id']);
-            }
-        }
-    });
+    //             f['values_']['features'].forEach( function(element)
+    //                 {
+    //                     // call package show and update details panel
+    //                     coords.push(element['values_']['geometry']['flatCoordinates']);
+    //                 }
+    //             );
+    //             let newBound = extent.boundingExtent(coords);
+    //             map.getView().fit(newBound, { duration: 1000 });
+    //         }
+    //         else
+    //         {
+    //             // is not, this a specific region or dataset
+    //             console.log('specific feature');
+    //             console.log(f['values_']['id']);
+    //         }
+    //     }
+    // });
 
-    selectPointerMove.on('select', function(e) {
-        let f = e.selected[0];
-        // highlight details panel of hovered feature dataset
-        if ( f !== undefined )
-        {
-            // look if f contains features in the values, if so, this is a cluster
-            if ( 'features' in f['values_'])
-            {
-                console.log('found features list: ' + f['values_']['features'].length);
-            }
-            else
-            {
-                // is not, this a specific region or dataset
-                console.log('specific feature');
-                console.log(f['values_']['id']);
-            }
+    // selectPointerMove.on('select', function(e) {
+    //     let f = e.selected[0];
+    //     // highlight details panel of hovered feature dataset
+    //     if ( f !== undefined )
+    //     {
+    //         // look if f contains features in the values, if so, this is a cluster
+    //         if ( 'features' in f['values_'])
+    //         {
+    //             console.log('found features list: ' + f['values_']['features'].length);
+    //         }
+    //         else
+    //         {
+    //             // is not, this a specific region or dataset
+    //             console.log('specific feature');
+    //             console.log(f['values_']['id']);
+    //         }
 
-        }
-        else
-        {
-            // pointer move to nothing ( out of object event )
-            console.log('pointer out of object');
-        }
-    });
+    //     }
+    //     else
+    //     {
+    //         // pointer move to nothing ( out of object event )
+    //         console.log('pointer out of object');
+    //     }
+    // });
 
 }
 
@@ -398,6 +421,13 @@ function showInGeometryLayer( id )
     map.getView().fit(newBound, { duration: 1000 });
     // move map and zoom to fit geometry
     //startview.animate(  {center: ol.proj.transform(getCenterOfCoordinates(datasetGeometryCache[id]['coordinates'][0]), 'EPSG:4326', 'EPSG:3857')});
+}
+
+function clearGeometryLayer()
+{
+    let cursource = vectorLayer.getSource();
+    cursource.clear();
+    vectorLayer.setVisible(true);
 }
 
 
