@@ -163,7 +163,7 @@ Colours
   .category-selection {
     z-index: 2;
     position: absolute;
-    left: 42px;
+    left: 52px;
     top: 52px;
     width: auto;
     height: auto;
@@ -214,7 +214,7 @@ Colours
   .variable-selection {
     z-index: 2;
     position: absolute;
-    left: 42px;
+    left: 52px;
     top: 162px;
     width: 678px;
     height: auto;

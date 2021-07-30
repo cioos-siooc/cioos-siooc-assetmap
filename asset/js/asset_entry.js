@@ -8,7 +8,8 @@ import {
   setTimeFilters,
   setVerticalFilters,
   generateFilterCategories,
-  generateLocationCategories
+  generateLocationCategories,
+  setDatasetDescriptionheader
 } from "./asset";
 
 import i18nStrings from "./asset_i18n";
@@ -49,8 +50,10 @@ function buildMap(ckanServerOptions) {
   updateHeaderLanguage(curlng);
   
   i18nStrings.setUIStrings(uiStrJSON);
+  setDatasetDescriptionheader();
   initMapFromConfig(mapJSON);
   generateFilterCategories();
+  setDatasetDescriptionheader();
   generateLocationCategories(locationsJSON);
   
   generateUI();

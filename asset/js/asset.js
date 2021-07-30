@@ -222,7 +222,6 @@ function updateHeaderLanguage(newLanguage)
     }
 }
 
-// Debug methode, shouldn't be in the final
 
 function changeCurrentLanguage( newLanguage )
 {
@@ -239,7 +238,15 @@ function changeCurrentLanguage( newLanguage )
 
     // reload filters
     generateFilterCategories();
+
+    setDatasetDescriptionheader();
     
+}
+
+function setDatasetDescriptionheader()
+{
+    let decelem = document.getElementById("hideshow_desc");
+    decelem.innerHTML = i18nStrings.getUIString("datasets_panel_title");
 }
 
 function setTimeFilters( minDate, maxDate )
@@ -285,4 +292,4 @@ function setVerticalFilters( minVertical, maxVertical )
 }
 
 
-export {ckan_server, setVerticalFilters, setTimeFilters, updateHeaderLanguage, changeCurrentLanguage, generateLocationCategories, toggleCategoriAndCheckData, generateFilterCategories}
+export {ckan_server, setVerticalFilters, setTimeFilters, updateHeaderLanguage, changeCurrentLanguage, generateLocationCategories, toggleCategoriAndCheckData, generateFilterCategories, setDatasetDescriptionheader}

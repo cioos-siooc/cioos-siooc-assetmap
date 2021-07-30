@@ -11,6 +11,10 @@
     "fr": "Source des données",
     "en": "Data provider"
   },
+  "datasets_panel_title": {
+    "fr": "Liste de jeux de données",
+    "en": "Dataset list"
+  },
   "dataset_tools": {
     "fr": "Données",
     "en": "Data"
