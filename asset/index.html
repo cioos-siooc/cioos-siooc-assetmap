@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="./css/ol.css" type="text/css">
   <link rel="stylesheet" href="./css/style.css" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,900|Quicksand:400,700&display=swap" rel="stylesheet">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 
 </head>
 <body>
@@ -25,14 +25,36 @@
     <div id="map" class="map" ></div>
     <div id="category_panel" class="category-selection"></div>
     <div id="variable_panel" class="variable-selection tab-content"></div>
-    <div id="sidebar-right">
+    <div id="paneldesccontainer"  class="sidebar-right_closed">
+      <div id="hideshow_desc" class="panel_details_hideshow" onClick="toggleDescriptionPanel()">Datasets</div>
       <div id="dataset_desc" class="panel_details"></div>
-      <div class="panel_search_info" style="text-align:center" id="dataset_search_stats"></div>
     </div>
+    <div class="panel_search_info" style="text-align:center" id="dataset_search_stats"></div>
+    
 
   </div>
     <script src="bundle.js"></script>
       <script>
+
+
+
+        function toggleDescriptionPanel()
+        {
+          // switch classe for side_bar
+          let  element = document.getElementById("paneldesccontainer");
+          if  (element.classList.contains("sidebar-right_closed"))
+          {
+            element.classList.remove("sidebar-right_closed");
+            element.classList.add("sidebar-right");
+          }
+          else
+          {
+            element.classList.remove("sidebar-right");
+            element.classList.add("sidebar-right_closed");
+          }
+        }
+
+
         var $ = AssetMap.jQuery
         $(function() {
            AssetMap.buildMap({
