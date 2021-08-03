@@ -1,9 +1,11 @@
 version: '3.7'
 
 services:
-  asset_map_iframe:
-    build: ./
-    container_name: asset_map_iframe
-    image: asset_map_iframe
+  assetmap:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: assetmap
+    image: assetmap
     ports:
-      - "8009:5000"
+      - "8009:80"
