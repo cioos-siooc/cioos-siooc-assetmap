@@ -6,32 +6,6 @@
     },
     "backgrouns_layers": [
         {
-            "name": "osm",
-            "type": "OpenStreetMap",
-            "attribution": {
-                "fr": "",
-                "en": ""
-            },
-            "label": {
-                "fr": "Open Street Map",
-                "en": "Open Street Map"
-            }
-        },
-        {
-            "name": "bingarial",
-            "type": "Bing",
-            "key": "yourkeyhere",
-            "imagerySet": "Aerial",
-            "attribution": {
-                "fr": "",
-                "en": ""
-            },
-            "label": {
-                "fr": "Bing Arial",
-                "en": "Bing Arial"
-            }
-        },
-        {
             "name": "bathy",
             "type": "wms",
             "server_url": "https://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?",
@@ -47,6 +21,18 @@
             "label": {
                 "fr": "Gebco Bathymétrie",
                 "en": "Gebco Bathymetry"
+            }
+        },
+        {
+            "name": "osm",
+            "type": "OpenStreetMap",
+            "attribution": {
+                "fr": "",
+                "en": ""
+            },
+            "label": {
+                "fr": "Open Street Map",
+                "en": "Open Street Map"
             }
         }
     ],

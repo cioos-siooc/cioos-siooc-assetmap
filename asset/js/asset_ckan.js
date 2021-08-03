@@ -27,7 +27,7 @@ function CKANServer(config)
     this.varriables = [];
     this.datasetDetails = {};    // current language to display dataset and UI
     this.currentLanguage = config["language"] || "fr";
-    this.backgrouns_layers = config["background_layer"] || "osm";
+    this.backgrouns_layers = config["background_layer"] || "bathy";
 
     // add current language code in the linked URL to dataset/resource/organization
     // so CKAN display the data ine the desired language

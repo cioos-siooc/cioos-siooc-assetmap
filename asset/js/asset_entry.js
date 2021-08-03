@@ -54,7 +54,7 @@ function buildMap(ckanServerOptions) {
   generateLocationCategories(locationsJSON);
   
   generateUI();
-  changeBackgrounLayer(ckanServerOptions.start_layer || 'osm');
+  changeBackgrounLayer(ckanServerOptions.start_layer || 'bathy');
   return ckan_server;
 }
 

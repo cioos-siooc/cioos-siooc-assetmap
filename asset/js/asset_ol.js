@@ -49,7 +49,19 @@ function CreateBackgroundLayerFromConfig( lconfig )
 {
     let ret = undefined;
     // switch type
-    if ( lconfig['type'] === "OpenStreetMap")
+    if ( lconfig['type'] === "wms")
+    {
+        ret = new layer.Tile({
+            visible: false,
+            source: new source.TileWMS({
+              url: lconfig['server_url'],
+              params: {'LAYERS': lconfig['layer_name'], 'TILED': true},
+              serverType: lconfig['serverType'],
+              transition: 0
+            })
+          });
+    }
+    else if ( lconfig['type'] === "OpenStreetMap")
     {
         ret = new layer.Tile({
             visible: false,
@@ -67,18 +79,6 @@ function CreateBackgroundLayerFromConfig( lconfig )
               // use maxZoom 19 to see stretched tiles instead of the BingMaps
               // "no photos at this zoom level" tiles
               // maxZoom: 19
-            })
-          });
-    }
-    else if ( lconfig['type'] === "wms")
-    {
-        ret = new layer.Tile({
-            visible: false,
-            source: new source.TileWMS({
-              url: lconfig['server_url'],
-              params: {'LAYERS': lconfig['layer_name'], 'TILED': true},
-              serverType: lconfig['serverType'],
-              transition: 0
             })
           });
     }
