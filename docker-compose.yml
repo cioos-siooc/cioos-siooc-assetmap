@@ -1,0 +1,7 @@
+version: "3.7"
+
+services:
+    ui:
+        build: .
+        ports:
+            - 1200:80
