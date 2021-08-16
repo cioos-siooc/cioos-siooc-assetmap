@@ -25,7 +25,14 @@ const removeTrailingSlash=str=>str ? str.replace(/\/$/, "") : "";
 function CKANServer(config)
 {
     this.varriables = [];
-    this.datasetDetails = {};    // current language to display dataset and UI
+
+    // current request result list of datasets ids
+    this.currentrequestsids = [];
+    // cache of all limited info dataset result 
+    this.datasetlist = {};
+    // cache of complete dataset details
+    this.datasetDetails = {};    
+    // current language to display dataset and UI
     this.currentLanguage = config["language"] || "fr";
     this.backgrouns_layers = config["background_layer"] || "bathy";
 
@@ -995,7 +1002,18 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     return ret_html;
 }
 
-
+function DisplayDatasetPanelFromList(dataids)
+{
+    // from the cache results, filter from the list of ids
+    let html_dataset = "";
+    dataids.forEach( function (id)
+        {
+            html_dataset += generateDetailsPanel(ckan_server.datasetlist[id]);
+        }
+    );
+    document.getElementById('dataset_desc').innerHTML = html_dataset;
+    displayTotalSearchDetails(ckan_server.currentrequestsids.length, dataids.length);
+}
 
 function DisplayCkanDatasetDetails(data)
 {
@@ -1004,7 +1022,13 @@ function DisplayCkanDatasetDetails(data)
     let results = data['result']['results'];
     while ( i < results.length ) {
         let r = results[i];
-        // if complete dataset then add to cache
+        // push id in current result
+        ckan_server.currentrequestsids.push(r['id']);
+        // if complete dataset then add to cache, deal with double data later
+        if ( !(r['id'] in ckan_server.datasetlist ))
+        {
+            ckan_server.datasetlist[r['id']] = r;
+        }
         if ( ckan_server.restrict_json_return == false)
         {
             ckan_server.datasetDetails[r['id']] = r;
@@ -1023,6 +1047,12 @@ function AddToDisplayCkanDatasetDetails(data)
     let results = data['result']['results'];
     while ( i < results.length ) {
         let r = results[i];
+        // if complete dataset then add to cache, deal with double data later
+        ckan_server.currentrequestsids.push(r['id']);
+        if ( !(r['id'] in ckan_server.datasetlist ))
+        {
+            ckan_server.datasetlist[r['id']] = r;
+        }
          // if complete dataset then add to cache
          if ( ckan_server.restrict_json_return == false)
          {
@@ -1163,6 +1193,7 @@ function searchAndDisplayDataset(data)
 
 function clearAllDatasets()
 {
+    ckan_server.currentrequestsids = [];
     // clear search statistics
     displayTotalSearchDetails( 0);
     // clear dataset description
@@ -1307,4 +1338,4 @@ function callDatasetDetailDescription( datasetid )
     fetchCKAN(url_ckan).then(updateDatasetDetails);
 }
 
-export {CKANServer, clearAllDatasets, checkCKANData, showDatasetDetailDescription, getStyleFromClusterConfig}
+export {CKANServer, clearAllDatasets, checkCKANData, showDatasetDetailDescription, getStyleFromClusterConfig, DisplayDatasetPanelFromList}

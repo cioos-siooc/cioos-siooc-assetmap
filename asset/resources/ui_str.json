@@ -11,13 +11,17 @@
     "fr": "Source des données",
     "en": "Data Contributor"
   },
+  "datasets_panel_title": {
+    "fr": "Liste de jeux de données",
+    "en": "Dataset list"
+  },
   "dataset_tools": {
     "fr": "Données",
     "en": "Data"
   },
   "more_data_catalog":
   {
-    "fr": "Plus d'options de recherche dans le",
+    "fr": "Plus d'options dans le",
     "en": "More search options in the"
   },
   "catalog":

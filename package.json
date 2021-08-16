@@ -7,7 +7,7 @@
     "IE 11"
   ],
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --mode production --config webpack.prod.js",
     "start": "webpack-dev-server --mode development --hot"
   },
   "repository": {
@@ -23,6 +23,7 @@
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.10.1",
     "@babel/preset-env": "^7.10.2",
+    "@webpack-cli/serve": "^1.5.1",
     "babel-loader": "^8.1.0",
     "bootstrap": "^4.5.0",
     "cors-anywhere": "^0.4.3",
@@ -37,7 +38,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "file-loader": "^6.0.0",
     "jquery": "^3.5.1",
-    "ol": "^5.3.3",
+    "ol": "^6.6.1",
     "prettier": "^1.19.1",
     "style-loader": "^1.2.1",
     "webpack": "^4.43.0",
