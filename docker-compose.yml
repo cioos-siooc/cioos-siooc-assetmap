@@ -8,4 +8,4 @@ services:
     container_name: assetmap
     image: assetmap
     ports:
-      - "1200:80"
+      - "8009:80"
