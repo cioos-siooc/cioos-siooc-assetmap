@@ -36,6 +36,17 @@
                 "enabled": true
             },
             {
+                "id": "var_wind",
+                "icon": "physics.svg",
+                "label": {
+                    "fr": "Vent",
+                    "en": "Wind"
+                },
+                "ckantext": ["Wind"],
+                "eovs": ["wind"],
+                "enabled": true
+            },
+            {
                 "id": "var_ice",
                 "icon":"sea-ice.svg",
                 "label":

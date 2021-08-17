@@ -41,13 +41,12 @@
                 "id": "var_wind",
                 "icon": "physics.svg",
                 "label": {
-                "fr": "Vent",
-                "en": "Wind"
+                    "fr": "Vent",
+                    "en": "Wind"
                 },
-                "ckantext": ["wind"],
+                "ckantext": ["Wind"],
                 "eovs": ["wind"],
-                "enabled": false,
-                "hidden": true,
+                "enabled": true,
                 "default": false
             },
             {
