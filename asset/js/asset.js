@@ -208,15 +208,15 @@ function updateHeaderLanguage(newLanguage)
     // update language bouton
     if ( newLanguage === "en" )
     {
-        document.getElementById("headerImg").href = "//cioos.ca";
-        document.getElementById("headerimgsrc").src = "images/cioos_banner_en-1.png";
+        document.getElementById("headerImg").href = "//cioosatlantic.ca";
+        document.getElementById("headerimgsrc").src = "images/atlantic_en_w_widest_temp.png";
         document.getElementById('headerTranslation').innerHTML = "FR";
         document.getElementById('headerTranslation').href = '//' + location.host + location.pathname + "?lg=fr";
     }
     else
     {
-        document.getElementById("headerImg").href = "//siooc.ca";
-        document.getElementById("headerimgsrc").src = "images/siooc_banner_fr-1.png";
+        document.getElementById("headerImg").href = "//cioosatlantic.ca/fr/";
+        document.getElementById("headerimgsrc").src = "images/atlantic_fr_w_widest_temp.png";
         document.getElementById('headerTranslation').innerHTML = "EN";
         document.getElementById('headerTranslation').href = '//' + location.host + location.pathname +  "?lg=en";
     }
