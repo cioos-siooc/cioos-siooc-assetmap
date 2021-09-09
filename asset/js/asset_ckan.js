@@ -34,8 +34,8 @@ function CKANServer(config)
     this.datasetDetails = {};    
     // current language to display dataset and UI
     this.currentLanguage = config["language"] || "fr";
-    this.backgrouns_layers = config["background_layer"] || "osm";
-    
+    this.backgrouns_layers = config["background_layer"] || "bathy";
+
     // add current language code in the linked URL to dataset/resource/organization
     // so CKAN display the data ine the desired language
     this.add_language_url = false;
@@ -63,14 +63,14 @@ function CKANServer(config)
 
     // index of the last item receive by paging ( next page start here)
     this.lastPagedDataIndex = 0;
-    
+
     // sequential increment each time filters are modified
     this.lastFilterChange = 0;
 
     // paging done for filters modified, if differ than lastFilterChange, then not
     // in sych with current filters
     this.currentFilterQuery = 0;
-    
+
     // result per paging 
     this.resultPageSize = 20;
     
@@ -89,34 +89,34 @@ function CKANServer(config)
     if(config['proxy_url']){
         this.url=removeTrailingSlash(config['proxy_url'])+'/'+this.url
     }
-    
+
     this.homeUrl = config["base_url"];
     this.dataset_url = config["dataset_url"];
     this.organization_url = config["organization_url"];
-    
+
     // add current language code in the linked URL to dataset/resource/organization
     // so CKAN display the data ine the desired language
     this.add_language_url = config["add_language_url"];
-    
+
     // The server support translated elements
     this.support_multilanguage = config["support_multilanguage"];
-    
-    // result per paging 
+
+    // result per paging
     this.resultPageSize = config["page_size"];
-    
+
     // size of the first call ( smaller let the total of dataset be known quickly)
     this.initialPageSize = config["initial_page_size"] || 5;
 
     // use fl in the query to limit the number of element return un the JSON
     this.restrict_json_return = config["restrict_json_return"];
-    
+
     // use eov tag for the search and not q= only
     this.support_eov = config["support_eov"] || false;
     this.use_basic_auth = config["use_basic_auth"] || false;
-    
+
     // Support filter in the vertical dimension. ex: min -100 max - 25
     this.support_vertical = config["support_vertical"];;
-    
+
     // Support filter usin min / mac time
     this.support_time = config["support_time"] || false;
     this.support_location = false;
@@ -535,7 +535,7 @@ function AddDisplayCKANExtent( data )
             // Create geometry feature as polygone (rect extent)
             addGeometryToCache(r['id'], objspatial);
             var feature = new ol.Feature({
-                
+
                 geometry: new geom.Polygon(objspatial['coordinates'])
             });
             feature.setId(r['id']);
@@ -973,8 +973,7 @@ function generateCompleteDetailsPanel( dataset )
     ret_html += '<a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '" class="asset-link" target="_blank" role="button">CKAN</a> ';
     ret_html += getToolForDataset(dataset);
     ret_html += '</div><br />';
-    ret_html += "<p class='details_label details_heading'>" + i18nStrings.getUIString("dataset_provider") + "</p><a href='" + ckan_server.getURLForOrganization(dataset['organization']['name']) + "' target='_blank'>";
-    ret_html += "<span class=''details_text>" + dataset['organization']['title'] + "</span></a><br />";
+    ret_html += "<p class='details_label details_heading'>" + i18nStrings.getUIString("dataset_provider") + ": <a href='" + ckan_server.getURLForOrganization(dataset['organization']['name']) + "' target='_blank'>" + " <span class='details_text'>" + i18nStrings.getTranslation(dataset["organization"]["title_translated"]) + "</span></a></p>"
     ret_html += "</div>";
     return ret_html;
 }
@@ -1179,11 +1178,11 @@ function searchAndDisplayDataset(data)
     {
         ckan_server.lastPagedDataIndex = ckan_server.initialPageSize;
         displayTotalSearchDetails( totaldataset, ckan_server.lastPagedDataIndex );
-        
+
         let url_ckan = ckan_server.getURLPaginated( ckan_server.lastPagedDataIndex, ckan_server.resultPageSize);
         ckan_server.lastPagedDataIndex += ckan_server.resultPageSize;
         // request first page of dataset
-        
+
         fetchCKAN( url_ckan).then( addAndDisplaydataset );
     }
     else
@@ -1228,7 +1227,7 @@ function checkCKANData()
         // use CKAN config to write call to package_search
 
         let url_ckan = ckan_server.getURLPaginated(0, ckan_server.initialPageSize);
-        
+
         fetchCKAN(url_ckan).then(searchAndDisplayDataset)
     }
 }
@@ -1311,12 +1310,12 @@ function showDatasetDetailDescription( datasetid , goto_description, select_poin
 
 function fetchCKAN(url){
     let config={};
-    
+
     if ( ckan_server.use_basic_auth)
     {
         config = { headers:{'Authorization': 'Basic ' + btoa(ckan_server.basic_auth_user + ':' + ckan_server.basic_auth_password)} };
     }
-    
+
     return fetch(url,config).then(res=>{
         if(res.ok){
             return res.json();

@@ -9,7 +9,7 @@
   },
   "dataset_provider": {
     "fr": "Source des données",
-    "en": "Data provider"
+    "en": "Data Contributor"
   },
   "datasets_panel_title": {
     "fr": "Liste de jeux de données",
@@ -47,6 +47,6 @@
   "background_map": 
   {
     "fr": "Fond de carte ",
-    "en": "Bcakground map "
+    "en": "Background map "
   }
 }

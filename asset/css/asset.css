@@ -53,7 +53,7 @@ Colours
   .ol-zoom {
     top: 52px !important;
   }
-  
+
 /* Header */
 #containerHeader {
   z-index: 999;
@@ -75,7 +75,7 @@ Colours
 
 #headerimgsrc {
   height: 41px;
-  width: 392px;
+  width: 100%;
 }
 
 #headerTranslation {
@@ -162,9 +162,9 @@ Colours
 
   .category-selection {
     z-index: 2;
-    position: absolute;
-    left: 52px;
-    top: 52px;
+    position: relative;
+    left: 50px;
+    top: 51px;
     width: auto;
     height: auto;
   }
@@ -182,7 +182,7 @@ Colours
     font-size: 12px;
     font-weight: 700;
   }
-  
+
   .category_cell_bg_highlited {
     background: rgba(82, 167, 155, 1);
     color: #fff;
@@ -209,13 +209,13 @@ Colours
     height: auto;
   }
 
-  
+
   /* Main variables selection checkboxes */
   .variable-selection {
     z-index: 2;
-    position: absolute;
+    position: relative;
     left: 52px;
-    top: 162px;
+    top: 54px;
     width: 678px;
     height: auto;
   }
@@ -264,7 +264,7 @@ Colours
     transition: transform 0.3s ease-in-out;
   }
 
-  
+
   .asset_details {
     background: #fff;
     padding: 16px;
@@ -377,9 +377,9 @@ Colours
 @media screen and (max-width: 767px) {
   /* Mobile CSS*/
 
-  
+
   .ol-zoom {
-    top: 88px !important;
+    top: 52px !important;
   }
 
 /* Header */
@@ -398,12 +398,12 @@ Colours
 }
 
 #headerImg {
-  height: 24px;
+  height: 31px;
 }
 
 #headerimgsrc {
-  height: 24px;
-  width: 230px;
+  height: 31px;
+  width: 400px;
 }
 
 #headerTranslation {
@@ -495,19 +495,19 @@ Colours
 
   .category-selection {
     z-index: 2;
-    position: absolute;
-    left: 4px;
-    top: 32px;
-    width: auto;
+    position: relative;
+    left: 50px;
+    top: 46px;
+    width: 88%;
     height: auto;
   }
   .category-selection .category_cell_bg {
     color: rgba(82, 167, 155, 1);
     background: rgba(255, 255, 255, 1);
     display: inline-block;
-    width: 78px;
+    width: 91px;
     height: auto;
-    margin-right: 2px;
+    margin-right: 1px;
     text-align: center;
     padding: 4px;
     border-radius: 2px;
@@ -515,12 +515,12 @@ Colours
     font-size: 8px;
     font-weight: 700;
   }
-  
+
   .category_cell_bg_highlited {
     background: rgba(82, 167, 155, 1);
     color: #fff;
     display: inline-block;
-    width: 72px;
+    width: 88px;
     height: auto;
     margin-right: 2px;
     text-align: center;
@@ -542,14 +542,15 @@ Colours
     height: auto;
   }
 
-  
+
   /* Main variables selection checkboxes */
   .variable-selection {
     z-index: 2;
-    position: absolute;
-    left: 4px;
-    top: 86px;
-    width: 308px;
+    position: relative;
+    left: 52px;
+    top: 54px;
+    width: 88%;
+    max-width: 440px;
     height: auto;
   }
   ul.variable-options {
@@ -596,7 +597,7 @@ Colours
     padding: 1px 2px 1px 1px;
     transition: transform 0.3s ease-in-out;
   }
-  
+
   .asset_details {
     background: #fff;
     padding: 4px;
@@ -708,8 +709,18 @@ Colours
     font-size: 12px;
     z-index: 8;
   }
+  #headerTranslation{
+    display: inline;
+  }
 
 }
+@media screen and (max-width: 420px) {
+  /* Mobile screen CSS*/
+  #headerTranslation{
+    display:none;
+  }
+}
+
 /* End of mobile CSS*/
 
 .category-selection a {

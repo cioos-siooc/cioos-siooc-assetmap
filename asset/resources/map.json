@@ -1,36 +1,10 @@
 {
     "start_view": {
-        "zoom": 4,
+        "zoom": 5,
         "minZoom": 2,
-        "center": [-68, 48]
+        "center": [-54, 52]
     },
     "backgrouns_layers": [
-        {
-            "name": "osm",
-            "type": "OpenStreetMap",
-            "attribution": {
-                "fr": "",
-                "en": ""
-            },
-            "label": {
-                "fr": "Open Street Map",
-                "en": "Open Street Map"
-            }
-        },
-        {
-            "name": "bingarial",
-            "type": "Bing",
-            "key": "yourkeyhere",
-            "imagerySet": "Aerial",
-            "attribution": {
-                "fr": "",
-                "en": ""
-            },
-            "label": {
-                "fr": "Bing Arial",
-                "en": "Bing Arial"
-            }
-        },
         {
             "name": "bathy",
             "type": "wms",
@@ -46,11 +20,23 @@
             },
             "label": {
                 "fr": "Gebco Bathymétrie",
-                "en": "Gebco Bathymetri"
+                "en": "Gebco Bathymetry"
+            }
+        },
+        {
+            "name": "osm",
+            "type": "OpenStreetMap",
+            "attribution": {
+                "fr": "",
+                "en": ""
+            },
+            "label": {
+                "fr": "Open Street Map",
+                "en": "Open Street Map"
             }
         }
     ],
-    "start_layer": "bingarial",
+    "start_layer": "bathy",
     "Polystyle":{
         "Stroke":{
             "color": "blue",

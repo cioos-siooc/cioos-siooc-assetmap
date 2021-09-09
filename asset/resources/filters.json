@@ -5,7 +5,7 @@
         "label":
         {
             "fr": "PHYSIQUE",
-            "en": "PHYSIC"
+            "en": "PHYSICS"
         },
         "icon": "physics.svg",
         "enabled": true,
@@ -34,6 +34,18 @@
                 },
                 "ckantext":["Sea Surface Height"],
                 "eovs": [ "seaSurfaceHeight" ],
+                "enabled": true,
+                "default": false
+            },
+            {
+                "id": "var_wind",
+                "icon": "physics.svg",
+                "label": {
+                    "fr": "Vent",
+                    "en": "Wind"
+                },
+                "ckantext": ["Wind"],
+                "eovs": ["wind"],
                 "enabled": true,
                 "default": false
             },
@@ -264,7 +276,7 @@
                 "label":
                 {
                     "fr":"Matières particulaires",
-                    "en":"Particulte matter"
+                    "en":"Particulate matter"
                 },
                 "ckantext":["particulate Matter "],
                 "eovs": [ "particulateMatter" ],
@@ -285,14 +297,14 @@
         "variables":
         [
             {
-                "id": "var_birdtutrlemamal",
+                "id": "var_birdturtlemamal",
                 "icon":"birds-mammals.svg",
                 "label":
                 {
                     "fr":"Oiseaux, tortues et mammifères",
-                    "en":"Birds, Tutrles and Mammals"
+                    "en":"Birds, Turtles and Mammals"
                 },
-                "ckantext":["Bird", "Tutle", "Mammal"],
+                "ckantext":["Bird", "Turtle", "Mammal"],
                 "eovs": [ "marineTurtlesBirdsMammalsAbundanceandDistribution" ],
                 "enabled": true,
                 "default": false
@@ -303,7 +315,7 @@
                 "label":
                 {
                     "fr":"Poissons",
-                    "en":"Fishs"
+                    "en":"Fish"
                 },
                 "ckantext":["Fish"],
                 "eovs": [ "fishAbundanceandDistribution" ],

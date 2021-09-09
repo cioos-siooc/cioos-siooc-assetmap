@@ -36,6 +36,17 @@
                 "enabled": true
             },
             {
+                "id": "var_wind",
+                "icon": "physics.svg",
+                "label": {
+                    "fr": "Vent",
+                    "en": "Wind"
+                },
+                "ckantext": ["Wind"],
+                "eovs": ["wind"],
+                "enabled": true
+            },
+            {
                 "id": "var_ice",
                 "icon":"sea-ice.svg",
                 "label":
@@ -246,7 +257,7 @@
                 "label":
                 {
                     "fr":"Matières particulaires",
-                    "en":"Particulte matter"
+                    "en":"Particulate matter"
                 },
                 "ckantext":["particulate Matter "],
                 "eovs": [ "particulateMatter" ],
@@ -266,14 +277,14 @@
         "variables":
         [
             {
-                "id": "var_birdtutrlemamal",
+                "id": "var_birdturtlemamal",
                 "icon":"birds-mammals.svg",
                 "label":
                 {
                     "fr":"Oiseaux, tortues et mammifères",
-                    "en":"Birds, Tutrles and Mammals"
+                    "en":"Birds, Turtles and Mammals"
                 },
-                "ckantext":["Bird", "Tutle", "Mammal"],
+                "ckantext":["Bird", "Turtle", "Mammal"],
                 "eovs": [ "marineTurtlesBirdsMammalsAbundanceandDistribution" ],
                 "enabled": true
             },
@@ -283,7 +294,7 @@
                 "label":
                 {
                     "fr":"Poissons",
-                    "en":"Fishs"
+                    "en":"Fish"
                 },
                 "ckantext":["Fish"],
                 "eovs": [ "fishAbundanceandDistribution" ],

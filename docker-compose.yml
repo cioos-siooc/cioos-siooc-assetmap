@@ -1,7 +1,11 @@
-version: "3.7"
+version: '3.7'
 
 services:
-    ui:
-        build: .
-        ports:
-            - 1200:80
+  assetmap:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: assetmap
+    image: assetmap
+    ports:
+      - "8009:80"

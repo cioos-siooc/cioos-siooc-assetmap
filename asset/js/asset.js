@@ -240,7 +240,7 @@ function changeCurrentLanguage( newLanguage )
     generateFilterCategories();
 
     setDatasetDescriptionheader();
-    
+
 }
 
 function setDatasetDescriptionheader()
