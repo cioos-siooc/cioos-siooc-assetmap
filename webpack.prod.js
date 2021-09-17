@@ -33,6 +33,7 @@ module.exports = {
   stats: {
     colors: true
   },
+  target: "node",
 
   output: {
     filename: "bundle.js",

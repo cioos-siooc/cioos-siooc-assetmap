@@ -34,6 +34,7 @@ module.exports = {
     colors: true
   },
   devtool: "inline-source-map",
+  target: "node",
 
   output: {
     filename: "bundle.js",
