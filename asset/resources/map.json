@@ -2,7 +2,7 @@
     "start_view": {
         "zoom": 4,
         "minZoom": 2,
-        "center": [-68, 48]
+        "center": [-128, 48]
     },
     "backgrouns_layers": [
         {
@@ -78,5 +78,5 @@
             "stroke_color": "#202226"
         }
     },
-    "start_cluster": true 
+    "start_cluster": true
 }

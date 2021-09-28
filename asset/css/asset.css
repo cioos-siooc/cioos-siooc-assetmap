@@ -53,7 +53,7 @@ Colours
   .ol-zoom {
     top: 52px !important;
   }
-  
+
 /* Header */
 #containerHeader {
   z-index: 999;
@@ -75,7 +75,7 @@ Colours
 
 #headerimgsrc {
   height: 41px;
-  width: 392px;
+  width: 100%;
 }
 
 #headerTranslation {
@@ -182,7 +182,7 @@ Colours
     font-size: 12px;
     font-weight: 700;
   }
-  
+
   .category_cell_bg_highlited {
     background: rgba(82, 167, 155, 1);
     color: #fff;
@@ -209,7 +209,7 @@ Colours
     height: auto;
   }
 
-  
+
   /* Main variables selection checkboxes */
   .variable-selection {
     z-index: 2;
@@ -264,7 +264,7 @@ Colours
     transition: transform 0.3s ease-in-out;
   }
 
-  
+
   .asset_details {
     background: #fff;
     padding: 16px;
@@ -377,7 +377,7 @@ Colours
 @media screen and (max-width: 767px) {
   /* Mobile CSS*/
 
-  
+
   .ol-zoom {
     top: 88px !important;
   }
@@ -515,7 +515,7 @@ Colours
     font-size: 8px;
     font-weight: 700;
   }
-  
+
   .category_cell_bg_highlited {
     background: rgba(82, 167, 155, 1);
     color: #fff;
@@ -542,7 +542,7 @@ Colours
     height: auto;
   }
 
-  
+
   /* Main variables selection checkboxes */
   .variable-selection {
     z-index: 2;
@@ -596,7 +596,7 @@ Colours
     padding: 1px 2px 1px 1px;
     transition: transform 0.3s ease-in-out;
   }
-  
+
   .asset_details {
     background: #fff;
     padding: 4px;
@@ -774,11 +774,3 @@ ul.variable-options li input[type="checkbox"]:focus + label {
 
 /* ------------- Unresponsive ccs */
 /* Details in the information panel */
-
-
-
-
-
-
-
-
