@@ -11,6 +11,6 @@
     "restrict_json_return": false,
     "support_time": false,
     "support_vertical": false,
-    "support_eov": true,
+    "support_eov": false,
     "use_basic_auth": false
 }
