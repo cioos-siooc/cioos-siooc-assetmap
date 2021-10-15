@@ -33,7 +33,7 @@ module.exports = {
   stats: {
     colors: true
   },
-
+  target: 'node',
   output: {
     filename: "bundle.js",
     path: path.resolve(__dirname, "asset/dist/"),
