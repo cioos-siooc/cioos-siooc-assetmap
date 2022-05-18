@@ -27,6 +27,11 @@ Uses a node based CORS proxy
  - If you are using the CORS proxy, setup `proxy_url` as so:
     - `"proxy_url":"http://localhost:8080",`
 
+## Running (Docker)
+- User `docker-compose up --build`
+- open your browser to [localhost:1200](http://localhost:1200/)
+
+
 ## Configuration files
 
 ## ckan.json
