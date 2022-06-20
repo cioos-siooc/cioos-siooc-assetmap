@@ -258,7 +258,7 @@ function CKANServer(config)
 
     this.getDatasetShowURL = function( id )
     {
-        return `${this.url}/package_show?id=${id}`
+        return `${this.url}package_show?id=${id}`
     }
 
     this.getURLParameterForBoundingBox = function (custom) {
@@ -923,6 +923,17 @@ function getCategoriesForDataset(dataset)
     return ret_html;
 }
 
+function getResponsibleOrganizationForDataset(dataset)
+{
+    let ret_html = "<ul>"
+    dataset['responsible_organizations'].forEach( function(entry){
+        ret_html += "<li>" + entry + "</li>";
+    });
+
+    ret_html += "</ul><br />"
+    return ret_html;
+}
+
 function getToolForDataset(dataset)
 {
     // Use resources to identify tool available. Temporary solution
@@ -974,7 +985,7 @@ function generateCompleteDetailsPanel( dataset )
     ret_html += getToolForDataset(dataset);
     ret_html += '</div><br />';
     ret_html += "<p class='details_label details_heading'>" + i18nStrings.getUIString("dataset_provider") + "</p><a href='" + ckan_server.getURLForOrganization(dataset['organization']['name']) + "' target='_blank'>";
-    ret_html += "<span class=''details_text>" + dataset['organization']['title'] + "</span></a><br />";
+    ret_html += "<span class=''details_text>" + getResponsibleOrganizationForDataset(dataset) + "</span></a><br />";
     ret_html += "</div>";
     return ret_html;
 }
