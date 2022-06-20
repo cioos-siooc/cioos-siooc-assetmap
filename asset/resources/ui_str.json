@@ -41,12 +41,12 @@
   },
   "category": 
   {
-    "fr": "Catégorie(s)",
-    "en": "Category(ies)"
+    "fr": "EOV(s)",
+    "en": "EOV(s)"
   },
   "background_map": 
   {
     "fr": "Fond de carte ",
-    "en": "Bcakground map "
+    "en": "Background map "
   }
 }
