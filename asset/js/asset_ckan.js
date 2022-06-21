@@ -944,19 +944,120 @@ function getToolForDataset(dataset)
         if ( entry['format'] == 'PDF')
         {
            // add PDF with link
-           ret_html += "<a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>PDF</a> "
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li>"
         }
         else if ( entry['format'] == 'WMS')
         {
            // add PDF with link
-           ret_html += "<a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>WMS</a> "
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li>"
         }
         else if ( entry['format'] == 'CSV')
         {
            // add PDF with link
-           ret_html += "<a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>CSV</a> "
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li> "
+        }
+        else if ( entry['format'] == 'ODS')
+        {
+           // add PDF with link
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li> "
+        }
+        else if ( entry['format'] == 'ERDDAP')
+        {
+           // add PDF with link
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li> "
+        }
+        else if ( entry['format'] == 'HTML')
+        {
+           // add PDF with link
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li> "
+        }
+        else if ( entry['format'] == 'ZIP')
+        {
+           // add PDF with link
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li> "
+        }
+        else if ( entry['format'] == 'XLSX')
+        {
+           // add PDF with link
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li> "
+        }
+        else if ( entry['format'] == 'SHP')
+        {
+           // add PDF with link
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li> "
+        }
+        else if ( entry['format'] == 'GDB')
+        {
+           // add PDF with link
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li> "
+        }
+        else if ( entry['format'] == 'ODT')
+        {
+           // add PDF with link
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li> "
+        }
+        else if ( entry['format'] == 'PNG')
+        {
+           // add PDF with link
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li> "
+        }
+        else if ( entry['format'] == 'TEXT')
+        {
+           // add PDF with link
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li> "
+        }
+        else if ( entry['format'] == 'TIFF')
+        {
+           // add PDF with link
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li> "
+        }
+        else if ( entry['format'] == 'XLS')
+        {
+           // add PDF with link
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li> "
+        }
+        else if ( entry['format'] == 'DOCX')
+        {
+           // add PDF with link
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li> "
+        }
+        else if ( entry['format'] == 'FGDB')
+        {
+           // add PDF with link
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li> "
+        }
+        else if ( entry['format'] == 'GEOTIFF')
+        {
+           // add PDF with link
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li> "
+        }
+        else if ( entry['format'] == 'JPEG')
+        {
+           // add PDF with link
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li> "
+        }
+        else if ( entry['format'] == 'KMZ')
+        {
+           // add PDF with link
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li> "
+        }
+        else if ( entry['format'] == 'MAP')
+        {
+           // add PDF with link
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li> "
+        }
+        else if ( entry['format'] == 'MP4')
+        {
+           // add PDF with link
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li> "
+        }
+        else if ( entry['format'] == 'TIF')
+        {
+           // add PDF with link
+           ret_html += "<li><a href='" + entry['url'] + "' class='asset-link' target='_blank' role='button'>" + entry["name"] + "</a></li> "
         }
     });
+    ret_html += "</ul>"
     return ret_html;
 }
 
@@ -981,7 +1082,7 @@ function generateCompleteDetailsPanel( dataset )
         ret_html += "<p class='details_label'>" + dataset['notes'] + "</p>";
     }
     ret_html += '<div class="asset-data-links"><span>' + i18nStrings.getUIString("dataset_tools") + ':</span>';
-    ret_html += '<a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '" class="asset-link" target="_blank" role="button">CKAN</a> ';
+    ret_html += '<ul><li><a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '" class="asset-link" target="_blank" role="button">CKAN</a></li>';
     ret_html += getToolForDataset(dataset);
     ret_html += '</div><br />';
     ret_html += "<p class='details_label details_heading'>" + i18nStrings.getUIString("dataset_provider") + "</p><a href='" + ckan_server.getURLForOrganization(dataset['organization']['name']) + "' target='_blank'>";
