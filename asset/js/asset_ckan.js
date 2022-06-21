@@ -1085,8 +1085,8 @@ function generateCompleteDetailsPanel( dataset )
     ret_html += '<ul><li><a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '" class="asset-link" target="_blank" role="button">CKAN</a></li>';
     ret_html += getToolForDataset(dataset);
     ret_html += '</div><br />';
-    ret_html += "<p class='details_label details_heading'>" + i18nStrings.getUIString("dataset_provider") + "</p><a href='" + ckan_server.getURLForOrganization(dataset['organization']['name']) + "' target='_blank'>";
-    ret_html += "<span class=''details_text>" + getResponsibleOrganizationForDataset(dataset) + "</span></a><br />";
+    ret_html += "<p class='details_label details_heading'>" + i18nStrings.getUIString("dataset_provider") + "</p>";
+    ret_html += "<span class=''details_text>" + getResponsibleOrganizationForDataset(dataset) + "</span><br />";
     ret_html += "</div>";
     return ret_html;
 }
