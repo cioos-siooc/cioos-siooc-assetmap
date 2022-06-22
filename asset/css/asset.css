@@ -107,7 +107,7 @@ Colours
     right: 0px;
     bottom: 90px;
     width: 400px;
-    height: 20px;
+    height: 56px;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -435,7 +435,7 @@ Colours
     right: 0px;
     bottom: 50px;
     width: 100%;
-    height: 20px;
+    height: 56px;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -480,12 +480,6 @@ Colours
     font-weight: 700;
     font-size: 12px;
     transition: all 0.3s ease;
-  }
-
-
-  .panel_details_hideshow{
-    width: 100%;
-    height: 20px;
   }
 
   .panel_details {
@@ -711,6 +705,24 @@ Colours
 
 }
 /* End of mobile CSS*/
+
+.subtoggle{
+  margin-left: auto;
+}
+
+#chevronDown {
+  display: none;
+}
+
+#chevronDown,
+#chevronUp {
+  margin-top: 4px;
+}
+
+.panel_details_hideshow{
+  display: flex;
+  margin: 16px;
+}
 
 .category-selection a {
   color: #ffffff;

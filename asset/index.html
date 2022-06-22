@@ -25,7 +25,7 @@
     <div id="map" class="map" ></div>
     <div id="category_panel" class="category-selection"></div>
     <div id="variable_panel" class="variable-selection tab-content"></div>
-    <div id="paneldesccontainer"  class="sidebar-right_closed">
+    <div id="paneldesccontainer"  class="sidebar-right">
       <div id="hideshow_desc" class="panel_details_hideshow" onClick="toggleDescriptionPanel()"></div>
       <div id="dataset_desc" class="panel_details"></div>
     </div>
@@ -45,15 +45,21 @@
         {
           // switch classe for side_bar
           let  element = document.getElementById("paneldesccontainer");
+          let chevronDown = document.getElementById("chevronDown");
+          let chevronUp = document.getElementById("chevronUp");
           if  (element.classList.contains("sidebar-right_closed"))
           {
             element.classList.remove("sidebar-right_closed");
             element.classList.add("sidebar-right");
+            chevronUp.style.display = "block";
+            chevronDown.style.display = "none";
           }
           else
           {
             element.classList.remove("sidebar-right");
             element.classList.add("sidebar-right_closed");
+            chevronUp.style.display = "none";
+            chevronDown.style.display = "block";
           }
         }
 
