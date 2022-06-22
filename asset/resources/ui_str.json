@@ -15,6 +15,10 @@
     "fr": "Liste de jeux de données",
     "en": "Dataset list"
   },
+  "dataset_catalog": {
+    "fr": "Catalogue",
+    "en": "Catalog"
+  },
   "dataset_tools": {
     "fr": "Données",
     "en": "Data"

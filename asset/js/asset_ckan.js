@@ -938,7 +938,7 @@ function getToolForDataset(dataset)
 {
     // Use resources to identify tool available. Temporary solution
     // should be possible to detect ERDAPP, OCTO or other link to tools
-    let ret_html = ""
+    let ret_html = "<ul>"
     dataset['resources'].forEach( function(entry)
     {
         if ( entry['format'] == 'PDF')
@@ -1081,8 +1081,9 @@ function generateCompleteDetailsPanel( dataset )
     {
         ret_html += "<p class='details_label'>" + dataset['notes'] + "</p>";
     }
+    ret_html += '<div class="asset-data-links"><span>' + i18nStrings.getUIString("dataset_catalog") + ':</span>';
+    ret_html += '<ul><li><a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '" class="asset-link" target="_blank" role="button">CKAN</a></li></ul>';
     ret_html += '<div class="asset-data-links"><span>' + i18nStrings.getUIString("dataset_tools") + ':</span>';
-    ret_html += '<ul><li><a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '" class="asset-link" target="_blank" role="button">CKAN</a></li>';
     ret_html += getToolForDataset(dataset);
     ret_html += '</div><br />';
     ret_html += "<p class='details_label details_heading'>" + i18nStrings.getUIString("dataset_provider") + "</p>";
