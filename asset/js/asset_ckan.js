@@ -2,6 +2,7 @@
 import * as ol from "ol"
 import * as geom from 'ol/geom';
 import * as source from 'ol/source';
+import * as showdown from 'showdown';
 
 import jQuery from "jquery";
 
@@ -1063,6 +1064,7 @@ function getToolForDataset(dataset)
 
 function generateCompleteDetailsPanel( dataset )
 {
+    const converter = new showdown.Converter();
     // Add variable, description and tool accessà
     let ret_html = '';
     ret_html += '<div class="card card-body">'
@@ -1075,11 +1077,11 @@ function generateCompleteDetailsPanel( dataset )
     ret_html += "<span class='details_text'><strong>" + i18nStrings.getUIString("dataset_description") + "</strong></span>";
     if ( ckan_server.support_multilanguage)
     {
-        ret_html += "<p class='details_label'>" + i18nStrings.getTranslation(dataset['notes_translated']) + "</p>";
+        ret_html += "<p class='details_label'>" + converter.makeHtml(i18nStrings.getTranslation(dataset['notes_translated'])) + "</p>";
     }
     else
     {
-        ret_html += "<p class='details_label'>" + dataset['notes'] + "</p>";
+        ret_html += "<p class='details_label'>" + converter.makeHtml(dataset['notes']) + "</p>";
     }
     ret_html += '<div class="asset-data-links"><span>' + i18nStrings.getUIString("dataset_catalog") + ':</span>';
     ret_html += '<ul><li><a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '" class="asset-link" target="_blank" role="button">CKAN</a></li></ul>';
@@ -1102,6 +1104,7 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     }
     
     let title = ckan_server.support_multilanguage ? i18nStrings.getTranslation(dataset['title_translated']) : dataset['title'];
+    // console.log(decodeURI(encodeURI(title)));
     ret_html += '<h3 class="details_label">' + '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="showDatasetDetailDescription(\'' + dataset["id"] + '\');">' + title + '</a></h3>'; 
     
     // ret_html += '<div class="asset-actions">';
