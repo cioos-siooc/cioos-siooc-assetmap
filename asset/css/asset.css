@@ -173,7 +173,7 @@ Colours
     background: rgba(255, 255, 255, 1);
     display: inline-block;
     width: 150px;
-    height: auto;
+    height: 111px;
     margin-right: 5px;
     text-align: center;
     padding: 10px;
@@ -181,6 +181,7 @@ Colours
     transition: all 0.3s ease;
     font-size: 12px;
     font-weight: 700;
+    vertical-align: top;
   }
   
   .category_cell_bg_highlited {
@@ -188,7 +189,7 @@ Colours
     color: #fff;
     display: inline-block;
     width: 150px;
-    height: auto;
+    height: 111px;
     margin-right: 5px;
     text-align: center;
     padding: 10px;
@@ -196,6 +197,7 @@ Colours
     transition: all 0.3s ease;
     font-size: 12px;
     font-weight: 700;
+    vertical-align: top;
   }
 
   .category-selection .category-icon {
@@ -379,7 +381,7 @@ Colours
 
   
   .ol-zoom {
-    top: 88px !important;
+    top: 100px !important;
   }
 
 /* Header */
@@ -499,8 +501,8 @@ Colours
     color: rgba(82, 167, 155, 1);
     background: rgba(255, 255, 255, 1);
     display: inline-block;
-    width: 78px;
-    height: auto;
+    width: 100px;
+    height: 66px;
     margin-right: 2px;
     text-align: center;
     padding: 4px;
@@ -508,14 +510,15 @@ Colours
     transition: all 0.3s ease;
     font-size: 8px;
     font-weight: 700;
+    vertical-align: top;
   }
   
   .category_cell_bg_highlited {
     background: rgba(82, 167, 155, 1);
     color: #fff;
     display: inline-block;
-    width: 72px;
-    height: auto;
+    width: 100px;
+    height: 66px;
     margin-right: 2px;
     text-align: center;
     padding: 4px;
@@ -523,6 +526,7 @@ Colours
     transition: all 0.3s ease;
     font-size: 8px;
     font-weight: 700;
+    vertical-align: top;
   }
 
   .category-selection .category-icon {
