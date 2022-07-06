@@ -94,36 +94,36 @@
                 "icon":"physics.svg",
                 "label":
                 {
-                    "fr":"Acoustique sous-marine",
+                    "fr":"Paysage acoustique",
                     "en":"Ocean sound"
                 },
-                "ckantext":["Speed of sound"],
+                "ckantext":["Ocean Sound"],
                 "eovs": [ "oceanSound" ],
                 "enabled": true,
                 "default": false
             },
             {
-                "id": "var_surfacestress",
+                "id": "var_oceansurfacestress",
                 "icon":"sea-surface-stress.svg",
                 "label":
                 {
-                    "fr":"Stresseurs océanique",
+                    "fr":"Contraintes sur la surface océanique",
                     "en":"Ocean surface stress"
                 },
-                "ckantext":["Surface stress"],
+                "ckantext":["Ocean Surface Stress"],
                 "eovs": [ "oceanSurfaceStress" ],
                 "enabled": true,
                 "default": false
             },
             {
-                "id": "var_surfaceheatflux",
+                "id": "var_oceansurfaceheatflux",
                 "icon":"ocean-surface-heat-flux.svg",
                 "label":
                 {
-                    "fr":"Flux thermique",
-                    "en":"Surface heat flux"
+                    "fr":"Flux de chaleur océanique de surface",
+                    "en":"Ocean Surface Heat Flux"
                 },
-                "ckantext":["Heat flux"],
+                "ckantext":["Ocean Surface Heat Flux"],
                 "eovs": [ "oceanSurfaceHeatFlux" ],
                 "enabled": true,
                 "default": false
@@ -157,7 +157,7 @@
         ]
     },
     {
-        "id": "Biogeochemical",
+        "id": "biogeochemical",
         "label":
         {
             "fr": "BIOGÉOCHIMIE",
@@ -180,19 +180,6 @@
                 "enabled": true,
                 "default": false
             },
-            {
-                "id": "var_phosphate",
-                "icon":"nutrients.svg",
-                "label":
-                {
-                    "fr":"Phosphate",
-                    "en":"Phosphate"
-                },
-                "ckantext":["Phosphate"],
-                "eovs": [ "phosphate" ],
-                "enabled": true,
-                "default": false
-            },
 			{
                 "id": "var_nutrients",
                 "icon":"nutrients.svg",
@@ -203,19 +190,6 @@
                 },
                 "ckantext":["Nutrients"],
                 "eovs": [ "nutrients" ],
-                "enabled": true,
-                "default": false
-            },
-            {
-                "id": "var_nitrate",
-                "icon":"nitrate.svg",
-                "label":
-                {
-                    "fr":"Nitrate",
-                    "en":"Nitrate"
-                },
-                "ckantext":["Nitrate"],
-                "eovs": [ "nitrate" ],
                 "enabled": true,
                 "default": false
             },
@@ -246,19 +220,6 @@
                 "default": false
             },
             {
-                "id": "var_silicate",
-                "icon":"silicate.svg",
-                "label":
-                {
-                    "fr":"Silicate",
-                    "en":"Silicate"
-                },
-                "ckantext":["Silicate"],
-                "eovs": [ "sillicate" ],
-                "enabled": true,
-                "default": false
-            },
-            {
                 "id": "var_paticule",
                 "icon":"particulate-matter.svg",
                 "label":
@@ -270,35 +231,74 @@
                 "eovs": [ "particulateMatter" ],
                 "enabled": true,
                 "default": false
+            },
+            {
+                "id": "var_nitrousoxide",
+                "icon":"nitrous-oxide.svg",
+                "label":
+                {
+                    "fr":"Protoxyde d'azote",
+                    "en":"Nitrous oxide"
+                },
+                "ckantext":["Nitrous oxide"],
+                "eovs": [ "nitrousOxide" ],
+                "enabled": true,
+                "default": false
+            },
+            {
+                "id": "var_transienttracers",
+                "icon":"transient-tracers.svg",
+                "label":
+                {
+                    "fr":"Traceurs transitoires",
+                    "en":"Transient tracers"
+                },
+                "ckantext":["Transient tracers"],
+                "eovs": [ "transientTracers" ],
+                "enabled": true,
+                "default": false
+            },
+            {
+                "id": "var_stablecarbonisotopes",
+                "icon":"stable-carbon-isotopes.svg",
+                "label":
+                {
+                    "fr":"Isotopes stables du carbone",
+                    "en":"Stable carbon isotopes"
+                },
+                "ckantext":["Stable carbon isotopes"],
+                "eovs": [ "stableCarbonIsotopes" ],
+                "enabled": true,
+                "default": false
             }
         ]
     },
     {
-        "id": "biology",
+        "id": "biology-and-ecosystems",
         "label":
         {
-            "fr": "BIOLOGIE",
-            "en": "BIOLOGY"
+            "fr": "ÉCOSYSTÈMES ET BIOLOGIE",
+            "en": "BIOLOGY AND ECOSYSTEMS"
         },
         "icon": "biology-and-ecosystems.svg",
         "enabled": true,
         "variables":
         [
             {
-                "id": "var_birdtutrlemamal",
+                "id": "var_marineturtlesbirdsmammalsabundanceanddistribution",
                 "icon":"birds-mammals.svg",
                 "label":
                 {
-                    "fr":"Oiseaux, tortues et mammifères",
-                    "en":"Birds, Tutrles and Mammals"
+                    "fr":"Tortues, oiseaux et mammifères marins",
+                    "en":"Marine turtles, birds, mammals"
                 },
                 "ckantext":["Bird", "Tutle", "Mammal"],
-                "eovs": [ "marineTurtlesBirdsMammalsAbundanceandDistribution" ],
+                "eovs": [ "marineTurtlesBirdsMammalsAbundanceAndDistribution" ],
                 "enabled": true,
                 "default": false
             },
             {
-                "id": "var_fish",
+                "id": "var_fishabundanceanddistribution",
                 "icon":"fish.svg",
                 "label":
                 {
@@ -311,70 +311,148 @@
                 "default": false
             },
             {
-                "id": "var_invertebrate",
+                "id": "var_invertebrateabundanceanddistribution",
                 "icon":"invertebrates.svg",
                 "label":
                 {
-                    "fr":"Invertébrés",
-                    "en":"Invertebrate"
+                    "fr":"Invertébrés (* émergents)",
+                    "en":"Invertebrate (* emerging)"
                 },
-                "ckantext":["invertebrate"],
-                "eovs": [ "invertebrateAbundanceandDistribution" ],
+                "ckantext":["Invertebrate abundance and distribution (* emerging)"],
+                "eovs": [ "invertebrateAbundanceAndDistribution" ],
                 "enabled": true,
                 "default": false
             },
             {
-                "id": "var_macroalgual_canopy",
+                "id": "var_macroalgalcanopycoverandcomposition",
                 "icon":"macroalgal-canopy.svg",
                 "label":
                 {
                     "fr":"Macroalgues",
-                    "en":"Macroalgal canopy"
+                    "en":"Macroalgae"
                 },
-                "ckantext":["macroalgal canopy"],
-                "eovs": [ "macroalgalCanopyCoverandComposition" ],
+                "ckantext":["Macroalgal canopy cover and composition"],
+                "eovs": [ "macroalgalCanopyCoverAndComposition" ],
                 "enabled": true,
                 "default": false
             },
             {
-                "id": "var_phytoplankton",
+                "id": "var_phytoplanktonbiomassanddiversity",
                 "icon":"phytoplankton.svg",
                 "label":
                 {
                     "fr":"Phytoplancton",
                     "en":"Phytoplankton"
                 },
-                "ckantext":["Phytoplankton"],
-                "eovs": [ "phytoplanktonBiomassandDiversity" ],
+                "ckantext":["Phytoplankton biomass and diversity"],
+                "eovs": [ "phytoplanktonBiomassAndDiversity" ],
                 "enabled": true,
                 "default": false
             },
             {
-                "id": "var_seagrasscover",
+                "id": "var_seagrasscoverandcomposition",
                 "icon":"seagrass.svg",
                 "label":
                 {
                     "fr":"Herbiers marins",
                     "en":"Seagrass"
                 },
-                "ckantext":["Seagrass"],
-                "eovs": [ "seagrassCoverandComposition" ],
+                "ckantext":["Seagrass cover and composition"],
+                "eovs": [ "seagrassCoverAndComposition" ],
+                "enabled": true,
+                "default": false
+            },
+            {
+                "id": "var_zooplanktonbiomassanddiversity",
+                "icon":"zooplankton.svg",
+                "label":
+                {
+                    "fr":"Zooplancton",
+                    "en":"Zooplankton"
+                },
+                "ckantext":["Zooplankton biomass and diversity"],
+                "eovs": [ "zooplanktonBiomassAndDiversity" ],
+                "enabled": true,
+                "default": false
+            },
+            {
+                "id": "var_hardcoralcoverandcomposition",
+                "icon":"hard-coral.svg",
+                "label":
+                {
+                    "fr":"Coraux durs",
+                    "en":"Hard corals"
+                },
+                "ckantext":["Hard coral cover and composition"],
+                "eovs": [ "hardCoralCoverAndComposition" ],
+                "enabled": true,
+                "default": false
+            },
+            {
+                "id": "var_microbebiomassanddiversity",
+                "icon":"microbes.svg",
+                "label":
+                {
+                    "fr":"Microbes (* émergents)",
+                    "en":"Microbe (* emerging)"
+                },
+                "ckantext":["Microbe biomass and diversity (* emerging)"],
+                "eovs": [ "microbeBiomassAndDiversity" ],
                 "enabled": true,
                 "default": false
             }
         ]
     },
     {
-        "id": "other",
+        "id": "Cross-disciplinary",
         "label":
         {
-            "fr": "AUTRES",
-            "en": "OTHER"
+            "fr": "INTERDISCIPLINAIRE",
+            "en": "CROSS-DISCIPLINARY"
         },
         "icon": "eov_other.svg",
         "enabled": true,
         "variables":
         [
+            {
+                "id": "var_oceancolour",
+                "icon":"ocean-colour.svg",
+                "label":
+                {
+                    "fr":"Couleur des océans",
+                    "en":"Ocean Colour"
+                },
+                "ckantext":["Ocean Colour"],
+                "eovs": [ "oceanColour" ],
+                "enabled": true,
+                "default": false
+            },
+            {
+                "id": "var_oceansound",
+                "icon":"ocean-sound.svg",
+                "label":
+                {
+                    "fr":"Paysage acoustique",
+                    "en":"Ocean Sound"
+                },
+                "ckantext":["Ocean Sound"],
+                "eovs": [ "oceanSound" ],
+                "enabled": true,
+                "default": false
+            },
+            {
+                "id": "var_marinedebris",
+                "icon":"marine-debris.svg",
+                "label":
+                {
+                    "fr":"Débris marins (* émergents)",
+                    "en":"Marine Debris (* emerging)"
+                },
+                "ckantext":["Marine Debris (* emerging)"],
+                "eovs": [ "marineDebris" ],
+                "enabled": true,
+                "default": false
+            },
             {
                 "id": "var_other",
                 "icon":"eov_other.svg",
