@@ -90,19 +90,6 @@
                 "default": false
             },
             {
-                "id": "var_oceansound",
-                "icon":"physics.svg",
-                "label":
-                {
-                    "fr":"Paysage acoustique",
-                    "en":"Ocean sound"
-                },
-                "ckantext":["Ocean Sound"],
-                "eovs": [ "oceanSound" ],
-                "enabled": true,
-                "default": false
-            },
-            {
                 "id": "var_oceansurfacestress",
                 "icon":"sea-surface-stress.svg",
                 "label":
