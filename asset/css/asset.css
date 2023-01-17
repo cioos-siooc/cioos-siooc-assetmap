@@ -11,8 +11,13 @@ Colours
 */
 
 #headerImg,
-#headerTranslation {
+#headerTranslation,
+#headerAbout {
   display: inline-block;
+}
+
+#headerAbout {
+  cursor: pointer;
 }
 
 /* Main map */
@@ -42,64 +47,125 @@ Colours
 
 /* Main category selections */
 
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
 
+.modal-header {
+  padding: 2px 16px;
+}
 
+.modal-content {
+  background-color: #fefefe !important;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888 !important;
+  width: 80% !important;
+}
 
+.close {
+  color: #aaaaaa !important;
+  float: right !important;
+  font-size: 28px !important;
+  font-weight: bold !important;
+  opacity: 1 !important;
+  line-height: normal !important;
+  margin-left: auto;
+}
+
+#feedbackAbout {
+  text-align: center; 
+}
+
+#titleAbout {
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#nbSelection {
+  position: absolute;
+  top: 90px;
+  right: 2px;
+}
 
 
 @media screen and (min-width: 768px) {
   /* Tablet and Desktop CSS*/
 
   .ol-zoom {
-    top: 52px !important;
+    top: 60px !important;
   }
   
-/* Header */
-#containerHeader {
-  z-index: 999;
-  background-color: #52a79b;
-  position: absolute;
-  width: 100%;
-}
+  /* Header */
+  #containerHeader {
+    z-index: 999;
+    background-color: #52a79b;
+    position: absolute;
+    width: 100%;
+  }
 
-#header {
-  display: block;
-  height: 100%;
-  max-width: 1140px;
-  margin: 0 auto;
-}
+  #header {
+    display: flex;
+    max-width: 1800px;
+    margin: 5px auto;
+  }
 
-#headerImg {
-  height: 45px;
-}
+  #app_title {
+    font-weight: bold;
+    flex: 1;
+    text-align: center;
+    color: #fff;
+    font-size: 1.5rem;
+  }
 
-#headerimgsrc {
-  height: 41px;
-  width: 392px;
-}
+  #headerImg {
+    height: 45px;
+  }
 
-#headerTranslation {
-  line-height: 45px;
-  height: 45px;
-  padding: 0px 10px 0px 10px;
-  vertical-align: baseline;
-  width: auto;
-  display: block;
-  color: #fff;
-  text-transform: none;
-  text-decoration: none;
-  text-align: left;
-  text-decoration: none;
-  background: rgba(0, 0, 0, 0);
-  border: 0;
-  border-radius: 0;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: normal;
-  outline: none;
-  float: right;
-}
+  #headerimgsrc {
+    height: 41px;
+    width: 392px;
+  }
 
+  #headerTranslation,
+  #headerAbout {
+    line-height: 45px;
+    height: 45px;
+    padding: 0px 10px 0px 10px;
+    vertical-align: baseline;
+    width: auto;
+    display: block;
+    color: #fff;
+    text-transform: none;
+    text-decoration: none;
+    text-align: left;
+    text-decoration: none;
+    background: rgba(0, 0, 0, 0);
+    border: 0;
+    border-radius: 0;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: normal;
+    outline: none;
+    float: right;
+  }
 
   .sidebar-right_closed {
     z-index: 10;
@@ -164,7 +230,7 @@ Colours
     z-index: 2;
     position: absolute;
     left: 52px;
-    top: 52px;
+    top: 60px;
     width: auto;
     height: auto;
   }
@@ -182,6 +248,8 @@ Colours
     font-size: 12px;
     font-weight: 700;
     vertical-align: top;
+    position: relative;
+    border: solid rgba(255, 255, 255, 1);
   }
   
   .category_cell_bg_highlited {
@@ -198,6 +266,13 @@ Colours
     font-size: 12px;
     font-weight: 700;
     vertical-align: top;
+    position: relative;
+    border: solid rgba(82, 167, 155, 1);
+  }
+
+  .category_cell_bg_highlited.activeCat,
+  .category-selection .category_cell_bg.activeCat  {
+    border: solid #458d83;
   }
 
   .category-selection .category-icon {
@@ -217,7 +292,7 @@ Colours
     z-index: 2;
     position: absolute;
     left: 52px;
-    top: 162px;
+    top: 177px;
     width: 678px;
     height: auto;
   }
@@ -384,52 +459,51 @@ Colours
     top: 100px !important;
   }
 
-/* Header */
-#containerHeader {
-  z-index: 999;
-  background-color: #52a79b;
-  position: absolute;
-  width: 100%;
-}
+  /* Header */
+  #containerHeader {
+    z-index: 999;
+    background-color: #52a79b;
+    position: absolute;
+    width: 100%;
+  }
 
-#header {
-  display: block;
-  height: 100%;
-  max-width: 767px;
-  margin: 0 auto;
-}
+  #header {
+    display: block;
+    height: 100%;
+    max-width: 767px;
+    margin: 0 auto;
+  }
 
-#headerImg {
-  height: 24px;
-}
+  #headerImg {
+    height: 24px;
+  }
 
-#headerimgsrc {
-  height: 24px;
-  width: 230px;
-}
+  #headerimgsrc {
+    height: 24px;
+  }
 
-#headerTranslation {
-  line-height: 24px;
-  height: 24px;
-  padding: 0px 4px 0px 4px;
-  vertical-align: baseline;
-  width: auto;
-  display: block;
-  color: #fff;
-  text-transform: none;
-  text-decoration: none;
-  text-align: left;
-  text-decoration: none;
-  background: rgba(0, 0, 0, 0);
-  border: 0;
-  border-radius: 0;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: normal;
-  outline: none;
-  float: right;
-}
-
+  #headerTranslation,
+  #headerAbout {
+    line-height: 24px;
+    height: 24px;
+    padding: 0px 4px 0px 4px;
+    vertical-align: baseline;
+    width: auto;
+    display: block;
+    color: #fff;
+    text-transform: none;
+    text-decoration: none;
+    text-align: left;
+    text-decoration: none;
+    background: rgba(0, 0, 0, 0);
+    border: 0;
+    border-radius: 0;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: normal;
+    outline: none;
+    float: right;
+  }
 
   .sidebar-right_closed {
     z-index: 10;
@@ -546,7 +620,7 @@ Colours
     z-index: 2;
     position: absolute;
     left: 4px;
-    top: 86px;
+    top: 100px;
     width: 308px;
     height: auto;
   }
@@ -706,7 +780,17 @@ Colours
     font-size: 12px;
     z-index: 8;
   }
+}
 
+@media screen and (max-width: 411px) {
+  .variable-selection {
+    z-index: 2;
+    position: absolute;
+    left: 4px;
+    top: 170px;
+    width: 308px;
+    height: auto;
+  }
 }
 /* End of mobile CSS*/
 
@@ -714,7 +798,7 @@ Colours
   margin-left: auto;
 }
 
-#chevronDown {
+#chevronUp {
   display: none;
 }
 
@@ -738,6 +822,13 @@ Colours
 .category-selection a:hover .category_cell_bg {
   background: rgba(82, 167, 155, 1);
   color: #fff;
+  border: solid rgba(82, 167, 155, 1);
+}
+
+.category-selection a:hover .category_cell_bg.activeCat {
+  background: rgba(82, 167, 155, 1);
+  color: #fff;
+  border: solid #458d83;
 }
 
 ul.variable-options li input[type="checkbox"] {

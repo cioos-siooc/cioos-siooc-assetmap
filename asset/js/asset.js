@@ -118,13 +118,16 @@ function toggleTab(e, link)
     let tab = jQuery(link).attr("href");
     if (!jQuery(tab).hasClass("active")) {
         jQuery(tab).addClass("active");
+        jQuery(link).children().addClass('activeCat')
         jQuery(tab)
           .siblings()
           .removeClass("active");
-          jQuery(tab).show();
+        jQuery(link).siblings().children().removeClass('activeCat')
+        jQuery(tab).show();
     } else {
         jQuery(tab).hide();
         jQuery(tab).removeClass("active");
+        jQuery(link).children().removeClass('activeCat')
     }
 }
 
@@ -137,6 +140,7 @@ function toggleCategoriAndCheckData()
         let category = filters["Categories"][c];
         let cathasselction = false;
         let v = 0;
+        let selection = 0;
         while( v < category["variables"].length)
         {
             while( v < category["variables"].length)
@@ -145,11 +149,22 @@ function toggleCategoriAndCheckData()
                 if (  document.getElementById(catvar["id"]).checked == true )
                 {
                     cathasselction = true;
+                    selection++;
                 }
                 ++v;
             }
             ++c;
         }
+        let elem = jQuery('#' + category["id"] + '_div')
+        if(jQuery('#' + category["id"] + '_div > #nbSelection'))
+        {
+            jQuery('#' + category["id"] + '_div > #nbSelection').remove();
+            elem.append("<span id='nbSelection'>" + selection + "/" + v + "</span>")
+        }
+        else {
+            elem.append("<span id='nbSelection'>" + selection + "/" + v + "</span>")
+        }
+
         if ( cathasselction == true)
         {
             let elem = jQuery('#' + category["id"] + '_div')
@@ -159,14 +174,13 @@ function toggleCategoriAndCheckData()
             }
         }
         else
-        {
+        {   
             let elem = jQuery('#' + category["id"] + '_div')
             if ( elem.hasClass("category_cell_bg_highlited")) {
                 elem.removeClass("category_cell_bg_highlited");
                 elem.addClass("category_cell_bg");
             }
         }
-        
     }
     checkCKANData();
 }
@@ -212,6 +226,13 @@ function updateHeaderLanguage(newLanguage)
         document.getElementById("headerimgsrc").src = "images/cioos_banner_en-1.png";
         document.getElementById('headerTranslation').innerHTML = "FR";
         document.getElementById('headerTranslation').href = '//' + location.host + location.pathname + "?lg=fr";
+        document.getElementById("app_title").innerHTML = "AssetMap";
+        document.getElementById("titleAbout").innerHTML = "About the AssetMap";
+        document.getElementById("descAbout").innerHTML = "The AssetMap is a data exploratory tool allow to see CIOOS Catalogue entries on a map, with the possibiliy to filter by ocean variables* such as Sea temperature or Phytoplankton. Data points and their geospatial extend are clickable, opening the side panel with the dataset information (title, description, data provider, and links to the Catalogue entry and data files).<br><br>" +
+        "Filtering capacities are limited to EOVs allow discoverability of a wide range of ocean variables and data formats. To make your data discoverable through CIOOS, contact us at <a href = 'mailto:info@cioos.ca'>info@cioos.ca</a>!<br><br>" + 
+        "Development of the AssetMap is ongoing, and our priority is to improve it to fit your needs. As such, your feedback is very important to us. Click below to reach our Feedback Form.<br><br>" +
+        "<div id='feedbackAbout'><a href='https://forms.gle/RAdwYRZKBoXG49mr7' class='button'>Feedback</a></div><br><br>" +
+        "* Essential Ocean Variables or EOVs are identified and described by the Expert Panels of the Global Ocean Observing System (GOOS).";
     }
     else
     {
@@ -219,6 +240,13 @@ function updateHeaderLanguage(newLanguage)
         document.getElementById("headerimgsrc").src = "images/siooc_banner_fr-1.png";
         document.getElementById('headerTranslation').innerHTML = "EN";
         document.getElementById('headerTranslation').href = '//' + location.host + location.pathname +  "?lg=en";
+        document.getElementById("app_title").innerHTML = "AssetMap";
+        document.getElementById("titleAbout").innerHTML = "À propos de l'AssetMap";
+        document.getElementById("descAbout").innerHTML = "Le AssetMap est un outil d'exploration de données qui permet d'afficher les entrées du Catalogue de données du SIOOC sur une carte, avec la possibilité de filtrer les résultats par variable océaniques* telles que la température de surface de l'eau ou le phytoplancton.<br><br>" +
+        "En cliquant sur les points de données et leur étendue géospatiale, le panneau latéral affiche les informations du jeu de données (titre, description, producteur de donnée et liens pour la page du Catalogue et les fichiers de données).<br><br>" + 
+        "L'amélioration continue du AssetMap repose sur vos besoins. Vos commentaires et suggestions d'amélioration sont donc très importants pour nous. Cliquez ci-dessous pour accéder à notre formulaire de commentaires.<br><br>" +
+        "<div id='feedbackAbout'><a href='https://forms.gle/Z8cQEqomHjjMU94bA' class='button'>Commentaires</a></div><br><br>" +
+        "* Les variables océaniques essentielles (VOE) sont identifiées et décrites par les panels d'experts du (mettre en italique)Global Ocean Observing System (GOOS).";
     }
 }
 

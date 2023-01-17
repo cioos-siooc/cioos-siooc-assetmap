@@ -249,7 +249,14 @@ function initMapFromConfig(config)
                     clickonsomething = true;
                 }
             );
-            DisplayDatasetPanelFromList(idlist);
+            if(idlist.length == 1) {
+                DisplayDatasetPanelFromList(idlist);
+                showDatasetDetailDescription(idlist);
+                showInGeometryLayer(idlist);
+            }
+            else {
+                DisplayDatasetPanelFromList(idlist);
+            }
         });
         if ( clickonsomething == false)
         {

@@ -920,7 +920,7 @@ function getCategoriesForDataset(dataset)
             }
         });
     }
-    ret_html += "</ul><br />"
+    ret_html += "</ul>"
     return ret_html;
 }
 
@@ -931,7 +931,7 @@ function getResponsibleOrganizationForDataset(dataset)
         ret_html += "<li>" + entry + "</li>";
     });
 
-    ret_html += "</ul><br />"
+    ret_html += "</ul>"
     return ret_html;
 }
 
@@ -1071,26 +1071,23 @@ function generateCompleteDetailsPanel( dataset )
     if ( ckan_server.support_eov == true)
     {
         // add categories from variable
-        ret_html += "<span class='details_text'>" + i18nStrings.getUIString("category") + "</span>";
+        ret_html += "<span class='details_text'><strong>" + i18nStrings.getUIString("category") + "</strong></span>";
         ret_html += getCategoriesForDataset( dataset);
     }
     ret_html += "<span class='details_text'><strong>" + i18nStrings.getUIString("dataset_description") + "</strong></span>";
     if ( ckan_server.support_multilanguage)
     {
-        ret_html += "<p class='details_label'>" + converter.makeHtml(i18nStrings.getTranslation(dataset['notes_translated'])) + "</p>";
+        ret_html +=  converter.makeHtml(i18nStrings.getTranslation(dataset['notes_translated']));
     }
     else
     {
-        ret_html += "<p class='details_label'>" + converter.makeHtml(dataset['notes']) + "</p>";
+        ret_html += converter.makeHtml(dataset['notes']);
     }
-    ret_html += '<div class="asset-data-links"><span>' + i18nStrings.getUIString("dataset_catalog") + ':</span>';
-    ret_html += '<ul><li><a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '" class="asset-link" target="_blank" role="button">CKAN</a></li></ul>';
-    ret_html += '<div class="asset-data-links"><span>' + i18nStrings.getUIString("dataset_tools") + ':</span>';
+    ret_html += '<p><span class="details_text"><strong><a target="_blank" href="' +  ckan_server.getURLForDataset( dataset["id"] ) + '" class="asset-link" target="_blank" role="button">' + i18nStrings.getUIString("data_entry") + '</a></strong></span></p>';
+    ret_html += "<span class='details_text'><strong>" + i18nStrings.getUIString("dataset_tools") + "</strong></span>";
     ret_html += getToolForDataset(dataset);
-    ret_html += '</div><br />';
-    ret_html += "<p class='details_label details_heading'>" + i18nStrings.getUIString("dataset_provider") + "</p>";
-    ret_html += "<span class=''details_text>" + getResponsibleOrganizationForDataset(dataset) + "</span><br />";
-    ret_html += "</div>";
+    ret_html += "<span class='details_text'><strong>" + i18nStrings.getUIString("dataset_provider") + "</strong></span>";
+    ret_html += getResponsibleOrganizationForDataset(dataset);
     return ret_html;
 }
 
@@ -1105,7 +1102,7 @@ function generateDetailsPanel( dataset ) //, language, dataset_id, title, descri
     
     let title = ckan_server.support_multilanguage ? i18nStrings.getTranslation(dataset['title_translated']) : dataset['title'];
     // console.log(decodeURI(encodeURI(title)));
-    ret_html += '<h3 class="details_label">' + '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="showDatasetDetailDescription(\'' + dataset["id"] + '\');">' + title + '</a></h3>'; 
+    ret_html += '<h3 class="details_label">' + '<a data-toggle="collapse" href="#' + dataset["id"] + '_collapse' + '" role="button" onclick="showDatasetDetailDescription(\'' + dataset["id"] + '\');showInGeometryLayer(\'' + dataset["id"] + '\');">' + title + '</a></h3>'; 
     
     // ret_html += '<div class="asset-actions">';
     // ret_html += '<span class="details_label">Information:</span>';

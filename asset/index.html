@@ -17,9 +17,28 @@
     <div id="containerHeader">
       <div id="header">
         <a id="headerImg">
-          <img id="headerimgsrc" src="images/siooc_banner_fr-1.png" width="392" height="41">
+          <img id="headerimgsrc" src="images/siooc_banner_fr-1.png">
         </a>
+        <div id="app_title">AssetMap</div>
         <a id="headerTranslation" href="">EN</a>
+        <!-- Trigger/Open The Modal -->
+        <a id="headerAbout" onClick="showModal()">?</a>
+
+        <!-- The Modal -->
+        <div id="headerAboutModal" class="modal">
+
+          <!-- Modal content -->
+          <div class="modal-content">
+            <div class="modal-header">
+              <span id="titleAbout"></span>
+              <span class="close" onclick="hideModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+              <p id="descAbout"></p>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
     <div id="map" class="map" ></div>
@@ -38,8 +57,15 @@
     </script>
     <script src="bundle.js"></script>
       <script>
+        function showModal() {
+          var modal = document.getElementById("headerAboutModal");
+          modal.style.display = "block";
+        }
 
-
+        function hideModal() {
+          var modal = document.getElementById("headerAboutModal");
+          modal.style.display = "none";
+        }
 
         function toggleDescriptionPanel()
         {
@@ -51,15 +77,15 @@
           {
             element.classList.remove("sidebar-right_closed");
             element.classList.add("sidebar-right");
-            chevronUp.style.display = "block";
-            chevronDown.style.display = "none";
+            chevronUp.style.display = "none";
+            chevronDown.style.display = "block";
           }
           else
           {
             element.classList.remove("sidebar-right");
             element.classList.add("sidebar-right_closed");
-            chevronUp.style.display = "none";
-            chevronDown.style.display = "block";
+            chevronUp.style.display = "block";
+            chevronDown.style.display = "none";
           }
         }
 
@@ -82,6 +108,13 @@
             "use_basic_auth": false,
             "images_path":"images"
           });
+
+          window.onclick = function(event) {
+            var modal = document.getElementById("headerAboutModal");
+            if (event.target == modal) {
+              modal.style.display = "none";
+            }
+          }
         });
           </script>
 

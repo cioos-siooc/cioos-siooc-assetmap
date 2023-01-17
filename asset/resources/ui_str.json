@@ -7,6 +7,10 @@
     "fr": "Description",
     "en": "Description"
   },
+  "data_entry": {
+    "fr": "Page du jeu de données",
+    "en": "Data Entry"
+  },
   "dataset_provider": {
     "fr": "Source des données",
     "en": "Data provider"
@@ -17,11 +21,11 @@
   },
   "dataset_catalog": {
     "fr": "Catalogue",
-    "en": "Catalog"
+    "en": "Catalogue"
   },
   "dataset_tools": {
-    "fr": "Données",
-    "en": "Data"
+    "fr": "Fichiers de données",
+    "en": "Data Files"
   },
   "more_data_catalog":
   {
@@ -31,7 +35,7 @@
   "catalog":
   {
     "fr": "CATALOGUE",
-    "en": "CATALOG"
+    "en": "CATALOGUE"
   },
   "map": 
   {
