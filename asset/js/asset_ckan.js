@@ -572,7 +572,7 @@ function AddDisplayCKANClusterIcon( data )
        if (r["spatial"] != undefined && r["spatial"] !== "")
        {
            //console.log(r["spatial"]);
-           objspatial = JSON.parse(r["spatial"]);
+           objspatial = JSON.parse(r['spatial']);
        }
        else if ( r['extras'] != undefined)
        {
@@ -621,9 +621,9 @@ function AddDisplayCKANClusterIcon( data )
 
 function getDatasetSpatialData(data)
 {   let spatial;
-    if (data["spatial"])
+    if (data['spatial'])
 {
-        spatial = data["spatial"];
+        spatial = data['spatial'];
     }
     else if ( data['extras'] )
     {
