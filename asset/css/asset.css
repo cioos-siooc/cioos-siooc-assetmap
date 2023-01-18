@@ -125,6 +125,7 @@ Colours
     display: flex;
     max-width: 1800px;
     margin: 5px auto;
+    align-items: center;
   }
 
   #app_title {
