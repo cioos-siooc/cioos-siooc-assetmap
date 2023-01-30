@@ -229,7 +229,7 @@ function updateHeaderLanguage(newLanguage)
         document.getElementById("app_title").innerHTML = "AssetMap";
         document.getElementById("titleAbout").innerHTML = "About the AssetMap";
         document.getElementById("descAbout").innerHTML = "The AssetMap is a data exploratory tool allow to see CIOOS Catalogue entries on a map, with the possibiliy to filter by ocean variables* such as Sea temperature or Phytoplankton. Data points and their geospatial extend are clickable, opening the side panel with the dataset information (title, description, data provider, and links to the Catalogue entry and data files).<br><br>" +
-        "Filtering capacities are limited to EOVs allow discoverability of a wide range of ocean variables and data formats. To make your data discoverable through CIOOS, contact us at <a href = 'mailto:info@cioos.ca'>info@cioos.ca</a>!<br><br>" + 
+        "Filtering capacities are limited to EOVs and they allow discoverability of a wide range of ocean variables and data formats. To make your data discoverable through CIOOS, contact us at <a href = 'mailto:info@cioos.ca'>info@cioos.ca</a>!<br><br>" + 
         "Development of the AssetMap is ongoing, and our priority is to improve it to fit your needs. As such, your feedback is very important to us. Click below to reach our Feedback Form.<br><br>" +
         "<div id='feedbackAbout'><a href='https://forms.gle/RAdwYRZKBoXG49mr7' class='button'>Feedback</a></div><br><br>" +
         "* Essential Ocean Variables or EOVs are identified and described by the Expert Panels of the Global Ocean Observing System (GOOS).";
@@ -240,13 +240,13 @@ function updateHeaderLanguage(newLanguage)
         document.getElementById("headerimgsrc").src = "images/siooc_banner_fr-1.png";
         document.getElementById('headerTranslation').innerHTML = "EN";
         document.getElementById('headerTranslation').href = '//' + location.host + location.pathname +  "?lg=en";
-        document.getElementById("app_title").innerHTML = "AssetMap";
-        document.getElementById("titleAbout").innerHTML = "À propos de l'AssetMap";
-        document.getElementById("descAbout").innerHTML = "Le AssetMap est un outil d'exploration de données qui permet d'afficher les entrées du Catalogue de données du SIOOC sur une carte, avec la possibilité de filtrer les résultats par variable océaniques* telles que la température de surface de l'eau ou le phytoplancton.<br><br>" +
-        "En cliquant sur les points de données et leur étendue géospatiale, le panneau latéral affiche les informations du jeu de données (titre, description, producteur de donnée et liens pour la page du Catalogue et les fichiers de données).<br><br>" + 
-        "L'amélioration continue du AssetMap repose sur vos besoins. Vos commentaires et suggestions d'amélioration sont donc très importants pour nous. Cliquez ci-dessous pour accéder à notre formulaire de commentaires.<br><br>" +
+        document.getElementById("app_title").innerHTML = "Carte d'exploration";
+        document.getElementById("titleAbout").innerHTML = "À propos de la carte d'exploration";
+        document.getElementById("descAbout").innerHTML = "La carte d'exploration est un outil d'exploration de données qui permet d'afficher les entrées du Catalogue de données du SIOOC sur une carte, avec la possibilité de filtrer les résultats par variable océanique* tels que la température de surface de l'eau ou le phytoplancton. En cliquant sur les points de données et leur étendue géospatiale, le panneau latéral affiche les informations du jeu de données (titre, description, producteur de donnée et liens pour la page du Catalogue et les fichiers de données).<br><br>" + 
+        "Les capacités de filtrage sont limitées aux EOV et permettent la découverte d'une large gamme de variables océaniques et de formats de données. Pour rendre vos données accessibles par le biais du CIOOS, contactez-nous à <a href = 'mailto:info@cioos.ca'>info@cioos.ca</a>!<br><br>"
+        "L'amélioration continue de la carte d'exploration repose sur vos besoins. Vos commentaires et suggestions d'amélioration sont donc très importants pour nous. Cliquez ci-dessous pour accéder à notre formulaire de commentaires.<br><br>" +
         "<div id='feedbackAbout'><a href='https://forms.gle/Z8cQEqomHjjMU94bA' class='button'>Commentaires</a></div><br><br>" +
-        "* Les variables océaniques essentielles (VOE) sont identifiées et décrites par les panels d'experts du (mettre en italique)Global Ocean Observing System (GOOS).";
+        "* Les variables océaniques essentielles (VOE) sont identifiées et décrites par les panels d'experts du <i>Global Ocean Observing System (GOOS)</i>.";
     }
 }
 
