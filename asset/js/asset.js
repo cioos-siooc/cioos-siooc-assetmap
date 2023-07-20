@@ -36,10 +36,6 @@ function generateVariableBox( vardata )
         ret_html += "disabled";
     }
     ret_html += " onclick='toggleCategoriAndCheckData();'";
-    if ( vardata["default"])
-    {
-        ret_html += "checked";
-    }
     ret_html += ">";
     ret_html += "<label for='" + vardata["id"] + "'>" + "<img src='./images/icons/" + vardata["icon"] + "' />" + "<em>" + i18nStrings.getTranslation(vardata["label"]) + "</em>" + "</label>";
     ret_html += "</li>";
@@ -131,10 +127,11 @@ function toggleTab(e, link)
     }
 }
 
-function toggleCategoriAndCheckData()
+function toggleCategoriAndCheckData(variable)
 {
     // for each category, check if a varaible is seledted, if so highlit the category
     let c = 0;
+    let catSelect = [];
     while( c < filters["Categories"].length )
     {
         let category = filters["Categories"][c];
@@ -143,15 +140,27 @@ function toggleCategoriAndCheckData()
         let selection = 0;
         while( v < category["variables"].length)
         {
+            let variableSelect = [];
+            var queryParamVariable = '';
             while( v < category["variables"].length)
             {
-                let catvar = category["variables"][v]
+                let catvar = category["variables"][v];
+                if (variable != undefined && variable.includes(catvar["id"])) 
+                {
+                    document.getElementById(catvar["id"]).click();
+                }
                 if (  document.getElementById(catvar["id"]).checked == true )
                 {
+                    variableSelect.push(catvar["id"]);
+                    queryParamVariable = variableSelect.join(',');
                     cathasselction = true;
                     selection++;
                 }
                 ++v;
+            }
+            if (queryParamVariable) {
+                catSelect.push(category["id"] + "=" + queryParamVariable);
+                var queryParamCatVariable = catSelect.join('&');
             }
             ++c;
         }
@@ -182,6 +191,37 @@ function toggleCategoriAndCheckData()
             }
         }
     }
+    if(queryParamCatVariable != undefined)
+    {
+        var parsedUrl = new URL(window.location.href);
+        var languageParam = parsedUrl.searchParams.get("lg");
+        if ( !(languageParam === 'fr') && !(languageParam === 'en'))
+        {
+            let userLang = navigator.language || navigator.userLanguage; 
+            if ( userLang.includes('fr') )
+            {
+                languageParam = "fr";
+            }
+            else if ( userLang.includes('en') )
+            {
+                languageParam = "en";
+            }
+            else
+            {
+                // unknown
+                languageParam = "en";
+            }
+        }
+        if (languageParam == 'fr') {
+            parsedUrl.search = "?lg=" + languageParam + '&' + queryParamCatVariable;
+            document.getElementById('headerTranslation').href = '//' + location.host + location.pathname + "?lg=en&" + queryParamCatVariable;
+        } else if (languageParam == 'en') {
+            parsedUrl.search = "?lg=" + languageParam + '&' + queryParamCatVariable;
+            document.getElementById('headerTranslation').href = '//' + location.host + location.pathname + "?lg=fr&" + queryParamCatVariable;
+        }
+        history.pushState(null, "", parsedUrl);
+    }
+
     checkCKANData();
 }
 
@@ -193,6 +233,12 @@ function generateFilterCategories()
     let c = 0;
     let VarInnerHtml = "";
     let CatInnerHtml = "";
+    let paramURL = [];
+    const params = new URLSearchParams(window.location.search)
+    for (const param of params) {
+        paramURL.push(param[1])
+        var paramVar = paramURL.join(',');
+    }
     while( c < filters["Categories"].length )
     {
         let category = filters["Categories"][c];
@@ -212,7 +258,7 @@ function generateFilterCategories()
     }
     document.getElementById('category_panel').innerHTML = CatInnerHtml;
     document.getElementById('variable_panel').innerHTML = VarInnerHtml;
-    toggleCategoriAndCheckData();
+    toggleCategoriAndCheckData(paramVar);
 }
 
 function updateHeaderLanguage(newLanguage)
@@ -225,7 +271,6 @@ function updateHeaderLanguage(newLanguage)
         document.getElementById("headerImg").href = "//cioos.ca";
         document.getElementById("headerimgsrc").src = "images/cioos_banner_en-1.png";
         document.getElementById('headerTranslation').innerHTML = "FR";
-        document.getElementById('headerTranslation').href = '//' + location.host + location.pathname + "?lg=fr";
         document.getElementById("app_title").innerHTML = "Catalogue Map";
         document.getElementById("titleAbout").innerHTML = "About the Catalogue Map";
         document.getElementById("descAbout").innerHTML = "The catalogue map is a data exploratory tool allow to see CIOOS Catalogue entries on a map, with the possibiliy to filter by ocean variables* such as Sea temperature or Phytoplankton. Data points and their geospatial extend are clickable, opening the side panel with the dataset information (title, description, data provider, and links to the Catalogue entry and data files).<br><br>" +
@@ -239,7 +284,6 @@ function updateHeaderLanguage(newLanguage)
         document.getElementById("headerImg").href = "//siooc.ca";
         document.getElementById("headerimgsrc").src = "images/siooc_banner_fr-1.png";
         document.getElementById('headerTranslation').innerHTML = "EN";
-        document.getElementById('headerTranslation').href = '//' + location.host + location.pathname +  "?lg=en";
         document.getElementById("app_title").innerHTML = "Catalogue cartographique";
         document.getElementById("titleAbout").innerHTML = "À propos du catalogue cartographique";
         document.getElementById("descAbout").innerHTML = "Le catalogue cartographique est un outil d'exploration de données qui permet d'afficher les entrées du Catalogue de données du SIOOC sur une carte, avec la possibilité de filtrer les résultats par variable océanique* tels que la température de surface de l'eau ou le phytoplancton. En cliquant sur les points de données et leur étendue géospatiale, le panneau latéral affiche les informations du jeu de données (titre, description, producteur de donnée et liens pour la page du Catalogue et les fichiers de données).<br><br>" + 

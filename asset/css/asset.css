@@ -454,10 +454,22 @@ Colours
 }
 @media screen and (max-width: 767px) {
   /* Mobile CSS*/
-
+  #header {
+    display: flex;
+    max-width: 1800px;
+    margin: 5px;
+  }
+  
+  #app_title {
+    font-weight: bold;
+    flex: 1;
+    text-align: center;
+    color: #fff;
+    font-size: 1rem;
+  }
   
   .ol-zoom {
-    top: 100px !important;
+    top: 107px !important;
   }
 
   /* Header */
@@ -466,13 +478,6 @@ Colours
     background-color: #52a79b;
     position: absolute;
     width: 100%;
-  }
-
-  #header {
-    display: block;
-    height: 100%;
-    max-width: 767px;
-    margin: 0 auto;
   }
 
   #headerImg {
@@ -494,7 +499,6 @@ Colours
     color: #fff;
     text-transform: none;
     text-decoration: none;
-    text-align: left;
     text-decoration: none;
     background: rgba(0, 0, 0, 0);
     border: 0;
@@ -568,7 +572,7 @@ Colours
     z-index: 2;
     position: absolute;
     left: 4px;
-    top: 32px;
+    top: 39px;
     width: auto;
     height: auto;
   }
@@ -579,6 +583,7 @@ Colours
     width: 100px;
     height: 66px;
     margin-right: 2px;
+    margin-bottom: 2px;
     text-align: center;
     padding: 4px;
     border-radius: 2px;
@@ -586,6 +591,24 @@ Colours
     font-size: 8px;
     font-weight: 700;
     vertical-align: top;
+    position: relative;
+  }
+
+  .activeCat #nbSelection {
+    top: 49px;
+  }
+
+  .category_cell_bg_highlited #nbSelection {
+    top: 54px;
+    right: 4px;
+  }
+
+  .category-selection a:hover .category_cell_bg #nbSelection {
+    top: 50px;
+  }
+
+  #nbSelection {
+    top: 54px;
   }
   
   .category_cell_bg_highlited {
@@ -602,6 +625,7 @@ Colours
     font-size: 8px;
     font-weight: 700;
     vertical-align: top;
+    position: relative;
   }
 
   .category-selection .category-icon {
@@ -621,7 +645,7 @@ Colours
     z-index: 2;
     position: absolute;
     left: 4px;
-    top: 100px;
+    top: 130px;
     width: 308px;
     height: auto;
   }
@@ -783,16 +807,78 @@ Colours
   }
 }
 
-@media screen and (max-width: 411px) {
-  .variable-selection {
-    z-index: 2;
-    position: absolute;
-    left: 4px;
-    top: 170px;
-    width: 308px;
-    height: auto;
+@media screen and (max-width: 504px) {
+  .category-selection {
+    top: 62px;
+  }
+
+  .ol-zoom {
+    top: 132px !important;
   }
 }
+
+@media screen and (max-width: 411px) {
+  .ol-zoom {
+    top: 222px !important;
+  }
+
+  #headerTranslation,
+  #headerAbout {
+    flex: 1 0 50%;
+    text-align: center;
+    line-height: 24px;
+    height: 24px;
+    padding: 0px 4px 0px 4px;
+    vertical-align: baseline;
+    width: auto;
+    display: block;
+    color: #fff;
+    text-transform: none;
+    text-decoration: none;
+    text-decoration: none;
+    background: rgba(0, 0, 0, 0);
+    border: 0;
+    border-radius: 0;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: normal;
+    outline: none;
+    float: right;
+  }
+
+  #header {
+    display: flex;
+    max-width: 1800px;
+    margin: 5px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  #app_title {
+    font-weight: bold;
+    flex: 1;
+    text-align: center;
+    color: #fff;
+    font-size: 1rem;
+    flex: 0 1 100%;
+  }
+
+  .category-selection {
+    top: 85px;
+  }
+
+  .variable-selection {
+    top: 152px;
+  }
+}
+
+@media screen and (max-width: 367px) {
+  .variable-selection {
+    top: 220px;
+  }
+}
+
 /* End of mobile CSS*/
 
 .subtoggle{

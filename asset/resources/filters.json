@@ -114,32 +114,6 @@
                 "eovs": [ "oceanSurfaceHeatFlux" ],
                 "enabled": true,
                 "default": false
-            },
-            {
-                "id": "var_oceancolor",
-                "icon":"sea-surface-stress.svg",
-                "label":
-                {
-                    "fr":"Couleur de l'eau",
-                    "en":"Ocean color"
-                },
-                "ckantext":["Ocean color"],
-                "eovs": [ "oceanColor" ],
-                "enabled": true,
-                "default": false
-            },
-            {
-                "id": "var_density",
-                "icon":"sea-surface-stress.svg",
-                "label":
-                {
-                    "fr":"Densité",
-                    "en":"Density"
-                },
-                "ckantext":["Density"],
-                "eovs": [ "seawaterDensity", "potentialDensity" ],
-                "enabled": true,
-                "default": false
             }
         ]
     },
@@ -264,7 +238,7 @@
         "id": "biology-and-ecosystems",
         "label":
         {
-            "fr": "ÉCOSYSTÈMES ET BIOLOGIE",
+            "fr": "BIOLOGIE ET ÉCOSYSTÈMES",
             "en": "BIOLOGY AND ECOSYSTEMS"
         },
         "icon": "biology-and-ecosystems.svg",
