@@ -267,7 +267,7 @@
                     "en":"Fishs"
                 },
                 "ckantext":["Fish"],
-                "eovs": [ "fishAbundanceandDistribution" ],
+                "eovs": [ "fishAbundanceAndDistribution" ],
                 "enabled": true,
                 "default": false
             },
