@@ -34,7 +34,7 @@
         {
             "name": "bathy",
             "type": "wms",
-            "server_url": "https://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?",
+            "server_url": "https://wms.gebco.net/mapserv?",
             "layer_name": "gebco_latest",
             "serverType": "geoserver",
             "version": "",
